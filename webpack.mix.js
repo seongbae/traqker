@@ -11,5 +11,13 @@ const mix = require('laravel-mix');
  |
  */
 
+mix.combine([
+    "node_modules/jkanban/dist/jkanban.min.js"
+], "public/js/vendor.js");
+
+mix.styles([
+    'node_modules/jkanban/dist/jkanban.min.css'
+], 'public/css/vendor.css');
+
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');

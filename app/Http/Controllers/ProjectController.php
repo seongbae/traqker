@@ -67,9 +67,35 @@ class ProjectController extends Controller
         $query = Attachment::where('attached_model', 'App\Models\Task')->whereIn('attached_model_id', $project->tasks->pluck('id'));
         $datatables = AttachmentDatatable::make($query);
 
+        $boards = [];
+
+        $sectionIds = array_map('strval', $project->sections->pluck('id')->toArray());
+
+        foreach ($project->sections()->orderBy('order','asc')->get() as $section)
+        {
+            $tasks = [];
+            foreach($section->tasks as $task)
+            {
+                $tasks[] = [
+                    'id' => $task->id,
+                    'title' => $task->name,
+                    'class'=>["traqker-kanban-item"]
+                ];
+            }
+
+            $boards[] = [
+                'id' => strval($section->id),
+                'title' => $section->name,
+                'dragTo'=>$sectionIds,
+                'item'=>$tasks
+
+            ];
+        }
+
+
         return $request->ajax()
             ? $datatables->json()
-            : view('projects.show', $datatables->html())->with('project',$project);
+            : view('projects.show', $datatables->html())->with('project',$project)->with('boards',$boards);
     }
 
     public function showCalendar(Project $project)

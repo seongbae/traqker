@@ -8,6 +8,9 @@
             <a class="nav-link active" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="true">List</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" id="board-tab" data-toggle="tab" href="#board-tab-content" role="tab" aria-controls="board" aria-selected="false">Board</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" id="calendar-tab" data-toggle="tab" href="#calendar-tab-content" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
         </li>
         <li class="nav-item">
@@ -63,8 +66,14 @@
                             @endforeach
 
                             @foreach($project->sections as $section)
-                                <tr data-id="section-{{$section->id}}"  data-type="section"  class="task-row">
-                                    <td><strong>{{$section->name}}</strong> <a href="{{route('sections.edit',['section'=>$section->id])}}"><i class="far fa-edit ml-2"></i></a></td>
+                                <tr data-id="section-{{$section->id}}" data-type="section"  class="task-row">
+                                    <td><strong>{{$section->name}}</strong> <a href="{{route('sections.edit',['section'=>$section->id])}}"><i class="far fa-edit ml-2"></i></a>
+                                        <form action="{{ route('sections.destroy', $section->id) }}" method="POST" style="display:inline;">
+                                            {{ csrf_field() }}
+                                            @method('DELETE')
+                                            <button type="submit" onclick="return confirm('Are you sure?');"><i class="far fa-trash-alt"></i></button>
+                                        </form>
+                                    </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -159,6 +168,24 @@
                 </div>
             </div>
         </div>
+        <div class="tab-pane fade" id="board-tab-content" role="tabpanel" aria-labelledby="board-tab" style="height:500px;">
+            <div class="row mb-2">
+                <div class="col-md">
+                    <a class="btn btn-primary btn-sm" href="#" id="addBoard">Add Board</a>
+                </div>
+                <div class="col-md-auto mb-3 mb-md-0">
+
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+
+                    <div id='board' class="h-100 w-100"></div>
+                </div>
+            </div>
+        </div>
         <div class="tab-pane fade" id="calendar-tab-content" role="tabpanel" aria-labelledby="calendar-tab" style="height:500px;">
             <div class="card">
                 <div class="card-body">
@@ -188,20 +215,145 @@
             setInterval(function() { $(".success").fadeOut(); }, 1000);
         }
 
+        var kanban = new jKanban({
+            element          : '#board',                                           // selector of the kanban container
+            gutter           : '15px',                                       // gutter of the board
+            widthBoard       : '300px',                                      // width of the board
+            responsivePercentage: true,                                    // if it is true I use percentage in the width of the boards and it is not necessary gutter and widthBoard
+            dragItems        : true,                                         // if false, all items are not draggable
+            boards           : @json($boards),                                           // json of boards
+            dragBoards       : true,                                         // the boards are draggable, if false only item can be dragged
+            addItemButton    : true,                                        // add a button to board for easy item creation
+            buttonContent    : '+',                                          // text or html content of the board button
+            itemHandleOptions: {
+                enabled             : false,                                 // if board item handle is enabled or not
+                handleClass         : "item_handle",                         // css class for your custom item handle
+                customCssHandler    : "drag_handler",                        // when customHandler is undefined, jKanban will use this property to set main handler class
+                customCssIconHandler: "drag_handler_icon",                   // when customHandler is undefined, jKanban will use this property to set main icon handler class. If you want, you can use font icon libraries here
+                customHandler       : "<span class='item_handle'>+</span> %s"// your entirely customized handler. Use %s to position item title
+            },
+            click            : function (el) {
+                window.location.href = "/tasks/"+el.getAttribute('data-eid');
+            },                             // callback when any board's item are clicked
+            dragEl           : function (el, source) {},                     // callback when any board's item are dragged
+            dragendEl        : function (el) {},                             // callback when any board's item stop drag
+            dropEl           : function (el, target, source, sibling) {
+
+                var taskIds = [].map.call(target.children, function (e) {
+                    return e.getAttribute('data-eid')
+                })
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        section_id: target.parentElement.getAttribute('data-id'),
+                        orders: taskIds
+                    },
+                    type: 'PUT',
+                    url: '/tasks/'+el.getAttribute('data-eid')
+                });
+            },    // callback when any board's item drop in a board
+            dragBoard        : function (el, source) {
+
+            },                     // callback when any board stop drag
+            dragendBoard     : function (el) {
+                console.log(el.parentNode);
+
+                var boardIds = [].map.call(el.parentNode.children, function (e) {
+                    return e.getAttribute('data-id')
+                })
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+
+                        project_id: {{$project->id}},
+                        orders: boardIds
+                    },
+                    type: 'POST',
+                    url: '/sections/orders'
+                });
+            },                             // callback when any board stop drag
+            buttonClick      : function(el, boardId) {
+                console.log(boardId);
+                var formItem = document.createElement("form");
+                formItem.setAttribute("class", "itemform");
+                formItem.innerHTML =
+                    '<div class="form-group"><textarea class="form-control" rows="2" autofocus></textarea></div><div class="form-group"><button type="submit" class="btn btn-primary btn-xs pull-right">Submit</button><button type="button" id="CancelBtn" class="btn btn-default btn-xs pull-right">Cancel</button></div>';
+
+                kanban.addForm(boardId, formItem);
+                formItem.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    var text = e.target[0].value;
+                    kanban.addElement(boardId, {
+                        title: text,
+                        class: "traqker-kanban-item"
+                    });
+                    formItem.parentNode.removeChild(formItem);
+
+
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            project_id: {{$project->id}},
+                            section_id: boardId,
+                            name: text
+                        },
+                        type: 'POST',
+                        url: '/tasks'
+                    });
+                });
+                document.getElementById("CancelBtn").onclick = function() {
+                    formItem.parentNode.removeChild(formItem);
+                };
+            }                      // callback when the board's button is clicked
+        })
+
+        var addBoardDefault = document.getElementById("addBoard");
+        addBoardDefault.addEventListener("click", function() {
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    project_id: {{$project->id}},
+                    name: "Default"
+                },
+                type: 'POST',
+                url: '/sections',
+                success: function(data) {
+                    console.log(data);
+
+                    kanban.addBoards([
+                        {
+                            id: data.id,
+                            title: "Default",
+
+                            item: [
+
+                            ]
+                        }
+                    ]);
+                }
+            });
+        });
+
         $( function() {
             $( "#project-tasks-body" ).sortable({
                 stop: function (event, ui) {
                     var data = [];
-                    //var data = $(this).sortable('serialize');
-                    //var data = $('#project-tasks-body > tr').attr("id");
-
-                    //console.log(ui.item.attr('data-id'));
 
                     $('.task-row').each(function() {
                         data.push($(this).data('id'));
                     });
-
-                    //console.log(data);
 
                     $.ajax({
                         headers: {
@@ -216,6 +368,7 @@
                     });
                 }
             });
+
             $( "#project-tasks-body" ).disableSelection();
 
              var calendar = $('#calendar').fullCalendar({

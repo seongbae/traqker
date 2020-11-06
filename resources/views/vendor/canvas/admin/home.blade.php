@@ -6,27 +6,35 @@
 
 @section('content')
 
-<div class="row">
-    <div class="col-12">
-        <div class="card card-body">
-            <h4>Projects</h4>
-            <div class="row">
-                    @foreach(Auth::user()->projects()->orderBy('name')->get() as $project)
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Projects</h3>
 
-                        <div class="text-center my-auto mr-2">
-                            <div class="card card-block d-flex" style="height:120px;width:120px;">
-                                <div class="card-body align-items-center d-flex justify-content-center">
-                                    <a href="{{ route('projects.show', ['project'=>$project])}}">{{$project->name}}</a>
-                                </div>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach(Auth::user()->projects()->orderBy('name')->get() as $project)
+
+                    <div class="text-center my-auto mr-2">
+                        <div class="card card-block d-flex" style="height:120px;width:120px;">
+                            <div class="card-body align-items-center d-flex justify-content-center">
+                                <a href="{{ route('projects.show', ['project'=>$project])}}">{{$project->name}}</a>
                             </div>
                         </div>
-                    @endforeach
+                    </div>
+                @endforeach
 
             </div>
-            <a href="{{ route('projects.create') }}" >New</a>
         </div>
     </div>
-</div>
 <div class="row">
 {{--    <div class="col-lg-4">--}}
 {{--        <div class="card">--}}
@@ -91,7 +99,7 @@
 		        </tr>
 		        </thead>
 		        <tbody>
-		        @foreach(Auth::user()->activeTasks as $task)
+		        @foreach(Auth::user()->activeTasks()->limit(5)->get() as $task)
 		        <tr>
 		          <td><a href="{{ route('tasks.show', ['task'=>$task])}}">{{$task->name}}</a></td>
 		          <td><span class="badge badge-{{ $task->status_badge }}">{{$task->status}}</span></td>
@@ -103,12 +111,7 @@
 		    </div>
 		    <!-- /.table-responsive -->
 		  </div>
-		  <!-- /.card-body -->
-		  <div class="card-footer clearfix">
-		    <a href="{{ route('tasks.create') }}" class="btn btn-sm btn-info float-left">Create a New Task</a>
-		    <a href="{{ route('tasks.index') }}" class="btn btn-sm btn-secondary float-right">View All Tasks</a>
-		  </div>
-		  <!-- /.card-footer -->
+
 		</div>
 	</div>
 	<div class="col-lg-4">

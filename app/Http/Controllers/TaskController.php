@@ -139,15 +139,32 @@ class TaskController extends Controller
     {
         $task->update($request->all());
 
+        if ($request->orders)
+        {
+            Log::info('orders:'.json_encode($request->orders));
+
+            $order = 1;
+            $placeholders = implode(',',array_fill(0, count($request->orders), '?'));
+            $tasks = Task::whereIn('id', $request->orders)->orderByRaw("field(id,{$placeholders})", $request->orders)->get();
+
+            foreach($tasks as $task)
+            {
+                Log::info('task->id:'.$task->id.' order:'.$order);
+                $task->order = $order;
+                $task->save();
+                $order++;
+            }
+        }
+
         if ($request->file('files')) {
             $files = $request->file('files');
-            //Log::info('has file');
             foreach ($files as $file) {
-//                Log::info('storing file');
                 $task->addFile($file);
             }
-
         }
+
+        if ($request->ajax())
+            return $request->json([], 200);
 
         return $request->input('submit') == 'reload'
             ? redirect()->route('tasks.edit', $task->id)

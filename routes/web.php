@@ -18,7 +18,9 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
 
     Route::resource('tasks', 'TaskController');
     Route::get('sections/create/{project}', 'SectionController@create');
+    Route::post('sections/orders', 'SectionController@updateOrders');
     Route::resource('sections', 'SectionController');
+
 
     Route::post('projects/tasks/reposition', 'ProjectController@repositionTasks');
 

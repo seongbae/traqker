@@ -22,6 +22,8 @@ class ShareNotifications
 
             \View::share('notifications', $user->unreadNotifications);
 
+            \View::share('sidebarcollapse', 'sidebar-collapse');
+
         return $next($request);
     }
 }

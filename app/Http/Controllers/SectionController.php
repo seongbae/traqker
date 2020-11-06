@@ -32,6 +32,10 @@ class SectionController extends Controller
     {
         $section = Section::create(array_merge($request->all(), ['user_id'=>Auth::id()]));
 
+        if ($request->ajax())
+            return response()->json(['section'=>$section], 201);
+
+
         return redirect()->route('projects.show', ['project'=>$section->project]);
     }
 
@@ -44,7 +48,29 @@ class SectionController extends Controller
     {
         $section->update($request->all());
 
+        if ($request->ajax())
+            return $request->json([], 200);
+
         return redirect()->route('projects.show', ['project'=>$section->project]);
+    }
+
+    public function updateOrders(Request $request)
+    {
+        if ($request->orders)
+        {
+            $order = 1;
+            $placeholders = implode(',',array_fill(0, count($request->orders), '?'));
+            $sections = Section::whereIn('id', $request->orders)->orderByRaw("field(id,{$placeholders})", $request->orders)->get();
+
+            foreach($sections as $section)
+            {
+                $section->order = $order;
+                $section->save();
+                $order++;
+            }
+        }
+
+        return $request->json([], 200);
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */

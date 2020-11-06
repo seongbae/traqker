@@ -3,12 +3,13 @@
 @section('title', __('Create Project'))
 @section('content')
     <div class="container">
-        <h1>@yield('title')</h1>
-
         <form method="post" action="{{ route('projects.store') }}">
             @csrf
 
             <div class="card">
+                <div class="card-header">
+                    Create Project
+                </div>
                 @include('projects.fields', ['action'=>'create'])
 
                 <div class="card-footer text-md-right border-top-0">

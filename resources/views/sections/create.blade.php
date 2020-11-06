@@ -3,11 +3,12 @@
 @section('title', __('Create Section'))
 @section('content')
     <div class="container">
-        <h1>@yield('title')</h1>
-
         <form method="post" action="{{ route('sections.store') }}">
             @csrf
             <div class="card">
+                <div class="card-header">
+                    Create Section
+                </div>
                 <div class="list-group-item py-3">
                     <div class="row">
                         <label for="name" class="col-form-label col-md-2">Name</label>

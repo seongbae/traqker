@@ -1,22 +1,16 @@
 @extends('canvas::admin.layouts.app')
 
-@section('title', __('Edit Project'))
+@section('title', __('Edit Section'))
 @section('content')
     <div class="container">
-        <div class="row my-2">
-            <div class="col-md">
-                <h1>@yield('title')</h1>
-            </div>
-            <div class="col-md-auto mb-3 mb-md-0">
-
-            </div>
-        </div>
-
         <form method="post" action="{{ route('sections.update', $section->id) }}">
             @csrf
             @method('patch')
 
             <div class="card">
+                <div class="card-header">
+                    Edit Section
+                </div>
                 <div class="list-group-item py-3">
                     <div class="row">
                         <label for="name" class="col-form-label col-md-2">Name</label>

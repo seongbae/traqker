@@ -37,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
 
         CalendarResource::withoutWrapping();
 
+
+
 //        $user = \App\Models\User::find(1);
 //        \View::share('notifications', $user->unreadNotifications);
 

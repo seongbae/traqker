@@ -189,12 +189,20 @@ form .list-group-item {
     width: 50px;
 }
 
-#project-tasks a i {
+#project-tasks a i, #project-tasks form button {
     display: none;
 }
-#project-tasks td:hover a i  {
+#project-tasks td:hover a i, #project-tasks td:hover form button {
     display: inline-block;
     color: #bababa;
+    outline: none;
+    background: none;
+    border: none;
+}
+
+.traqker-kanban-item {
+    padding: 10px;
+    margin-bottom: 10px;
 }
 //
 //#project-tasks table-hover tbody tr:hover td, .table-hover tbody tr:hover th > i {

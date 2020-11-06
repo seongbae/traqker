@@ -16,6 +16,7 @@
   <link href="{{ asset('canvas/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('canvas/css/adminlte.min.css') }}" rel="stylesheet">
   <link href="{{ asset('canvas/css/datatables.min.css') }}" rel="stylesheet" >
+    <link href="{{ asset('css/vendor.css') }}" rel="stylesheet" >
   <link href="{{ asset('canvas/css/canvas.css') }}" rel="stylesheet" >
   <link href="{{ asset('canvas/css/custom.css') }}" rel="stylesheet">
 
@@ -47,9 +48,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+    <script src="{{ asset('js/vendor.js') }}"></script>
 
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed  @if (Cookie::get('toggleState') === 'closed') {{ 'sidebar-collapse' }} @endif">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -71,7 +73,20 @@
         </div>
       </div>
     </form>
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto align-items-center h-100">
+        <li class="nav-item dropdown">
+            <div class="btn-group">
+                <a class="btn btn-default btn-sm" href="/tasks/create"><i class="fas fa-plus"></i></a>
+                <button type="button" class="btn btn-sm btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/tasks/create">Add Task</a>
+                    <a class="dropdown-item" href="/projects/create">Add Project</a>
+                    <a class="dropdown-item" href="/teams/create">Add Team</a>
+                </div>
+            </div>
+        </li>
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
           @if (count($notifications)>0)
@@ -252,7 +267,35 @@
             }
         });
     }
+
+    $.AdminLTESidebarTweak = {};
+
+    $.AdminLTESidebarTweak.options = {
+        EnableRemember: true,
+        NoTransitionAfterReload: false
+        //Removes the transition after page reload.
+    };
+
     $(function() {
+
+        function setCookie(value) {
+            let name = 'toggleState';
+            let days = 365;
+            let d = new Date;
+            d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
+            document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+        }
+
+        $("body").on("collapsed.lte.pushmenu", function () {
+            if ($.AdminLTESidebarTweak.options.EnableRemember) {
+                setCookie('closed');
+            }
+        }).on("shown.lte.pushmenu", function () {
+            if ($.AdminLTESidebarTweak.options.EnableRemember) {
+                setCookie('opened');
+            }
+        });
+
         $('.mark-as-read').click(function() {
             let request = sendMarkRequest($(this).data('id'));
             request.done(() => {

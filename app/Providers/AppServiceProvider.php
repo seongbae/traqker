@@ -31,16 +31,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Task::observe(TaskObserver::class);
-        Attachment::observe(AttachmentObserver::class);
-        Hour::observe(HourObserver::class);
+//        Task::observe(TaskObserver::class);
+//        Attachment::observe(AttachmentObserver::class);
+//        Hour::observe(HourObserver::class);
 
         CalendarResource::withoutWrapping();
-
-
-
-//        $user = \App\Models\User::find(1);
-//        \View::share('notifications', $user->unreadNotifications);
-
     }
 }

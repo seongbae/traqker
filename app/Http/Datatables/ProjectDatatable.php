@@ -35,7 +35,6 @@ class ProjectDatatable extends Datatable
     {
         return [
             Column::make('name'),
-            Column::make('client.name')->title('Client'),
             Column::make('created_at')->title('Created')
 
         ];

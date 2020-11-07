@@ -41,6 +41,11 @@ class Project extends Model
         return $this->belongsTo(Client::class)->withDefault(['name' => null]);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Project::class, 'parent_id');
+    }
+
     public function tasks()
     {
         return $this->hasMany(Task::class)->orderBy('order','asc');

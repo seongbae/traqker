@@ -4881,16 +4881,16 @@
         },
         {
             "name": "seongbae/canvas",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seongbae/canvas.git",
-                "reference": "5e75f563fe1179af6a965d9cba6b3059a73add7b"
+                "reference": "310accad4fcf831bbaba5a0090435faf22c6d959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seongbae/canvas/zipball/5e75f563fe1179af6a965d9cba6b3059a73add7b",
-                "reference": "5e75f563fe1179af6a965d9cba6b3059a73add7b",
+                "url": "https://api.github.com/repos/seongbae/canvas/zipball/310accad4fcf831bbaba5a0090435faf22c6d959",
+                "reference": "310accad4fcf831bbaba5a0090435faf22c6d959",
                 "shasum": ""
             },
             "require": {
@@ -4943,9 +4943,9 @@
             "homepage": "https://github.com/seongbae/canvas",
             "support": {
                 "issues": "https://github.com/seongbae/canvas/issues",
-                "source": "https://github.com/seongbae/canvas/tree/1.0.1"
+                "source": "https://github.com/seongbae/canvas/tree/1.0.2"
             },
-            "time": "2020-11-04T03:17:04+00:00"
+            "time": "2020-11-06T23:29:03+00:00"
         },
         {
             "name": "spatie/eloquent-sortable",

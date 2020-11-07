@@ -37,15 +37,16 @@ class ProjectController extends Controller
 
     public function create()
     {
-        $clients = Client::where('user_id', Auth::id())->pluck('id','name')->toArray();
+        $projects = Project::where('user_id', Auth::id())->pluck('id','name')->toArray();
         $teams = Team::where('user_id', Auth::id())->pluck('id','name')->toArray();
         $teamIds = Team::where('user_id', Auth::id())->pluck('id')->toArray();
         $users = User::whereHas('teams', function($q) use($teamIds) {
                         $q->whereIn('teams.id', $teamIds);
                     })->pluck('id','name')->toArray();
 
+
         return view('projects.create')
-                    ->with('clients', $clients)
+                    ->with('projects', $projects)
                     ->with('users', $users)
                     ->with('teams', $teams)
                     ->with('data', null);
@@ -105,7 +106,7 @@ class ProjectController extends Controller
 
     public function edit(Project $project)
     {
-        $clients = Client::where('user_id', Auth::id())->pluck('id','name')->toArray();
+        $projects = Project::where('user_id', Auth::id())->where('id','!=',$project->id)->pluck('id','name')->toArray();
         $teams = Team::where('user_id', Auth::id())->pluck('id','name')->toArray();
         $teamIds = Team::where('user_id', Auth::id())->pluck('id')->toArray();
         $users = User::whereHas('teams', function($q) use($teamIds) {
@@ -115,7 +116,7 @@ class ProjectController extends Controller
         $memberDeleteLink = '/project/'.$project->id.'/user/';
         $additionalFields = array();
 
-        return view('projects.edit', compact('project', 'clients', 'teams', 'users', 'data','memberDeleteLink','additionalFields'));
+        return view('projects.edit', compact('project', 'projects', 'teams', 'users', 'data','memberDeleteLink','additionalFields'));
     }
 
     public function update(ProjectRequest $request, Project $project)

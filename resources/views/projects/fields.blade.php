@@ -10,4 +10,6 @@
     @if ($action == 'edit')
    	<x-canvas-manymany label="Members" name="project_user" :options="$users" :value="$data" :deleteLink="$memberDeleteLink"  :additionalFields="$additionalFields" />
    	@endif
+    <x-canvas-select label="Parent Project" name="parent_id" :options="$projects" :value="old('parent_id', $project->parent_id ?? '')"  />
+
 </div>

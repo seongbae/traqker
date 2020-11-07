@@ -25,7 +25,7 @@ class TaskDatatable extends Datatable
         })
         ->addColumn('project', function($query) {
             if ($query->project_id)
-                return '<a href="'.route('projects.show',['project'=>$query->project->id]).'">'.$query->project->name.'</a>';
+                return '<a href="'.route('projects.show',['project'=>$query->project_id]).'">'.$query->project->name.'</a>';
             else
                 return '';
         })

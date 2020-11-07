@@ -94,82 +94,60 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card">
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item py-3">
-                                <div class="row">
-                                    <div class="col-md-2 text-secondary">
-                                        Name
-                                    </div>
-                                    <div class="col-md">
-                                        {{ $project->name }}
-                                    </div>
-                                </div>
+                    <div class="card  no-gutters" id="project-info">
+                        <div class="card-header">
+                            <div class="float-left">
+                                {{ $project->name }}
                             </div>
-                            <div class="list-group-item py-3">
-                                <div class="row">
-                                    <div class="col-md-2 text-secondary">
-                                        Description
-                                    </div>
-                                    <div class="col-md">
-                                        {{ $project->description}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item py-3">
-                                <div class="row">
-                                    <div class="col-md-3 text-secondary">
-                                        Owner
-                                    </div>
-                                    <div class="col-md">
-                                        {{ $project->user->name }}
+                            <div class="float-right">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}">Edit</a>
+                                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_project_{{ $project->id }}_form').submit();">Delete</a>
+
+                                        <form method="post" action="{{ route('projects.destroy', $project->id) }}" id="delete_project_{{ $project->id }}_form" class="d-none">
+                                            @csrf
+                                            @method('delete')
+                                        </form>
                                     </div>
                                 </div>
-                            </div>
-                            @if ($project->client_id)
-                                <div class="list-group-item py-3">
-                                    <div class="row">
-                                        <div class="col-md-3 text-secondary">
-                                            Client
-                                        </div>
-                                        <div class="col-md">
-                                            {{ $project->client->name }}
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                            <div class="list-group-item py-3">
-                                <div class="row">
-                                    <div class="col-md-3 text-secondary">
-                                        Created
-                                    </div>
-                                    <div class="col-md">
-                                        {{ $project->created_at->format('Y-m-d') }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item py-3">
-                                <div class="row">
-                                    <div class="col-md-3 text-secondary">
-                                        Members
-                                    </div>
-                                    <div class="col-md">
-                                        @foreach($project->members as $member)
-                                            {{ $member->name }}<br>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item py-3">
-                                @include('projects.actions')
                             </div>
                         </div>
+                        <div class="card-body" style="padding:0;">
+
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                {{ $project->description}}
+                            </div>
+                            <div class="list-group-item">
+                                Created by {{ $project->user->name }} on {{ $project->created_at->format('Y-m-d') }}
+                            </div>
+                            @if ($project->parent_id )
+                                <div class="list-group-item">
+                                    In <a href="{{ route('projects.show',['project'=>$project->parent]) }}">{{ $project->parent->name }}</a>
+                                </div>
+                            @endif
+                            <div class="list-group-item">
+                                Members<br>
+                                <div class="my-2">
+                                @foreach($project->members as $member)
+                                    <img src="{{ $member->photo }}" alt="{{ $member->name }}" class="img-circle elevation-2 " style="width:30px;">
+                                @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
         <div class="tab-pane fade" id="board-tab-content" role="tabpanel" aria-labelledby="board-tab" style="height:500px;">
-            <div class="row mb-2">
+            <div class="row mb-2 mx-2">
                 <div class="col-md">
                     <a class="btn btn-primary btn-sm" href="#" id="addBoard">Add Board</a>
                 </div>
@@ -179,12 +157,7 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-body">
-
-                    <div id='board' class="h-100 w-100"></div>
-                </div>
-            </div>
+            <div id='board' class="h-100 w-100"></div>
         </div>
         <div class="tab-pane fade" id="calendar-tab-content" role="tabpanel" aria-labelledby="calendar-tab" style="height:500px;">
             <div class="card">

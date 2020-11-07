@@ -204,6 +204,12 @@ form .list-group-item {
     padding: 10px;
     margin-bottom: 10px;
 }
+
+#project-info {
+    .dropdown-toggle::after {
+        content: none;
+    }
+}
 //
 //#project-tasks table-hover tbody tr:hover td, .table-hover tbody tr:hover th > i {
 //    display: inline-block;

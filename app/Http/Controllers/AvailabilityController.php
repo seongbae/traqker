@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Availability;
+use App\Models\Availability;
 use Illuminate\Http\Request;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-use App\Team;
+use App\Models\Team;
 
 class AvailabilityController extends Controller
 {
@@ -61,9 +61,9 @@ class AvailabilityController extends Controller
     public function store(Request $request)
     {
         $availability = Availability::create([
-                'dayofweek'=>Carbon::parse($request->get('start'))->dayOfWeek, 
+                'dayofweek'=>Carbon::parse($request->get('start'))->dayOfWeek,
                 'start'=>Carbon::parse($request->get('start'))->toTimeString(),
-                'end'=>Carbon::parse($request->get('end'))->toTimeString(), 
+                'end'=>Carbon::parse($request->get('end'))->toTimeString(),
                 'name'=>$request->get('name'),
                 'user_id'=>Auth::id()
             ]);

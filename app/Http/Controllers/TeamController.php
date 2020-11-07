@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Team;
+use App\Models\Team;
 use App\Http\Datatables\TeamDatatable;
 use App\Http\Requests\TeamRequest;
 use Illuminate\Http\Request;

@@ -2,149 +2,178 @@
 
 @section('title', __('Team'))
 @section('content')
-<div class="row mb-2">
-    <div class="col-md">
-        <h1>@yield('title'): {{ $team->name}}</h1>
-    </div>
-    <div class="col-md-auto mb-3 mb-md-0">
-        @if (Auth::id() == $team->user_id)
-            @include('teams.actions')
-        @endif
-    </div>
-</div>
 <div class="row">
     <div class="col-12">
-        <div class="card card-body">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="team-overview-tab" data-toggle="tab" href="#team-overview" role="tab" aria-controls="team-overview" aria-selected="true">Team</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="availability-tab" data-toggle="tab" href="#availability" role="tab" aria-controls="availability" aria-selected="false">Availability</a>
-              </li>
-              @if (Auth::id() == $team->user_id)
-              <li class="nav-item">
-                <a class="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
-              </li>
-              @endif
-            </ul>
-            <div class="tab-content mt-4" id="myTabContent">
-              <div class="tab-pane fade  show active" id="team-overview" role="tabpanel" aria-labelledby="team-overview-tab">
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item py-3">
-                            <div class="row">
-                                <div class="col-md-2 text-secondary">
-                                    Name:
-                                </div>
-                                <div class="col-md">
-                                     {{ $team->name }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item py-3">
-                            <div class="row">
-                                <div class="col-md-2 text-secondary">
-                                    Created by:
-                                </div>
-                                <div class="col-md">
-                                     {{ $team->user->name }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item py-3">
-                            <div class="row team">
-                                <div class="col-md-2 text-secondary">
-                                    Team
-                                </div>
-                                @foreach($team->members as $member)
-                                <div class="col-md-2">
-                                    <div class="card user-card">
-                                        <div class="card-block">
-                                            <div class="user-image">
-                                                <img src="/storage/{{$member->photo}}" class="img-radius" alt="User-Profile-Image">
-                                            </div>
-                                            <h6 class="f-w-600 m-t-25 m-b-10">{{$member->name}}</h6>
-                                            <p class="text-muted text-sm">{{$member->pivot->title}}</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="float-left">
+                    {{ $team->name }}
+                    <div class="dropdown float-right  ml-2">
+                        <button class="btn btn-outline btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ route('teams.edit', $team->id) }}">Edit</a>
+                            <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_team_{{ $team->id }}_form').submit();">Delete</a>
 
+                            <form method="post" action="{{ route('teams.destroy', $team->id) }}" id="delete_team_{{ $team->id }}_form" class="d-none">
+                                @csrf
+                                @method('delete')
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="float-right">
+                    <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateMember"><i class="fas fa-plus"></i> Add Member</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="team-overview-tab" data-toggle="tab" href="#team-overview" role="tab" aria-controls="team-overview" aria-selected="true">Team</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="availability-tab" data-toggle="tab" href="#availability" role="tab" aria-controls="availability" aria-selected="false">Availability</a>
+                  </li>
+                  @if (Auth::id() == $team->user_id)
+                  <li class="nav-item">
+                    <a class="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
+                  </li>
+                  @endif
+                </ul>
+                <div class="tab-content mt-4" id="myTabContent">
+                  <div class="tab-pane fade  show active" id="team-overview" role="tabpanel" aria-labelledby="team-overview-tab">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item py-3">
+                                <div class="row">
+                                    <div class="col-md-2 text-secondary">
+                                        Projects:
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="row">
+                                        @foreach(Auth::user()->projects()->orderBy('name')->get() as $project)
+                                            @include('partials.project', ['project'=>$project])
+                                        @endforeach
                                         </div>
                                     </div>
-                                  </div>
-                                @endforeach
+                                </div>
                             </div>
-                        </div>
+                            <div class="list-group-item py-3">
+                                <div class="row">
+                                    <div class="col-md-2 text-secondary">
+                                        Name:
+                                    </div>
+                                    <div class="col-md">
+                                         {{ $team->name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item py-3">
+                                <div class="row">
+                                    <div class="col-md-2 text-secondary">
+                                        Created by:
+                                    </div>
+                                    <div class="col-md">
+                                         {{ $team->user->name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item py-3">
+                                <div class="row team">
+                                    <div class="col-md-2 text-secondary">
+                                        Members
+                                    </div>
+                                    @foreach($team->members as $member)
+                                    <div class="col-md-2">
+                                        <div class="card user-card">
+                                            <div class="card-block">
+                                                <div class="user-image">
+                                                    <img src="/storage/{{$member->photo}}" class="img-radius" alt="User-Profile-Image">
+                                                </div>
+                                                <h6 class="f-w-600 m-t-25 m-b-10">{{$member->name}}</h6>
+                                                <p class="text-muted text-sm">{{$member->pivot->title}}</p>
+
+                                            </div>
+                                        </div>
+                                      </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="availability" role="tabpanel" aria-labelledby="availability-tab">
+                    <p>My timezone: {{ Auth::user()->timezone }}</p>
+                    <div id="dp"></div>
+                  </div>
+                  <div class="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
+                    <table class="table">
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th>Name</th>
+                              <th>Title</th>
+                              <th>Access</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          @foreach($team->members as $member)
+                          <tr>
+                            <td style="width:50px;"><img src="/storage/{{ $member->photo }}" class="profile-medium img-circle"></td>
+                            <td>{{$member->name}}</td>
+                            <td>{{$member->pivot->title }}</td>
+                            <td>{{$member->pivot->access }}</td>
+                            <td>
+                                <a href="#"  data-toggle="modal" data-target="#updateMember" class="btn btn-link text-secondary p-1" title="Edit" id="editMember" data-id="{{$member->id}}" data-name="{{$member->name}}"  data-email="{{$member->email}}"  data-title="{{$member->pivot->title}}"  data-rate="{{$member->pivot->rate}}"  data-frequency="{{$member->pivot->rate_frequency}}">
+                                    <i class="far fa-edit "></i>
+                                </a>
+                                @if($member->id != $team->user_id)
+                                <form action="{{ route('team.remove', ['team'=>$team, 'user'=>$member])}}" method="POST" class="d-inline"  onSubmit="if(!confirm('Are you sure?')){return false;}">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" name="submit" class="btn btn-link text-secondary p-1" onClick="return confirm(\'Are you sure?\')">
+                                    <i class="far fa-trash-alt "></i></button>
+                                </form>
+                                @endif
+                            </td>
+                          </tr>
+                          @endforeach
+                          @foreach($team->invitations()->whereNull('registered_at')->get() as $invitation)
+                          <tr>
+                            <td style="width:50px;"></td>
+                            <td>{{$invitation->email}} (invited)</td>
+                            <td></td>
+                            <td class="text-center">
+
+                            </td>
+                            <td>
+                                <form action="{{ route('invitation.remove', ['invitation'=>$invitation])}}" method="POST" class="d-inline"  onSubmit="if(!confirm('Are you sure?')){return false;}">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" name="submit" class="btn btn-link text-secondary p-1" onClick="return confirm('Are you sure?')">
+                                    <i class="far fa-trash-alt "></i></button>
+                                </form>
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                        </table>
+
+                    <div>
+
+
+
+
+
+
+                     </div>
+                  </div>
+
+
                 </div>
-              </div>
-              <div class="tab-pane fade" id="availability" role="tabpanel" aria-labelledby="availability-tab">
-                <p>My timezone: {{ Auth::user()->timezone }}</p>
-                <div id="dp"></div>
-              </div>
-              <div class="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
-                <table class="table">
-                      <thead>
-                        <tr>
-                          <th></th>
-                          <th>Name</th>
-                          <th>Title</th>
-                          <th>Access</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      @foreach($team->members as $member)
-                      <tr>
-                        <td style="width:50px;"><img src="/storage/{{ $member->photo }}" class="profile-medium img-circle"></td>
-                        <td>{{$member->name}}</td>
-                        <td>{{$member->pivot->title }}</td>
-                        <td>{{$member->pivot->access }}</td>
-                        <td>
-                            <a href="#"  data-toggle="modal" data-target="#updateMember" class="btn btn-link text-secondary p-1" title="Edit" id="editMember" data-id="{{$member->id}}" data-name="{{$member->name}}"  data-email="{{$member->email}}"  data-title="{{$member->pivot->title}}"  data-rate="{{$member->pivot->rate}}"  data-frequency="{{$member->pivot->rate_frequency}}">
-                                <i class="far fa-edit "></i>
-                            </a>
-                            @if($member->id != $team->user_id)
-                            <form action="{{ route('team.remove', ['team'=>$team, 'user'=>$member])}}" method="POST" class="d-inline"  onSubmit="if(!confirm('Are you sure?')){return false;}">
-                                @csrf
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" name="submit" class="btn btn-link text-secondary p-1" onClick="return confirm(\'Are you sure?\')">
-                                <i class="far fa-trash-alt "></i></button>
-                            </form>
-                            @endif
-                        </td>
-                      </tr>
-                      @endforeach
-                      @foreach($team->invitations()->whereNull('registered_at')->get() as $invitation)
-                      <tr>
-                        <td style="width:50px;"></td>
-                        <td>{{$invitation->email}} (invited)</td>
-                        <td></td>
-                        <td class="text-center">
-
-                        </td>
-                        <td>
-                            <form action="{{ route('invitation.remove', ['invitation'=>$invitation])}}" method="POST" class="d-inline"  onSubmit="if(!confirm('Are you sure?')){return false;}">
-                                @csrf
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" name="submit" class="btn btn-link text-secondary p-1" onClick="return confirm(\'Are you sure?\')">
-                                <i class="far fa-trash-alt "></i></button>
-                            </form>
-                        </td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                    </table>
-
-                <div>
-
-
-
-
-
-                     <a href="" class="btn btn-info" data-toggle="modal" data-target="#updateMember">Add Member</a>
-                 </div>
-              </div>
-
 
             </div>
-
         </div>
     </div>
 </div>

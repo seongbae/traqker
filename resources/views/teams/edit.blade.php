@@ -3,20 +3,18 @@
 @section('title', __('Edit Team'))
 @section('content')
     <div class="container">
-        <div class="row my-2">
-            <div class="col-md">
-                <h1>@yield('title')</h1>
-            </div>
-            <div class="col-md-auto mb-3 mb-md-0">
-                @include('teams.actions')
-            </div>
-        </div>
 
         <form method="post" action="{{ route('teams.update', $team->id) }}">
             @csrf
             @method('patch')
 
             <div class="card">
+                <div class="card-header">
+                    <div class="float-left mr-2">
+                        {{ $team->name }}
+                    </div>
+                </div>
+
                 @include('teams.fields')
 
                 <div class="card-footer text-md-right border-top-0">

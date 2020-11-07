@@ -10,17 +10,25 @@
           <li class="nav-item">
               <a class="nav-link {{ (request()->is('projects*')) ? 'active' : '' }}" href="{{ route('projects.index') }}"><i class="fas fa-project-diagram mr-2"></i> <p>{{ __('Projects') }}</p></a>
           </li>
-          <li class="nav-item">
-              <a class="nav-link {{ (request()->is('hours*')) ? 'active' : '' }}" href="{{ route('hours.index') }}"><i class="fas fa-edit mr-2"></i> <p>{{ __('Time Report') }}</p></a>
-          </li>
-          @if (Auth::user()->can('manage-payouts'))
-          <li class="nav-item">
-              <a class="nav-link {{ (request()->is('reports*')) ? 'active' : '' }}" href="{{ route('reports.index') }}"><i class="fas fa-hand-holding-usd mr-2"></i> <p>{{ __('Pay') }}</p></a>
-          </li>
-          @endif
+            <li class="nav-item has-treeview {{ (request()->is('teams/*')) ? 'menu-open' : '' }}">
+                <a class="nav-link {{ (request()->is('teams*')) ? 'active' : '' }}" href="{{ route('teams.index') }}"><i class="fas fa-users mr-2"></i> <p>{{ __('Teams') }} <i class="right fas fa-angle-left"></i></p></a>
 
+                <ul class="nav nav-treeview ml-2">
+                    @foreach(Auth::user()->teams as $team)
+                    <li class="nav-item">
+                        <a href="{{route('teams.show', ['team'=>$team])}}" class="nav-link {{ (request()->is('admin/logs/system')) ? 'active' : '' }}">
+                            <i class="far fa-smile nav-icon"></i>
+                            <p>{{$team->name}}</p>
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link {{ (request()->is('hours*')) ? 'active' : '' }}" href="{{ route('hours.index') }}"><i class="fas fa-edit mr-2"></i> <p>{{ __('Time Report') }} </p></a>
+          </li>
 
-          <!-- insert meus above here-->
+          <!-- insert menus above here-->
 
           @if ($moduleMenus)
             @foreach ($moduleMenus as $moduleMenu)

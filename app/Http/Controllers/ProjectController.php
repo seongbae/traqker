@@ -27,7 +27,7 @@ class ProjectController extends Controller
 
     public function index(Request $request)
     {
-        $query = Project::with('client')->where('user_id', Auth::id());
+        $query = Auth::user()->projects;
         $datatables = ProjectDatatable::make($query);
 
         return $request->ajax()

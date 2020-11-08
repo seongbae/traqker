@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-6">
-        <x-canvas-input name="name" :value="old('name', $task->name ?? '')" />
+        <x-canvas-input name="name" :value="old('name', $task->name ?? '')" :autofocus="true"/>
         <x-canvas-textarea name="description" :value="old('description', $task->description ?? '')" />
         <x-canvas-select name="priority" :options="$priority" :value="old('priority', $task->priority ?? '')" />
         @if (count($users)>0)

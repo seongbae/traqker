@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Camroncade\Timezone\Facades\Timezone;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -78,6 +79,16 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('canvas::auth.register');
+        $email = app('request')->input('email');
+
+        $timezone = Timezone::selectForm(
+            'US/Central',
+            '',
+            ['class' => 'form-control', 'name' => 'timezone']
+        );
+
+        return view('canvas::auth.register')
+                ->with('email', $email)
+                ->with('timezone', $timezone);
     }
 }

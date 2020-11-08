@@ -94,7 +94,7 @@
                             </tbody>
                         </table>
                         @else
-                            There are no tasks. Click <a href="{{route('tasks.create')}}">here</a> to create your first task!
+                            Click <a href="{{route('tasks.create')}}">here</a> to create your first task!
                         @endif
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                                 Members<br>
                                 <div class="my-2">
                                 @foreach($project->members as $member)
-                                    <img src="{{ $member->photo }}" alt="{{ $member->name }}" class="img-circle elevation-2 " style="width:30px;">
+                                    <img src="/storage/{{ $member->photo }}" alt="{{ $member->name }}" class="img-circle elevation-2 " style="width:30px;">
                                 @endforeach
                                 </div>
                             </div>

@@ -214,3 +214,12 @@ form .list-group-item {
   content: none;
 }
 
+.row-short .table td,
+.row-short .table th {
+  padding: 0.25rem;
+}
+
+.layout-fixed .brand-link {
+  width: 240px;
+}
+

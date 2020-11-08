@@ -210,8 +210,13 @@ form .list-group-item {
         content: none;
     }
 }
-//
-//#project-tasks table-hover tbody tr:hover td, .table-hover tbody tr:hover th > i {
-//    display: inline-block;
-//    color:#da5450;
-//}
+
+.row-short {
+    .table td, .table th {
+        padding: .25rem;
+    }
+}
+
+.layout-fixed .brand-link {
+    width: 240px;
+}

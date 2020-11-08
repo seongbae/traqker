@@ -8,7 +8,7 @@
         <a href="#" class="dropdown-item" data-toggle="modal" data-target="#addTimeModal" title="Add Time">Add Time</a>
 
         @if ($task->user_id == Auth::id())
-        <a class="dropdown-item" href="http://traqker.test/tasks/{{$task->id}}/edit">Edit</a>
+        <a class="dropdown-item" href="{{route('tasks.edit',['task'=>$task])}}">Edit</a>
         <a href="{{ route('tasks.destroy', $task->id) }}" title="{{ __('Delete') }}" class="dropdown-item"
            onclick="event.preventDefault(); if (confirm('{{ __('Delete This Task?') }}')) $('#delete_task_{{ $task->id }}_form').submit();">
             Delete

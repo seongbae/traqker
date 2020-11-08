@@ -5,7 +5,7 @@
     <x-canvas-select label="Client" name="client_id" :options="$clients" :value="old('client_id', $project->client_id ?? '')" />
     @endif
     @if (count(Auth::user()->myTeams)>0)
-    <x-canvas-select label="Team" name="team_id" :options="$teams" :value="old('team_id', $project->team_id ?? '')" />
+    <x-canvas-select label="Team" name="team_id" :options="$teams" :value="old('team_id', $project->team_id ?? app('request')->input('team'))" />
     @endif
     @if ($action == 'edit')
    	<x-canvas-manymany label="Members" name="project_user" :options="$users" :value="$data" :deleteLink="$memberDeleteLink"  :additionalFields="$additionalFields" />

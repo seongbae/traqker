@@ -16,12 +16,18 @@
                 <ul class="nav nav-treeview ml-2">
                     @foreach(Auth::user()->teams as $team)
                     <li class="nav-item">
-                        <a href="{{route('teams.show', ['team'=>$team])}}" class="nav-link {{ (request()->is('admin/logs/system')) ? 'active' : '' }}">
+                        <a href="{{route('teams.show', ['team'=>$team])}}" class="nav-link {{ (request()->is('teams/'.$team->id)) ? 'active' : '' }}">
                             <i class="far fa-smile nav-icon"></i>
                             <p>{{$team->name}}</p>
                         </a>
                     </li>
                     @endforeach
+                    <li class="nav-item">
+                        <a href="/teams/create" class="nav-link {{ (request()->is('teams/create')) ? 'active' : '' }}">
+                            <i class="fas fa-plus nav-icon"></i>
+                            <p>Add New</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
           <li class="nav-item">

@@ -2,199 +2,175 @@
 
 @section('title', __('Task'))
 @section('content')
-<div class="row mb-2">
-    <div class="col-md">
 
-    </div>
-    <div class="col-md-auto mb-3 mb-md-0">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="float-left">Task: {{ $task->name }}</div>
+                <div class="float-right text-muted small">
+                    Created by {{ $task->owner->name }}
+                    @if ($task->project)
+                        in <a href="{{route('projects.show', ['project'=>$task->project])}}">{{$task->project->name}}</a>
+                    @endif
 
-    </div>
-</div>
+                    @include('tasks.menus')
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-3 text-secondary">
+                                    Description
+                                </div>
+                                <div class="col-md">
+                                   {!! nl2br($task->description) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-3 text-secondary">
+                                    Priority
+                                </div>
+                                <div class="col-md">
+                                    {{ ucfirst($task->priority)}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<div class="card">
-    <div class="card-header">
-        <div class="float-left">Task: {{ $task->name }}</div>
-        <div class="float-right">
-        @if ($task->project)
-            in <a href="{{route('projects.show', ['project'=>$task->project])}}">{{$task->project->name}}</a>
-        @endif
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-3 text-secondary">
+                                    Status
+                                </div>
+                                <div class="col-md">
+                                   <h5><span class="badge badge-{{$task->status_badge}}">{{ $task->status }}</span></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-3 text-secondary">
+                                    Assigned to
+                                </div>
+                                <div class="col-md">
+                                   @if ($task->assigned_to)
+                                   <img src="/storage/{{$task->assigned->photo}}" alt="{{$task->assigned->name}}" class="rounded-circle profile-small mr-2">{{ $task->assigned->name }} <a href="#" class="availabilityCalendar ml-2" data-toggle="modal" data-target="#availabilityModal" data-id="{{$task->assigned_to}}"><i class="far fa-calendar-alt fa-xs"></i></a>
+                                   @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     @if (count($task->attachments)>0)
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-3 text-secondary">
+                                    Attachments
+                                </div>
+                                <div class="col-md">
+                                    @foreach($task->Attachments as $attachment)
+                                    <a href="/download/{{$attachment->id}}">{{ $attachment->label }}</a><br>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+                <div class="col-lg-6">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2 text-secondary">
+                                    Start on
+                                </div>
+                                <div class="col-md">
+                                   {{ $task->start_on }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2 text-secondary">
+                                    Due on
+                                </div>
+                                <div class="col-md">
+                                    @if ($task->due_on)
+                                    {{ \Carbon\Carbon::parse($task->due_on_day_end)->format('Y-m-d') }} ({{ \Carbon\Carbon::parse($task->due_on_day_end)->diffForHumans() }})
+                                   @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if ($task->completed_on)
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2 text-secondary">
+                                    Completed on
+                                </div>
+                                <div class="col-md">
+                                   {{ $task->completed_on }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2 text-secondary">
+                                    Estimate
+                                </div>
+                                <div class="col-md">
+                                    @if ($task->estimate_hour)
+                                        {{ $task->estimate_hour }} hours
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (count($task->hours) > 0)
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2 text-secondary">
+                                    Time Spent
+                                </div>
+                                <div class="col-md">
+                                   @foreach($task->hours as $hour)
+                                     {{ $hour->hours }} hours on {{ \Carbon\Carbon::parse($hour->worked_on)->format('m/d/Y')}} ({{$hour->user->name}})
+                                     @if (Auth::id()==$hour->user_id)
+                                     <a href="/hour/delete/{{$hour->id}}" onclick="return confirm('Are you sure?')"><i class="fas fa-minus-circle"></i></a>
+                                     @endif
+                                     <br>
+                                   @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                @comments(['model' => $task])
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Description
-                        </div>
-                        <div class="col-md">
-                           {!! nl2br($task->description) !!}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Priority
-                        </div>
-                        <div class="col-md">
-                            {{ ucfirst($task->priority)}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Status
-                        </div>
-                        <div class="col-md">
-                           <h5><span class="badge badge-{{$task->status_badge}}">{{ $task->status }}</span></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Created by
-                        </div>
-                        <div class="col-md">
-                            @if ($task->user_id)
-                           <img src="/storage/{{$task->owner->photo}}" alt="{{$task->owner->name}}" class="rounded-circle profile-small mr-2">{{ $task->owner->name }} <a href="#" class="availabilityCalendar ml-2" data-toggle="modal" data-target="#availabilityModal" data-id="{{$task->user_id}}"><i class="far fa-calendar-alt fa-xs"></i></a>
-                           @endif
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Assigned to
-                        </div>
-                        <div class="col-md">
-                           @if ($task->assigned_to)
-                           <img src="/storage/{{$task->assigned->photo}}" alt="{{$task->assigned->name}}" class="rounded-circle profile-small mr-2">{{ $task->assigned->name }} <a href="#" class="availabilityCalendar ml-2" data-toggle="modal" data-target="#availabilityModal" data-id="{{$task->assigned_to}}"><i class="far fa-calendar-alt fa-xs"></i></a>
-                           @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-             @if (count($task->attachments)>0)
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Attachments
-                        </div>
-                        <div class="col-md">
-                            @foreach($task->Attachments as $attachment)
-                            <a href="/download/{{$attachment->id}}">{{ $attachment->label }}</a><br>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-        </div>
-        <div class="col-lg-6">
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Start on
-                        </div>
-                        <div class="col-md">
-                           {{ $task->start_on }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Due on
-                        </div>
-                        <div class="col-md">
-                            @if ($task->due_on)
-                            {{ \Carbon\Carbon::parse($task->due_on_day_end)->format('Y-m-d') }} ({{ \Carbon\Carbon::parse($task->due_on_day_end)->diffForHumans() }})
-                           @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Completed on
-                        </div>
-                        <div class="col-md">
-                           {{ $task->completed_on }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Estimate
-                        </div>
-                        <div class="col-md">
-                            @if ($task->estimate_hour)
-                                {{ $task->estimate_hour }} hours
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @if (count($task->hours) > 0)
-            <div class="list-group list-group-flush">
-                <div class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-2 text-secondary">
-                            Time Spent
-                        </div>
-                        <div class="col-md">
-                           @foreach($task->hours as $hour)
-                             {{ $hour->hours }} hours on {{ \Carbon\Carbon::parse($hour->worked_on)->format('m/d/Y')}} ({{$hour->user->name}})
-                             @if (Auth::id()==$hour->user_id)
-                             <a href="/hour/delete/{{$hour->id}}" onclick="return confirm('Are you sure?')"><i class="fas fa-minus-circle"></i></a>
-                             @endif
-                             <br>
-                           @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-        </div>
-    </div>
-    <div class="card-footer text-right">
-        <div class="float-right">
-            @include('tasks.actions')
-      </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-header">
-        <h3>Comments</h3>
-    </div>
-    <div class="card-body">
-        @comments(['model' => $task])
-    </div>
-</div>
 <!-- Modal -->
 <div class="modal fade" id="addTimeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

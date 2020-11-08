@@ -41,7 +41,7 @@ class TeamController extends Controller
 
         return $request->input('submit') == 'reload'
             ? redirect()->route('teams.create')
-            : redirect()->to('/my-account#teams/');
+            : redirect()->route('teams.show',['team'=>$team]);
     }
 
     public function addMember(Request $request)
@@ -97,7 +97,7 @@ class TeamController extends Controller
 
         return $request->input('submit') == 'reload'
             ? redirect()->route('teams.edit', $team->id)
-            : redirect()->route('teams.index');
+            : redirect()->route('teams.show', ['team'=>$team]);
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */

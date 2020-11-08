@@ -44,6 +44,8 @@
             <div class="row justify-content-center">
                 <div class="col-md-9">
                     <div class="card">
+                        <div class="card-body">
+                        @if (count($project->tasks)>0)
                         <table class="table table-hover" id="project-tasks">
                             <thead>
                             <tr>
@@ -91,6 +93,10 @@
                             @endforeach
                             </tbody>
                         </table>
+                        @else
+                            There are no tasks. Click <a href="{{route('tasks.create')}}">here</a> to create your first task!
+                        @endif
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">

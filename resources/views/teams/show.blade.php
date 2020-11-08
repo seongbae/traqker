@@ -52,9 +52,18 @@
                                     </div>
                                     <div class="col-md">
                                         <div class="row">
-                                        @foreach(Auth::user()->projects()->orderBy('name')->get() as $project)
+                                        @foreach($team->projects()->orderBy('name')->get() as $project)
                                             @include('partials.project', ['project'=>$project])
                                         @endforeach
+
+                                            <div class="text-center my-auto mr-2">
+                                                <div class="card card-block d-flex" style="height:120px;width:120px;">
+                                                    <div class="card-body align-items-center d-flex justify-content-center">
+                                                        <a href="{{ route('projects.create')."?team=".$team->id}}"><i class="fas fa-plus"></i> New</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

@@ -36,6 +36,11 @@ class Project extends Model
         return $this->belongsTo(Team::class);
     }
 
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, "team_projects");
+    }
+
     public function client()
     {
         return $this->belongsTo(Client::class)->withDefault(['name' => null]);

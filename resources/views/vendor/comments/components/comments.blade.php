@@ -6,10 +6,6 @@
     }
 @endphp
 
-@if($comments->count() < 1)
-    <div class="alert alert-warning">There are no comments yet.</div>
-@endif
-
 <ul class="list-unstyled">
     @php
         $comments = $comments->sortBy('created_at');

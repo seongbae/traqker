@@ -148,7 +148,6 @@ if (isset($_GET['code'])) { // Redirect w/ code
                           <th>Name</th>
                           <th>Access</th>
                           <th>Title</th>
-                          <th>Pay</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -157,7 +156,6 @@ if (isset($_GET['code'])) { // Redirect w/ code
                         <td><a href="{{ route('teams.show', $team) }}">{{$team->name}}</a></td>
                         <td>{{$team->pivot->access }}</td>
                         <td>{{$team->pivot->title}}</td>
-                        <td>{{$team->pivot->pay}}</td>
                       </tr>
                       @endforeach
                     </tbody>

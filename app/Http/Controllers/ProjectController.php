@@ -55,12 +55,15 @@ class ProjectController extends Controller
     public function store(ProjectRequest $request)
     {
         $project = Project::create(array_merge($request->all(),['user_id'=>Auth::id()]));
+
         $project->members()->attach(Auth::id(),['access'=>'owner']);
 
+        if ($request->team_id)
+            $project->teams()->attach($request->team_id);
 
         return $request->input('submit') == 'reload'
             ? redirect()->route('projects.create')
-            : redirect()->route('projects.index');
+            : redirect()->route('projects.show',['project'=>$project]);
     }
 
     public function show(Project $project, Request $request)

@@ -3,12 +3,15 @@
 @section('title', __('Create Team'))
 @section('content')
     <div class="container">
-        <h1>@yield('title')</h1>
 
         <form method="post" action="{{ route('teams.store') }}">
             @csrf
 
             <div class="card">
+                <div class="card-header">
+                    Create Team
+                </div>
+
                 @include('teams.fields')
 
                 <div class="card-footer text-md-right border-top-0">

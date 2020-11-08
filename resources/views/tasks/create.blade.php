@@ -2,12 +2,13 @@
 
 @section('title', __('Create Task'))
 @section('content')
-        <h1>@yield('title')</h1>
-
         <form method="post" action="{{ route('tasks.store') }}"  enctype="multipart/form-data">
             @csrf
 
             <div class="card">
+                <div class="card-header">
+                    Create Task
+                </div>
                 @include('tasks.fields', ['project_id'=>app('request')->input('project')])
 
                 <div class="card-footer text-md-right border-top-0">

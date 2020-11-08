@@ -26,4 +26,9 @@ class Team extends Model
         return $this->belongsToMany(User::class)->withPivot('title', 'access', 'rate', 'rate_frequency');
     }
 
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'team_projects');
+    }
+
 }

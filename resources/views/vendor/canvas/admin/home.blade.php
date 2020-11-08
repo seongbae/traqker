@@ -52,7 +52,7 @@
                             <tr>
                                 <td><a href="{{ route('tasks.show', ['task'=>$task])}}">{{$task->name}}</a>
                                     @if ($task->project_id)
-                                        <div class="text-muted small">in <a href="{{route('projects.show',['project'=>$task->project])}}">{{$task->project->name}}</a></div>
+                                        <div class="text-muted small">in <a href="{{route('projects.show',['project'=>$task->project])}}" class="text-muted">{{$task->project->name}}</a></div>
                                     @endif
                                 </td>
                                 <td class="text-right text-muted small">{{ \Carbon\Carbon::parse($task->due_on)->diffForHumans()}}</td>
@@ -61,14 +61,7 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- /.table-responsive -->
             </div>
-            <!-- /.card-body -->
-        <!-- <div class="card-footer clearfix">
-		    <a href="{{ route('tasks.create') }}" class="btn btn-sm btn-info float-left">Create a New Task</a>
-		    <a href="{{ route('tasks.index') }}" class="btn btn-sm btn-secondary float-right">View All Tasks</a>
-		  </div> -->
-            <!-- /.card-footer -->
         </div>
 	</div>
 	<div class="col-lg-4">
@@ -92,7 +85,11 @@
                         <tbody>
                         @foreach(Auth::user()->activeTasks()->limit(10)->get() as $task)
                             <tr>
-                                <td><a href="{{ route('tasks.show', ['task'=>$task])}}">{{$task->name}}</a></td>
+                                <td><a href="{{ route('tasks.show', ['task'=>$task])}}">{{$task->name}}</a>
+                                    @if ($task->project_id)
+                                        <div class="text-muted small">in <a href="{{route('projects.show',['project'=>$task->project])}}" class="text-muted">{{$task->project->name}}</a></div>
+                                    @endif
+                                </td>
                                 <td class="text-right text-muted small">{{ \Carbon\Carbon::parse($task->created_at)->diffForHumans()}}</td>
                             </tr>
                         @endforeach
@@ -125,7 +122,11 @@
 		        <tbody>
 		        @foreach(Auth::user()->pastDueTasks()->limit(10)->get() as $task)
 		        <tr>
-		          <td><a href="{{ route('tasks.show', ['task'=>$task])}}">{{$task->name}}</a></td>
+		          <td><a href="{{ route('tasks.show', ['task'=>$task])}}">{{$task->name}}</a>
+                      @if ($task->project_id)
+                          <div class="text-muted small">in <a href="{{route('projects.show',['project'=>$task->project])}}" class="text-muted">{{$task->project->name}}</a></div>
+                      @endif
+                  </td>
 		          <td class="text-right text-muted small">{{ \Carbon\Carbon::parse($task->due_on)->diffForHumans()}}</td>
 		        </tr>
 		        @endforeach

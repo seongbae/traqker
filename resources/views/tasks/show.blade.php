@@ -9,7 +9,7 @@
                 <div class="float-left">Task: {{ $task->name }}</div>
                 <div class="float-right text-muted small">
                     Created by {{ $task->owner->name }}
-                    @if ($task->project)
+                    @if ($task->project_id)
                         in <a href="{{route('projects.show', ['project'=>$task->project])}}">{{$task->project->name}}</a>
                     @endif
 

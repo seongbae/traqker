@@ -134,7 +134,7 @@
                             <td>{{$member->pivot->title }}</td>
                             <td>{{$member->pivot->access }}</td>
                             <td>
-                                <a href="#"  data-toggle="modal" data-target="#updateMember" class="btn btn-link text-secondary p-1" title="Edit" id="editMember" data-id="{{$member->id}}" data-name="{{$member->name}}"  data-email="{{$member->email}}"  data-title="{{$member->pivot->title}}"  data-rate="{{$member->pivot->rate}}"  data-frequency="{{$member->pivot->rate_frequency}}">
+                                <a href="#"  data-toggle="modal" data-target="#updateMember" class="btn btn-link text-secondary p-1" title="Edit" id="editMember" data-id="{{$member->id}}" data-name="{{$member->name}}"  data-email="{{$member->email}}"  data-title="{{$member->pivot->title}}"  >
                                     <i class="far fa-edit "></i>
                                 </a>
                                 @if($member->id != $team->user_id)
@@ -254,8 +254,6 @@
           $('#updateMember #user_id').val($(this).data('id'));
           $('#updateMember #email').val($(this).data('email'));
           $('#updateMember #title').val($(this).data('title'));
-          $('#updateMember #rate').val($(this).data('rate'));
-          $('#updateMember #rate_frequency').val($(this).data('frequency'));
 
           $('#updateMember').modal('show');
         });

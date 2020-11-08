@@ -19,8 +19,6 @@ class CreateTeamUserTable extends Migration
             $table->integer('user_id');
             $table->string('title')->nullable();
             $table->string('access')->default('member');  // owner, member
-            $table->integer('rate')->nullable();
-            $table->string('rate_frequency')->default('hourly');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -23,7 +23,7 @@ class Team extends Model
 
     public function members()
     {
-        return $this->belongsToMany(User::class)->withPivot('title', 'access', 'rate', 'rate_frequency');
+        return $this->belongsToMany(User::class)->withPivot('title', 'access');
     }
 
     public function projects()

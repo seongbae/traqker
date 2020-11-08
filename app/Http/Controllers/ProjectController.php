@@ -130,7 +130,7 @@ class ProjectController extends Controller
         {
             if (!$project->members->contains($request->get('project_user')))
             {
-                $project->members()->attach($request->get('project_user'),['rate'=>$request->get('rate')]);
+                $project->members()->attach($request->get('project_user'));
                 Mail::to(User::find($request->get('project_user')))->send(new MemberAdded($project));
             }
         }

@@ -114,12 +114,12 @@ class User extends Authenticatable implements Searchable
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class)->withPivot('rate', 'rate_frequency');
+        return $this->belongsToMany(Project::class);
     }
 
     public function teams()
     {
-        return $this->belongsToMany(Team::class)->withPivot('title','access', 'rate', 'rate_frequency');
+        return $this->belongsToMany(Team::class)->withPivot('title','access');
     }
 
     public function myTeams()

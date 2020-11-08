@@ -50,10 +50,10 @@ class TeamController extends Controller
         $user = User::where('email', $request->get('email'))->first();
 
         if ($request->get('user_id'))
-            $team->members()->updateExistingPivot($request->get('user_id'), ['title'=>$request->get('title'),'rate'=>$request->get('rate'),'rate_frequency'=>$request->get('rate_frequency')]);
+            $team->members()->updateExistingPivot($request->get('user_id'), ['title'=>$request->get('title')]);
         elseif ($team && $user && !$team->members->contains($user))
         {
-            $team->members()->attach($user, ['access'=>'member','title'=>$request->get('title'),'rate'=>$request->get('rate'),'rate_frequency'=>$request->get('rate_frequency')]);
+            $team->members()->attach($user, ['access'=>'member','title'=>$request->get('title')]);
             event(new TeamMemberAdded(Auth::user(), $team, $user, 'You have been added to '.$team->name));
         }
         elseif ($team)

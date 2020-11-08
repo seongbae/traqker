@@ -46,7 +46,6 @@ class TaskDatatable extends Datatable
         return [
             Column::make('name'),
             Column::make('project')->title('Project'),
-            Column::make('assigned.name')->title('Assignee')->width(150),
             Column::make('due_on')->title('Due')->width(150),
             Column::make('created_at')->hidden()
         ];

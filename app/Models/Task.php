@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Seongbae\Canvas\Traits\FillsColumns;
 use Seongbae\Canvas\Traits\SerializesDates;
@@ -23,7 +24,7 @@ use Carbon\Carbon;
 
 class Task extends Model implements Searchable
 {
-    use FillsColumns, SerializesDates, Commentable, UploadTrait, softDeletes;
+    use FillsColumns, SerializesDates, Commentable, UploadTrait, softDeletes, HasFactory;
 
     protected $appends = ['status_badge'];
 

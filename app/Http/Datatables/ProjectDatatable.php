@@ -25,6 +25,8 @@ class ProjectDatatable extends Datatable
     protected function htmlMethods(Builder &$html)
     {
         $html->stateSave(true)
+            ->searching(false)
+            ->paging(false)
             ->setTableId("projects-table")
             ->serverSide(true)
             ->processing(true);

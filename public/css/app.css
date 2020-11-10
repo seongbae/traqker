@@ -223,3 +223,11 @@ form .list-group-item {
   width: 240px;
 }
 
+.nav-sidebar .nav-header:not(:first-of-type) {
+  padding: 1rem 1rem 0.5rem;
+}
+
+.card-footer {
+  padding: 0.25rem 0.25rem;
+}
+

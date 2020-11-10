@@ -43,8 +43,9 @@
             @endforeach
             @endif
           <!-- insert menus above here-->
-
+            @if (Auth::user()->isAdmin())
             <li class="nav-header">Admin</li>
+            @endif
           @if ($moduleMenus)
             @foreach ($moduleMenus as $moduleMenu)
             @if (array_key_exists('group', $moduleMenu))

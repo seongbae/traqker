@@ -50,7 +50,16 @@
                                     Status
                                 </div>
                                 <div class="col-md">
-                                   <h5><span class="badge badge-{{$task->status_badge}}">{{ $task->status }}</span></h5>
+                                    <div class="btn-group">
+                                        <button id="task-status" type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{ $task->status }}
+                                        </button>
+                                        <div class="dropdown-menu status-list">
+                                            @foreach(config('traqker.statuses') as $status)
+                                            <a class="dropdown-item" href="#">{{$status}}</a>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -251,11 +260,23 @@
 <script src="/js/daypilot-all.min.js?v=2018.2.232" type="text/javascript"></script>
 <script type="text/javascript">
 
-
-
-
-
     $(document).ready(function(){
+
+        $('.status-list a').on('click', function() {
+            $('#task-status').html($(this).html());
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    status: $(this).html()
+                },
+                type: 'PUT',
+                url: '/tasks/{{$task->id}}'
+            });
+        });
+
         $(document).on("click", ".availabilityCalendar", function () {
             var dp = new DayPilot.Calendar("dp");
 

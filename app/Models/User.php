@@ -206,6 +206,11 @@ class User extends Authenticatable implements Searchable
         return $rate;
     }
 
+    public function isAdmin()
+    {
+        return $this->hasRole(['Administrator']);
+    }
+
     public function relatedComments($count=10)
     {
         $tasks = Task::where('user_id', $this->id)->orWhere('assigned_to', $this->id)->get();

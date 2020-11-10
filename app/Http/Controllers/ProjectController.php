@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Datatables\ProjectDatatable;
 use App\Http\Datatables\AttachmentDatatable;
 use App\Http\Requests\ProjectRequest;
+use App\Scopes\ArchiveScope;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use Auth;
@@ -28,6 +29,16 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $query = Auth::user()->projects;
+        $datatables = ProjectDatatable::make($query);
+
+        return $request->ajax()
+            ? $datatables->json()
+            : view('projects.index', $datatables->html());
+    }
+
+    public function indexArchived(Request $request)
+    {
+        $query = Auth::user()->projects()->withoutGlobalScope(ArchiveScope::class)->where('archived',1);
         $datatables = ProjectDatatable::make($query);
 
         return $request->ajax()

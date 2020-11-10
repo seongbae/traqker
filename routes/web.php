@@ -22,8 +22,8 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::resource('sections', 'SectionController');
 
 
+    Route::get('projects/archived', 'ProjectController@indexArchived');
     Route::post('projects/tasks/reposition', 'ProjectController@repositionTasks');
-
     Route::get('projects/{project}/calendar', 'ProjectController@showCalendar');
     Route::get('calendar/{project}', 'CalendarController@index');
     Route::post('calendar/{project}/create', 'CalendarController@store');

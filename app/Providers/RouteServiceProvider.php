@@ -37,6 +37,10 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('task', function($id) {
            return \App\Models\Task::withoutGlobalScopes()->findOrFail($id);
         });
+
+        Route::bind('project', function($id) {
+            return \App\Models\Project::withoutGlobalScopes()->findOrFail($id);
+        });
     }
 
     /**

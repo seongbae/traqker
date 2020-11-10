@@ -118,6 +118,20 @@
                                             @method('delete')
                                         </form>
 
+                                        @if ($project->archived)
+
+                                            <a class="dropdown-item" href="#" onclick="$('#archived').val('0');$('#archive_project_{{ $project->id }}_form').submit();">Un-archive</a>
+                                            <input type="hidden" name="archive" value="0">
+                                        @else
+                                            <a class="dropdown-item" href="#" onclick="$('#archived').val('1');$('#archive_project_{{ $project->id }}_form').submit();">Archive</a>
+                                        @endif
+                                        <form method="post" action="{{ route('projects.update', ['project'=>$project]) }}" id="archive_project_{{ $project->id }}_form" class="d-none">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="name" value="{{$project->name}}">
+                                            <input type="hidden" name="archived" value="{{$project->archived}}" id="archived">
+                                        </form>
+
                                         @if ($project->quicklink)
                                             <a class="dropdown-item" href="#" onclick="$('#quicklink_project_{{ $project->id }}_form').submit();">Remove Quicklink</a>
 

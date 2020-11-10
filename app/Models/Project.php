@@ -9,16 +9,20 @@ use Seongbae\Canvas\Traits\SerializesDates;
 use App\Models\User;
 use App\Models\Team;
 use App\Models\Section;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Scopes\ArchiveScope;
 
 use App\Models\Task;
 
 class Project extends Model
 {
-    use FillsColumns, SerializesDates;
+    use FillsColumns, SerializesDates, SoftDeletes;
 
     protected $fillable = [
         'name',
-        'user_id'
+        'description',
+        'user_id',
+        'archived'
     ];
 
     public function members()
@@ -78,6 +82,8 @@ class Project extends Model
 	    static::creating(function ($query) {
 	        $query->user_id = auth()->id();
 	    });
+
+        static::addGlobalScope(new ArchiveScope);
 	}
 
 }

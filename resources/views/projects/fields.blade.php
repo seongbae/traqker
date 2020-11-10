@@ -1,5 +1,5 @@
 <div class="list-group list-group-flush">
-    <x-canvas-input name="name" :value="old('name', $project->name ?? '')" />
+    <x-canvas-input name="name" :value="old('name', $project->name ?? '')" autofocus />
     <x-canvas-textarea name="description" :value="old('description', $project->description ?? '')" />
     @if (count(Auth::user()->myTeams)>0)
     <x-canvas-select label="Team" name="team_id" :options="$teams" :value="old('team_id', $project->team_id ?? app('request')->input('team'))" />

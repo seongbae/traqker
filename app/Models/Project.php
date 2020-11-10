@@ -51,6 +51,11 @@ class Project extends Model
         return $this->belongsTo(Project::class, 'parent_id');
     }
 
+    public function quicklink()
+    {
+        return $this->hasOne(Quicklink::class, 'model_id');
+    }
+
     public function tasks()
     {
         return $this->hasMany(Task::class)->orderBy('order','asc');

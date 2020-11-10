@@ -2,5 +2,6 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/js/vendor.js": "/js/vendor.js",
-    "/css/vendor.css": "/css/vendor.css"
+    "/css/vendor.css": "/css/vendor.css",
+    "/css/skin-blue.min.css": "/css/skin-blue.min.css"
 }

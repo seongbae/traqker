@@ -1,5 +1,5 @@
 <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column sidebar-menu" data-widget="treeview" role="menu" data-accordion="false">
 
           <li class="nav-item">
               <a class="nav-link {{ (request()->is('dashboard*')) ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt mr-2"></i> <p>{{ __('Dashboard') }}</p></a>
@@ -8,7 +8,7 @@
               <a class="nav-link {{ (request()->is('tasks*')) ? 'active' : '' }}" href="{{ route('tasks.index') }}"><i class="fas fa-tasks mr-2"></i> <p>{{ __('Tasks') }}</p></a>
           </li>
           <li class="nav-item">
-              <a class="nav-link {{ (request()->is('projects*')) ? 'active' : '' }}" href="{{ route('projects.index') }}"><i class="fas fa-project-diagram mr-2"></i> <p>{{ __('Projects') }}</p></a>
+              <a class="nav-link {{ (request()->is('projects')) ? 'active' : '' }}" href="{{ route('projects.index') }}"><i class="fas fa-project-diagram mr-2"></i> <p>{{ __('Projects') }}</p></a>
           </li>
             <li class="nav-item has-treeview {{ (request()->is('teams/*')) ? 'menu-open' : '' }}">
                 <a class="nav-link {{ (request()->is('teams*')) ? 'active' : '' }}" href="{{ route('teams.index') }}"><i class="fas fa-users mr-2"></i> <p>{{ __('Teams') }} <i class="right fas fa-angle-left"></i></p></a>
@@ -33,9 +33,18 @@
           <li class="nav-item">
               <a class="nav-link {{ (request()->is('hours*')) ? 'active' : '' }}" href="{{ route('hours.index') }}"><i class="fas fa-edit mr-2"></i> <p>{{ __('Time Report') }} </p></a>
           </li>
+            @if (count(Auth::user()->quicklinks)>0)
+            <li class="nav-header">Quicklinks</li>
 
+            @foreach(Auth::user()->quicklinks as $quicklink)
+            <li class="nav-item">
+                <a class="nav-link {{ (request()->is($quicklink->path.'*')) ? 'active' : '' }}" href="{{$quicklink->url}}"><i class="fas fa-project-diagram mr-2"></i> <p>{{ $quicklink->title }}</p></a>
+            </li>
+            @endforeach
+            @endif
           <!-- insert menus above here-->
 
+            <li class="nav-header">Admin</li>
           @if ($moduleMenus)
             @foreach ($moduleMenus as $moduleMenu)
             @if (array_key_exists('group', $moduleMenu))

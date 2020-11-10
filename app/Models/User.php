@@ -247,6 +247,11 @@ class User extends Authenticatable implements Searchable
         return $this->hasMany(Task::class, 'assigned_to')->where('status','!=','complete')->where('due_on', '<',Carbon::now())->orderBy('due_on');
     }
 
+    public function quicklinks()
+    {
+        return $this->hasMany(Quicklink::class);
+    }
+
     public function unpaidCompletedTasks($projects)
     {
         return $this->hasMany(Task::class, 'assigned_to')

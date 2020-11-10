@@ -29,7 +29,8 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::post('calendar/{project}/create', 'CalendarController@store');
     Route::get('projects/{project}/files', 'ProjectController@showFiles');
     Route::resource('projects', 'ProjectController');
-    Route::resource('clients', 'ClientController');
+
+    Route::resource('quicklinks', 'QuicklinkController');
 });
 
 Route::group(['middleware' => ['web','auth','notifications']], function () {

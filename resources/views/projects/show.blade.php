@@ -113,11 +113,28 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}">Edit</a>
                                         <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_project_{{ $project->id }}_form').submit();">Delete</a>
-
                                         <form method="post" action="{{ route('projects.destroy', $project->id) }}" id="delete_project_{{ $project->id }}_form" class="d-none">
                                             @csrf
                                             @method('delete')
                                         </form>
+
+                                        @if ($project->quicklink)
+                                            <a class="dropdown-item" href="#" onclick="$('#quicklink_project_{{ $project->id }}_form').submit();">Remove Quicklink</a>
+
+                                            <form method="post" action="{{ route('quicklinks.destroy', ['quicklink'=>$project->quicklink]) }}" id="quicklink_project_{{ $project->id }}_form" class="d-none">
+                                                @csrf
+                                                @method('delete')
+                                            </form>
+                                        @else
+                                            <a class="dropdown-item" href="#" onclick="$('#quicklink_project_{{ $project->id }}_form').submit();">Add to Quicklink</a>
+
+                                            <form method="post" action="{{ route('quicklinks.store') }}" id="quicklink_project_{{ $project->id }}_form" class="d-none">
+                                                @csrf
+                                                <input type="hidden" name="title" value="{{$project->name}}">
+                                                <input type="hidden" name="model_id" value="{{$project->id}}">
+                                                <input type="hidden" name="url" value="{{route('projects.show',['project'=>$project])}}">
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

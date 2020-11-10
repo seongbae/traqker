@@ -17,6 +17,7 @@
   <link href="{{ asset('canvas/css/adminlte.min.css') }}" rel="stylesheet">
   <link href="{{ asset('canvas/css/datatables.min.css') }}" rel="stylesheet" >
     <link href="{{ asset('css/vendor.css') }}" rel="stylesheet" >
+    <link href="{{ asset('css/skin-blue.min.css') }}" rel="stylesheet">
   <link href="{{ asset('canvas/css/canvas.css') }}" rel="stylesheet" >
   <link href="{{ asset('canvas/css/custom.css') }}" rel="stylesheet">
 
@@ -51,7 +52,7 @@
     <script src="{{ asset('js/vendor.js') }}"></script>
 
 </head>
-<body class="hold-transition sidebar-mini layout-fixed  @if (Cookie::get('toggleState') === 'closed') {{ 'sidebar-collapse' }} @endif">
+<body class="hold-transition sidebar-mini layout-fixed  @if (Cookie::get('toggleState') === 'closed') {{ 'sidebar-collapse' }} @endif skin-blue">
 <div class="wrapper">
 
   <!-- Navbar -->

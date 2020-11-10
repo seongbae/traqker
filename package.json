@@ -20,6 +20,7 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
+        "adminlte": "^2.4.1",
         "fullcalendar": "^5.3.2",
         "jkanban": "^1.2.3"
     }

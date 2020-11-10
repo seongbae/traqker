@@ -19,10 +19,7 @@ class ShareNotifications
     {
         $user = Auth::user();
 
-
-            \View::share('notifications', $user->unreadNotifications);
-
-            \View::share('sidebarcollapse', 'sidebar-collapse');
+        \View::share('notifications', $user->unreadNotifications);
 
         return $next($request);
     }

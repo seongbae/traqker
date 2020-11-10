@@ -135,6 +135,9 @@ class ProjectController extends Controller
             }
         }
 
+        if ($request->team_id)
+            $project->teams()->sync($request->team_id);
+
         return $request->input('submit') == 'reload'
             ? redirect()->route('projects.edit', $project->id)
             : redirect()->route('projects.index');

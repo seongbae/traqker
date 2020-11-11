@@ -18,10 +18,6 @@ class AttachmentObserver
      */
     public function created(Attachment $attachment)
     {
-        // Log::info('Attachment created');
-
-        // Log::info('Attachment attachable: '.json_encode($attachment->attachable));
-
         if ($attachment->attachable instanceof Task)
         {
             event(new TaskUpdated(Auth::user(), $attachment->attachable, "New attachment added"));

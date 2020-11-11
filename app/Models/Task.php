@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Events\TaskAssigned;
+use App\Events\TaskUpdated;
+use App\Mail\TaskComplete;
 use App\Models\User;
 use App\Traits\HasAttachments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use Seongbae\Canvas\Traits\FillsColumns;
 use Seongbae\Canvas\Traits\SerializesDates;
 use App\Models\Project;
@@ -142,5 +146,24 @@ class Task extends Model implements Searchable
 
         static::addGlobalScope(new ArchiveScope);
         static::addGlobalScope(new CompletedScope);
+
+        static::created(function ($task) {
+            if ($task->assigned_to && $task->assigned_to != Auth::id())
+                event(new TaskAssigned(Auth::user(), $task->assigned, $task, "New task assigned: ".$task->name));
+
+            if ($task->project_id)
+                $task->project->touch();
+        });
+
+        static::updating(function ($task) {
+            if($task->isDirty('status')){
+                // status has changed
+//                if ($this->status == 'complete') {
+//                    Mail::to($this->owner)->send(new TaskComplete($task));
+//                }
+
+                event(new TaskUpdated(Auth::user(), $task, "Task <strong>".$task->name."</strong> has been marked ".$task->status));
+            }
+        });
     }
 }

@@ -51,7 +51,7 @@
                             <tr>
                                 <th scope="col">Task name</th>
                                 <th scope="col">Assignee</th>
-                                <th scope="col">Due date</th>
+                                <th scope="col">Due</th>
                                 <th scope="col">Priority</th>
                                 <th scope="col"></th>
                             </tr>

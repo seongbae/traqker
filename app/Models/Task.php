@@ -26,6 +26,7 @@ use App\Scopes\ArchiveScope;
 use App\Scopes\CompletedScope;
 use App\Models\Section;
 use Carbon\Carbon;
+use Auth;
 
 
 class Task extends Model implements Searchable

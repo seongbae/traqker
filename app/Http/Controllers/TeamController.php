@@ -46,6 +46,8 @@ class TeamController extends Controller
 
     public function addMember(Request $request)
     {
+        $this->authorize('update', $team);
+
         $team = Team::find($request->get('team_id'));
         $user = User::where('email', $request->get('email'))->first();
 
@@ -75,6 +77,8 @@ class TeamController extends Controller
 
     public function removeMember(Team $team, User $user)
     {
+        $this->authorize('update', $team);
+
         if ($team && $user)
             $team->members()->detach($user);
 
@@ -83,16 +87,22 @@ class TeamController extends Controller
 
     public function show(Team $team)
     {
+        $this->authorize('view', $team);
+
         return view('teams.show', compact('team'));
     }
 
     public function edit(Team $team)
     {
+        $this->authorize('update', $team);
+
         return view('teams.edit', compact('team'));
     }
 
     public function update(TeamRequest $request, Team $team)
     {
+        $this->authorize('update', $team);
+
         $team->update($request->all());
 
         return $request->input('submit') == 'reload'
@@ -103,6 +113,8 @@ class TeamController extends Controller
     /** @noinspection PhpUnhandledExceptionInspection */
     public function destroy(Team $team)
     {
+        $this->authorize('delete', $team);
+
         $team->delete();
 
         return redirect()->route('teams.index');

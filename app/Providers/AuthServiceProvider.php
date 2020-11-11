@@ -13,7 +13,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        Project::class => ProjectPolicy::class,
+        Task::class => TaskPolicy::class,
+        Team::class => TeamPolicy::class,
     ];
 
     /**
@@ -25,6 +27,5 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
     }
 }

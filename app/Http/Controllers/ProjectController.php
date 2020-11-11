@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Task;
 use App\Models\Section;
 use App\Models\Attachment;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
 {
@@ -79,6 +80,8 @@ class ProjectController extends Controller
 
     public function show(Project $project, Request $request)
     {
+        $this->authorize('view', $project);
+
         $query = Attachment::where('attached_model', 'App\Models\Task')->whereIn('attached_model_id', $project->tasks->pluck('id'));
         $datatables = AttachmentDatatable::make($query);
 
@@ -120,6 +123,8 @@ class ProjectController extends Controller
 
     public function edit(Project $project)
     {
+        $this->authorize('update', $project);
+
         $projects = Project::where('user_id', Auth::id())->where('id','!=',$project->id)->pluck('id','name')->toArray();
         $teams = Team::where('user_id', Auth::id())->pluck('id','name')->toArray();
         $teamIds = Team::where('user_id', Auth::id())->pluck('id')->toArray();
@@ -135,6 +140,8 @@ class ProjectController extends Controller
 
     public function update(ProjectRequest $request, Project $project)
     {
+        $this->authorize('update', $project);
+
         $project->update($request->all());
 
         if($request->get('project_user'))
@@ -157,6 +164,8 @@ class ProjectController extends Controller
     /** @noinspection PhpUnhandledExceptionInspection */
     public function destroy(Project $project)
     {
+        $this->authorize('delete', $project);
+
         $project->delete();
 
         return redirect()->route('projects.index');

@@ -193,7 +193,7 @@ form .list-group-item {
 
 #project-tasks a i,
 #project-tasks form button,
-#task-detail i {
+#task-detail .attachment i {
   display: none;
 }
 

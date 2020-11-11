@@ -27,7 +27,7 @@ class Project extends Model
 
     public function members()
     {
-        return $this->belongsToMany(User::class)->withPivot('rate', 'rate_frequency');
+        return $this->belongsToMany(User::class);
     }
 
     public function user()
@@ -73,6 +73,15 @@ class Project extends Model
     public function sections()
     {
         return $this->hasMany(Section::class)->orderBy('order','asc');
+    }
+
+    public function contains(User $user)
+    {
+        foreach($this->members as $member)
+            if ($member->id === $user->id)
+                return true;
+
+        return false;
     }
 
     protected static function boot()

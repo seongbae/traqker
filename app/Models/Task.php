@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use App\Models\Attachment;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\ArchiveScope;
+use App\Scopes\CompletedScope;
 use App\Models\Section;
 use Carbon\Carbon;
 
@@ -140,5 +141,6 @@ class Task extends Model implements Searchable
         parent::boot();
 
         static::addGlobalScope(new ArchiveScope);
+        static::addGlobalScope(new CompletedScope);
     }
 }

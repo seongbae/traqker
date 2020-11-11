@@ -50,7 +50,7 @@ class TaskController extends Controller
                     $query->where('user_id', Auth::id())->orWhere('assigned_to', Auth::id());
                 });
         else
-            $query = Task::with('assigned')->with('project')->where('user_id', Auth::id())->where('status','!=','complete');
+            $query = Task::with('assigned')->with('project')->where('assigned_to', Auth::id());
 
         $datatables = TaskDatatable::make($query);
 
@@ -113,11 +113,15 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
+        $this->authorize('view', $task);
+
         return view('tasks.show', compact('task'));
     }
 
     public function edit(Task $task)
     {
+        $this->authorize('update', $task);
+
         $projects = Project::where('user_id', Auth::id())->pluck('id','name')->toArray();
 
         $priority = ['high','medium','low'];
@@ -129,6 +133,8 @@ class TaskController extends Controller
 
     public function update(TaskRequest $request, Task $task)
     {
+        $this->authorize('update', $task);
+
         $task->update($request->all());
 
         if ($request->orders)
@@ -166,6 +172,8 @@ class TaskController extends Controller
     /** @noinspection PhpUnhandledExceptionInspection */
     public function destroy(Task $task)
     {
+        $this->authorize('delete', $task);
+
         $task->delete();
 
         if (\Illuminate\Support\Facades\Request::ajax())
@@ -176,6 +184,8 @@ class TaskController extends Controller
 
     public function updateStatus(Request $request, Task $task)
     {
+        $this->authorize('update', $task);
+
         $task->status = $request->get('status');
 
         if ($task->status == 'complete')
@@ -200,6 +210,8 @@ class TaskController extends Controller
 
     public function archiveTask(Task $task)
     {
+        $this->authorize('update', $task);
+
         $task->archived = true;
         $task->save();
 
@@ -208,6 +220,8 @@ class TaskController extends Controller
 
     public function unarchiveTask(Task $task)
     {
+        $this->authorize('update', $task);
+
         $task->archived = false;
         $task->save();
 

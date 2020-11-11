@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Hour;
+use App\Models\Hour;
 use App\Http\Datatables\HourDatatable;
 use App\Http\Requests\HourRequest;
 use Illuminate\Http\Request;

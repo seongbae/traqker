@@ -31,4 +31,13 @@ class Team extends Model
         return $this->belongsToMany(Project::class, 'team_projects');
     }
 
+    public function contains(User $user)
+    {
+        foreach($this->members as $member)
+            if ($member->id === $user->id)
+                return true;
+
+        return false;
+    }
+
 }

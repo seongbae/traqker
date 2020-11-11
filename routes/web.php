@@ -30,6 +30,8 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::get('projects/{project}/files', 'ProjectController@showFiles');
     Route::resource('projects', 'ProjectController');
 
+    Route::resource('attachments', 'AttachmentController');
+
     Route::resource('quicklinks', 'QuicklinkController');
 });
 

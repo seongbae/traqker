@@ -21,7 +21,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                @foreach(Auth::user()->projects()->orderBy('name')->get() as $project)
+                @foreach(Auth::user()->projects()->orderBy('updated_at','desc')->get() as $project)
                     @include('partials.project', ['project'=>$project])
                 @endforeach
 

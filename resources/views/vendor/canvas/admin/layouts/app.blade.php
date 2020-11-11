@@ -257,6 +257,7 @@
 <!-- <script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script> -->
 
  <script>
+
     function sendMarkRequest(id = null) {
         _token = "{{ csrf_token() }}";
 
@@ -338,6 +339,9 @@
         });
     });
     </script>
+
+
+
 
  @stack('scripts')
 </body>

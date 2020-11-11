@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use App\Models\Task;
 
 class AttachmentController extends Controller
 {
@@ -36,7 +38,22 @@ class AttachmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::info('Attachment:store');
+
+        if($request->hasFile('file')) {
+            $files = $request->file('file');
+            Log::info(json_encode($request->all()));
+            $model = Task::find($request->task_id);
+            $file = $model->addFile($files);
+//            foreach ($files as $file) {
+//                $model->addFile($file);
+//            }
+
+            return response()->json([
+                'id' => $file->id,
+                'label'=>$file->label
+            ]);
+        }
     }
 
     /**
@@ -86,6 +103,11 @@ class AttachmentController extends Controller
      */
     public function destroy(Attachment $attachment)
     {
-        //
+        $attachment->delete();
+
+        if (\Illuminate\Support\Facades\Request::ajax())
+            return response()->json(['success'], 200);
+
+        return redirect()->back();
     }
 }

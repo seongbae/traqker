@@ -3,7 +3,7 @@
 @section('title', __('Task'))
 @section('content')
 
-    <div class="container">
+    <div class="container" id="task-detail">
         <div class="card">
             <div class="card-header">
                 <div class="float-left">Task: {{ $task->name }}</div>
@@ -72,28 +72,35 @@
                                 </div>
                                 <div class="col-md">
                                    @if ($task->assigned_to)
-                                   <img src="/storage/{{$task->assigned->photo}}" alt="{{$task->assigned->name}}" class="rounded-circle profile-small mr-2">{{ $task->assigned->name }} <a href="#" class="availabilityCalendar ml-2" data-toggle="modal" data-target="#availabilityModal" data-id="{{$task->assigned_to}}"><i class="far fa-calendar-alt fa-xs"></i></a>
+                                   <img src="/storage/{{$task->assigned->photo}}" alt="{{$task->assigned->name}}" class="rounded-circle profile-small mr-2">{{ $task->assigned->name }}
                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
-                     @if (count($task->attachments)>0)
+
                     <div class="list-group list-group-flush">
                         <div class="list-group-item">
                             <div class="row">
                                 <div class="col-md-3 text-secondary">
                                     Attachments
                                 </div>
-                                <div class="col-md">
-                                    @foreach($task->Attachments as $attachment)
-                                    <a href="/download/{{$attachment->id}}">{{ $attachment->label }}</a><br>
-                                    @endforeach
+                                <div class="col-md" >
+                                    <div id="attachments">
+
+                                    </div>
+                                    <div id="dropzone">
+                                        <form class="dropzone needsclick" id="demo-upload" action="/attachments" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="dz-message needsclick">
+                                                <span class="note needsclick">Drop files here</span>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @endif
                 </div>
                 <div class="col-lg-6">
                     <div class="list-group list-group-flush">
@@ -254,11 +261,76 @@
 </div>
 @endsection
 
+@push('styles')
+@endpush
 
 @push('scripts')
 
 <script src="/js/daypilot-all.min.js?v=2018.2.232" type="text/javascript"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js"></script>
+
 <script type="text/javascript">
+
+    Dropzone.autoDiscover = false;
+    var uploadedDocumentMap = {}
+
+    var myDropzone = new Dropzone("#dropzone",{
+        maxFilesize: 10,  // 3 mb
+        acceptedFiles: ".jpeg,.jpg,.png,.pdf",
+        url: "/attachments",
+        data: {
+            task_id: {{$task->id}}
+        },
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        success: function (file, response) {
+            file.previewElement.innerHTML = "";
+            $('#attachments').append('<div class="attachment"><a href="/download/'+response.id+'">'+ response.label+'</a> ' +
+                '<form action="/attachments/'+response.id+'" method="POST" style="display:inline;">' +
+                '<input type="hidden" name="_token" value="'+$('meta[name="csrf-token"]').attr('content')+'">' +
+                '<input type="hidden" name="_method" value="DELETE">' +
+                '<button type="submit" class="btn btn-outline text-muted" onclick="return confirm(\'Are you sure?\');"><i class="far fa-trash-alt fa-xs"></i></button>' +
+                '</form></div>')
+            uploadedDocumentMap[file.name] = response.name;
+        },
+        removedfile: function (file) {
+            file.previewElement.remove()
+            var name = ''
+            if (typeof file.file_name !== 'undefined') {
+                name = file.file_name
+            } else {
+                name = uploadedDocumentMap[file.name]
+            }
+            $('form').find('input[name="document[]"][value="' + name + '"]').remove()
+        },
+        error: function () {
+            console.log('error');
+        },
+        init: function () {
+            @if(isset($task) && $task->attachments)
+            var files =
+            {!! json_encode($task->attachments) !!}
+                for (var i in files) {
+                var file = files[i]
+                //this.options.addedfile.call(this, file)
+                //file.previewElement.classList.add('dz-complete')
+                //$('form').append('<input type="hidden" name="document[]" value="' + file.file_name + '">')
+                $('#attachments').append('<div class="attachment"><a href="/download/'+file.id+'">'+ file.label+'</a> ' +
+                    '<form action="/attachments/'+file.id+'" method="POST" style="display:inline;">' +
+                        '<input type="hidden" name="_token" value="'+$('meta[name="csrf-token"]').attr('content')+'">' +
+                        '<input type="hidden" name="_method" value="DELETE">' +
+                        '<button type="submit" class="btn btn-outline text-muted" onclick="return confirm(\'Are you sure?\');"><i class="far fa-trash-alt fa-xs"></i></button>' +
+                    '</form></div>')
+            }
+            @endif
+        }
+    });
+
+    myDropzone.on("sending", function(file, xhr, formData) {
+        formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
+        formData.append("task_id", {{$task->id}});
+    });
 
     $(document).ready(function(){
 

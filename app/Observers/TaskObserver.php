@@ -9,6 +9,7 @@ use App\Events\TaskAssigned;
 use App\Events\TaskUpdated;
 use Illuminate\Support\Facades\Log;
 use Auth;
+use Carbon\Carbon;
 
 class TaskObserver
 {
@@ -23,7 +24,8 @@ class TaskObserver
         if ($task->assigned_to && $task->assigned_to != Auth::id())
             event(new TaskAssigned(Auth::user(), $task->assigned, $task, "New task assigned: ".$task->name));
 
-        //Mail::to($task->assigned)->send(new TaskAssigned($task));
+        if ($task->project_id)
+            $task->project->touch();
     }
 
     /**
@@ -34,7 +36,8 @@ class TaskObserver
      */
     public function updated(Task $task)
     {
-        //
+        if ($task->project_id)
+            $task->project->touch();
     }
 
      /**
@@ -63,7 +66,8 @@ class TaskObserver
      */
     public function deleted(Task $task)
     {
-        //
+        if ($task->project_id)
+            $task->project->touch();
     }
 
     /**

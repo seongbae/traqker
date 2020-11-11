@@ -192,17 +192,27 @@ form .list-group-item {
 }
 
 #project-tasks a i,
-#project-tasks form button {
+#project-tasks form button,
+#task-detail i {
   display: none;
 }
 
 #project-tasks td:hover a i,
-#project-tasks td:hover form button {
+#project-tasks td:hover form button,
+#task-detail .attachment:hover i {
   display: inline-block;
   color: #bababa;
   outline: none;
   background: none;
   border: none;
+}
+
+.attachment {
+  height: 28px;
+}
+
+.attachment button {
+  padding: 0;
 }
 
 .traqker-kanban-item {
@@ -229,5 +239,25 @@ form .list-group-item {
 
 .card-footer {
   padding: 0.25rem 0.25rem;
+}
+
+#task-status {
+  font-weight: 700;
+}
+
+.dropzone {
+  background: white;
+  border-radius: 5px;
+  border: 2px dotted rgba(0, 0, 0, 0.1);
+  -o-border-image: none;
+     border-image: none;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dropzone .note {
+  color: rgba(0, 0, 0, 0.1);
+  padding: 5px;
 }
 

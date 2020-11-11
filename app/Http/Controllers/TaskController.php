@@ -98,14 +98,6 @@ class TaskController extends Controller
 
         $task = Task::create(array_merge($request->all(),['user_id'=>Auth::id(),'status'=>'created','priority'=>$priority, 'assigned_to'=>$assignedTo]));
 
-        if ($request->file('files')) {
-            $files = $request->file('files');
-            //Log::info('has file');
-            foreach ($files as $file) {
-                $task->addFile($file);
-            }
-        }
-
         if ($request->ajax())
             return $request->json([], 200);
 

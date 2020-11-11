@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        Task::observe(TaskObserver::class);
+        Task::observe(TaskObserver::class);
 //        Attachment::observe(AttachmentObserver::class);
 //        Hour::observe(HourObserver::class);
 

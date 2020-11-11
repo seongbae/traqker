@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Traits\HasAttachments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Seongbae\Canvas\Traits\FillsColumns;
@@ -24,22 +25,14 @@ use Carbon\Carbon;
 
 class Task extends Model implements Searchable
 {
-    use FillsColumns, SerializesDates, Commentable, UploadTrait, softDeletes, HasFactory;
+    use FillsColumns, SerializesDates, Commentable, UploadTrait, softDeletes, HasFactory, HasAttachments;
 
     protected $appends = ['status_badge'];
 
-//    protected $casts = [
-//        'due_on' => 'datetime:m-d 23:59:59',
-//    ];
 
     protected $dates = [
-      //  'due_on'
     ];
 
-//    public function getDueAttribute()
-//    {
-//        return $this->due_on != null ? $this->due_on->format('Y-m-d') : "";
-//    }
 
     public function getDueOnDayEndAttribute()
     {
@@ -130,36 +123,7 @@ class Task extends Model implements Searchable
         return User::whereIn('id', $users)->get();
     }
 
-    public function addFile($file)
-    {
-        // Make a image name based on user name and current timestamp
-        $name = Str::slug($file->getClientOriginalName()).'_'.time(); //.'.' . $image->getClientOriginalExtension();
-        // Define folder path
-        $folder = '/files/';
-        // Make a file path where image will be stored [ folder path + file name + file extension]
-        // $filePath = '/storage'.$folder . $name. ;
-        // Upload image
-        $this->uploadOne($file, $folder, 'public', $name);
-        // Set user profile image path in database to filePath
-        $filename = $name. '.' . $file->getClientOriginalExtension();
 
-        $sizeinMB = $file->getSize()/1024/1024;
-        if ($sizeinMB < 0.1)
-            $size = round($sizeinMB, 2);
-        elseif ($sizeinMB < 1)
-            $size = round($sizeinMB, 2);
-        else
-            $size = round($sizeinMB, 0);
-
-        Attachment::create([
-                        'filename'=>$filename,
-                        'label'=>$file->getClientOriginalName(),
-                        'size'=>$size,
-                        'attached_model'=>Task::class,
-                        'attached_model_id'=>$this->id
-                        ]);
-
-    }
 
     public function getCreatedAtAttribute($input)
     {

@@ -30,9 +30,9 @@
                     </li>
                 </ul>
             </li>
-          <li class="nav-item">
-              <a class="nav-link {{ (request()->is('hours*')) ? 'active' : '' }}" href="{{ route('hours.index') }}"><i class="fas fa-edit mr-2"></i> <p>{{ __('Time Report') }} </p></a>
-          </li>
+{{--          <li class="nav-item">--}}
+{{--              <a class="nav-link {{ (request()->is('hours*')) ? 'active' : '' }}" href="{{ route('hours.index') }}"><i class="fas fa-edit mr-2"></i> <p>{{ __('Time Report') }} </p></a>--}}
+{{--          </li>--}}
             @if (count(Auth::user()->quicklinks)>0)
             <li class="nav-header">Quicklinks</li>
 

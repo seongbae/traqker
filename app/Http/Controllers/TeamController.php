@@ -44,7 +44,7 @@ class TeamController extends Controller
             : redirect()->route('teams.show',['team'=>$team]);
     }
 
-    public function addMember(Request $request)
+    public function addMember(Request $request, Team $team)
     {
         $this->authorize('update', $team);
 
@@ -52,10 +52,10 @@ class TeamController extends Controller
         $user = User::where('email', $request->get('email'))->first();
 
         if ($request->get('user_id'))
-            $team->members()->updateExistingPivot($request->get('user_id'), ['title'=>$request->get('title')]);
+            $team->members()->updateExistingPivot($request->get('user_id'), ['title'=>$request->get('title'), 'access'=>$request->get('access')]);
         elseif ($team && $user && !$team->members->contains($user))
         {
-            $team->members()->attach($user, ['access'=>'member','title'=>$request->get('title')]);
+            $team->members()->attach($user, ['access'=>$request->get('access'),'title'=>$request->get('title')]);
             event(new TeamMemberAdded(Auth::user(), $team, $user, 'You have been added to '.$team->name));
         }
         elseif ($team)
@@ -79,8 +79,34 @@ class TeamController extends Controller
     {
         $this->authorize('update', $team);
 
+        if ($team->firstAvailableManagerExcept($user) == null)
+            return redirect()->back();
+
         if ($team && $user)
+        {
+            foreach($team->projects as $project)
+            {
+                foreach($project->tasks as $task)
+                {
+                    if ($task->assigned_to === $user->id)
+                    {
+                        $task->assigned_to = null;
+                        $task->save();
+                    }
+
+                    if ($task->user_id === $user->id)
+                    {
+                        $task->user_id = $team->firstAvailableManager()->id;
+                        $task->save();
+                    }
+                }
+
+                $project->members()->detach($user);
+            }
+
+
             $team->members()->detach($user);
+        }
 
         return redirect()->back();
     }

@@ -105,19 +105,19 @@
             </a>
             <ul class="nav nav-treeview ml-2">
               <li class="nav-item">
-                <a href="/users" class="nav-link {{ (request()->is('users')) ? 'active' : '' }}">
+                <a href="/admin/users" class="nav-link {{ (request()->is('admin/users')) ? 'active' : '' }}">
                   <i class="fas fa-user-friends nav-icon"></i>
                   <p>Users</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/users/create" class="nav-link {{ (request()->is('users/create')) ? 'active' : '' }}">
+                <a href="/admin/users/create" class="nav-link {{ (request()->is('admin/users/create')) ? 'active' : '' }}">
                   <i class="fas fa-plus nav-icon"></i>
                   <p>Add New</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/users/roles" class="nav-link {{ (request()->is('users/roles')) ? 'active' : '' }}">
+                <a href="/admin/users/roles" class="nav-link {{ (request()->is('admin/users/roles')) ? 'active' : '' }}">
                   <i class="fas fa-user-tag nav-icon"></i>
                   <p>Roles</p>
                 </a>

@@ -13,6 +13,8 @@
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateMember">Add Member</a>
+                            <a class="dropdown-item" href="{{ route('projects.create')."?team=".$team->id}}">Add Project</a>
                             <a class="dropdown-item" href="{{ route('teams.edit', $team->id) }}">Edit</a>
                             <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_team_{{ $team->id }}_form').submit();">Delete</a>
 
@@ -25,7 +27,7 @@
                 </div>
 
                 <div class="float-right">
-                    <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateMember"><i class="fas fa-plus"></i> Add Member</a>
+
                 </div>
             </div>
             <div class="card-body">
@@ -36,11 +38,11 @@
                   <li class="nav-item">
                     <a class="nav-link" id="availability-tab" data-toggle="tab" href="#availability" role="tab" aria-controls="availability" aria-selected="false">Availability</a>
                   </li>
-                  @if (Auth::id() == $team->user_id)
-                  <li class="nav-item">
-                    <a class="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
-                  </li>
-                  @endif
+{{--                  @if (Auth::id() == $team->user_id)--}}
+{{--                  <li class="nav-item">--}}
+{{--                    <a class="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>--}}
+{{--                  </li>--}}
+{{--                  @endif--}}
                 </ul>
                 <div class="tab-content mt-4" id="myTabContent">
                   <div class="tab-pane fade  show active" id="team-overview" role="tabpanel" aria-labelledby="team-overview-tab">
@@ -69,26 +71,6 @@
                                 </div>
                             </div>
                             <div class="list-group-item py-3">
-                                <div class="row">
-                                    <div class="col-md-2 text-secondary">
-                                        Name:
-                                    </div>
-                                    <div class="col-md">
-                                         {{ $team->name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item py-3">
-                                <div class="row">
-                                    <div class="col-md-2 text-secondary">
-                                        Created by:
-                                    </div>
-                                    <div class="col-md">
-                                         {{ $team->user->name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item py-3">
                                 <div class="row team">
                                     <div class="col-md-2 text-secondary">
                                         Members
@@ -96,6 +78,24 @@
                                     @foreach($team->members as $member)
                                     <div class="col-md-2">
                                         <div class="card user-card">
+                                            <div class="float-right">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline btn-sm text-muted" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-h"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#updateMember" class="btn btn-link text-secondary p-1" title="Edit" id="editMember" data-id="{{$member->id}}" data-name="{{$member->name}}"  data-email="{{$member->email}}" data-access="{{$member->pivot->access}}" data-title="{{$member->pivot->title}}"  >
+                                                            Edit
+                                                        </a>
+                                                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Remove member?') }}')) $('#remove_member_{{ $member->id }}_form').submit();">Remove</a>
+
+                                                        <form action="{{ route('team.remove', ['team'=>$team, 'user'=>$member])}}" id="remove_member_{{$member->id}}_form" method="POST" class="d-inline">
+                                                            @csrf
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="card-block">
                                                 <div class="user-image">
                                                     <img src="/storage/{{$member->photo}}" class="img-radius" alt="User-Profile-Image">
@@ -138,12 +138,7 @@
                                     <i class="far fa-edit "></i>
                                 </a>
                                 @if($member->id != $team->user_id)
-                                <form action="{{ route('team.remove', ['team'=>$team, 'user'=>$member])}}" method="POST" class="d-inline"  onSubmit="if(!confirm('Are you sure?')){return false;}">
-                                    @csrf
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" name="submit" class="btn btn-link text-secondary p-1" onClick="return confirm(\'Are you sure?\')">
-                                    <i class="far fa-trash-alt "></i></button>
-                                </form>
+
                                 @endif
                             </td>
                           </tr>
@@ -168,20 +163,8 @@
                           @endforeach
                         </tbody>
                         </table>
-
-                    <div>
-
-
-
-
-
-
-                     </div>
                   </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -198,14 +181,27 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="input-group mb-3">
-                    <input type="text" name="email" placeholder="E-mail" class="form-control" id="email" />
-            </div>
-            <div class="row">
+              <div class="row mb-2">
                 <div class="col-sm-12">
-                    <input type="text" name="title" placeholder="Title" class="form-control" id="title" />
+                        <input type="text" name="email" placeholder="E-mail" class="form-control" id="email" />
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-sm-12">
+                    <input type="text" name="title" placeholder="Title (optional)" class="form-control" id="title" />
                 </div>
             </div>
+              <div class="row ">
+                  <div class="col-sm-12">
+                      <select name="access" id="access" class="form-control">
+                          <option value="owner">owner</option>
+                          <option value="manager">manager</option>
+                          <option value="member">member</option>
+                      </select>
+                      <span class="text-muted small">Access: Owner can manage members and projects. Manager can manage projects.</span>
+                  </div>
+              </div>
+
           </div>
           <div class="modal-footer">
             <input type="hidden" name="team_id" value="{{$team->id}}"/>
@@ -253,11 +249,15 @@
         $(document).on("click", "#editMember", function () {
           $('#updateMember #user_id').val($(this).data('id'));
           $('#updateMember #email').val($(this).data('email'));
+          $('#updateMember #access').val($(this).data('access'));
           $('#updateMember #title').val($(this).data('title'));
-
+          $('#modalLabel').text('Edit Member');
           $('#updateMember').modal('show');
         });
 
+        $('#updateMember').on('hidden.bs.modal', function () {
+            $('#modalLabel').text('Add Member');
+        });
     });
 </script>
 <script type="text/javascript">
@@ -272,7 +272,7 @@
     dp.init();
 
     $.ajax({
-         url: '/team/'+{{$team->id}}+'/availability/',
+         url: '/team/{{$team->id}}/availability/',
          type: 'get',
          dataType: 'json',
          success: function(response){

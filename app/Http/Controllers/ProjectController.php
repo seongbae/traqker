@@ -50,7 +50,7 @@ class ProjectController extends Controller
     public function create()
     {
         $projects = Project::where('user_id', Auth::id())->pluck('id','name')->toArray();
-        $teams = Team::where('user_id', Auth::id())->pluck('id','name')->toArray();
+        $teams = Auth::user()->teamsWithManagerialAccess->pluck('id','name')->toArray();
         $teamIds = Team::where('user_id', Auth::id())->pluck('id')->toArray();
         $users = User::whereHas('teams', function($q) use($teamIds) {
                         $q->whereIn('teams.id', $teamIds);

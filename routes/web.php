@@ -21,37 +21,42 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::post('sections/orders', 'SectionController@updateOrders');
     Route::resource('sections', 'SectionController');
 
-
     Route::get('projects/archived', 'ProjectController@indexArchived');
     Route::post('projects/tasks/reposition', 'ProjectController@repositionTasks');
     Route::get('projects/{project}/calendar', 'ProjectController@showCalendar');
     Route::get('calendar/{project}', 'CalendarController@index');
     Route::post('calendar/{project}/create', 'CalendarController@store');
     Route::get('projects/{project}/files', 'ProjectController@showFiles');
+    Route::get('project/{projectid}/user/{userid}', 'ProjectController@removeMember');
     Route::resource('projects', 'ProjectController');
 
-    Route::resource('attachments', 'AttachmentController');
 
-    Route::resource('quicklinks', 'QuicklinkController');
-});
+    Route::resource('teams', 'TeamController')->middleware('notifications');
+    Route::get('/team/{id}/availability', 'AvailabilityController@getTeamAvailability');
+    Route::post('/team/{team}/add', 'TeamController@addMember');
+    Route::delete('/team/{team}/remove/{user}', 'TeamController@removeMember')->name('team.remove');
+    Route::delete('/invitations/{invitation}', 'InvitationController@destroy')->name('invitation.remove');
 
-Route::group(['middleware' => ['web','auth','notifications']], function () {
-    Route::resource('hours', 'HourController');
-});
-
-Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::resource('notifications', 'NotificationController');
-});
+    Route::resource('attachments', 'AttachmentController');
+    Route::resource('quicklinks', 'QuicklinkController');
 
-Route::group(['middleware' => ['web','auth']], function () {
-    Route::get('project/{projectid}/user/{userid}', 'ProjectController@removeMember');
     Route::get('hour/delete/{hour}', 'HourController@deleteHour');
-});
+    Route::resource('hours', 'HourController');
 
-Route::post('availability', 'AvailabilityController@store');
-Route::put('availability/{availability}', 'AvailabilityController@update');
-Route::delete('availability/{availability}', 'AvailabilityController@destroy');
-Route::get('/user/{id}/availability', 'AvailabilityController@getUserAvailability');
+    Route::post('availability', 'AvailabilityController@store');
+    Route::put('availability/{availability}', 'AvailabilityController@update');
+    Route::delete('availability/{availability}', 'AvailabilityController@destroy');
+    Route::get('/user/{id}/availability', 'AvailabilityController@getUserAvailability');
+
+    Route::get('/download/{attachment}', 'AttachmentController@download')->name('download');
+    Route::get('/reports/{start?}/{end?}', 'ReportController@index')->name('reports.index');
+    Route::post('/search', 'SearchController@search')->name('search');
+    Route::post('/mark-as-read', 'HomeController@markNotification')->name('markNotification');
+
+    Route::get('my-account', 'HomeController@showAccount');
+
+});
 
 Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::resource('/payment', 'PaymentController');
@@ -61,40 +66,31 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::post('/sendpayment', 'PaymentController@sendPayment');
 });
 
-Route::get('/reports/{start?}/{end?}', 'ReportController@index')->name('reports.index')->middleware('notifications');
-//Route::post('/reports/filter', 'ReportController@filterReport')->name('reports.filter')->middleware('notifications');
-Route::post('/search', 'SearchController@search')->name('search')->middleware('notifications');
-Route::get('/download/{attachment}', 'AttachmentController@download')->name('download');
-Route::post('/mark-as-read', 'HomeController@markNotification')->name('markNotification');
+Route::group(['namespace'=>'\Seongbae\Canvas\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['web','auth','notifications']], function () {
 
-Route::get('my-account', 'HomeController@showAccount')->middleware('notifications');
-Route::resource('users/roles', '\Seongbae\Canvas\Http\Controllers\Admin\RolesController', ['as'=>'admin'])->middleware('notifications');
-Route::resource('users', '\Seongbae\Canvas\Http\Controllers\Admin\UsersController', ['as'=>'admin'])->middleware('notifications');
+    // Pages controller
+    Route::resource('pages', 'PagesController', ['as'=>'admin']);
 
-Route::get('settings', '\Seongbae\Canvas\Http\Controllers\Admin\AdminController@showSettings')->name('admin.settings')->middleware('notifications');
-Route::post('settings', '\Seongbae\Canvas\Http\Controllers\Admin\AdminController@saveSettings')->middleware('notifications');
+    // User management
+    Route::resource('users/roles', 'RolesController', ['as'=>'admin']);
+    Route::resource('users', 'UsersController', ['as'=>'admin']);
 
-Route::group(['namespace' => '\Seongbae\Canvas\Http\Controllers', 'middleware' => ['web','notifications']], function () {
+    // Media management
+    Route::resource('media', 'MediaController', ['as'=>'admin']);
 
+    // Settings
+    Route::get('settings', 'AdminController@showSettings')->name('admin.settings');
+    Route::post('settings', 'AdminController@saveSettings');
 
-    Route::get('account', 'UserController@getUser');
-    Route::put('account/{id}/profile', 'UserController@updateProfile');
-    Route::post('account/{id}/password', 'UserController@updatePassword');
+    // Module management
+    Route::get('modules/install/{module}', 'AdminController@installModule');
+    Route::get('modules/uninstall/{module}', 'AdminController@uninstallModule');
 
-    Route::get('dynamicModal/{id}',[
-        'as'=>'dynamicModal',
-        'uses'=> 'Admin\MediaController@loadModal'
-    ]);
+    // Backend search
+    Route::post('search', 'AdminController@search')->name('admin.search');
 
+    // Log management
+    Route::get('logs/system', 'LogViewerController@index')->name('admin.logs.system');
+    Route::get('logs/activity', 'AdminController@showActivityLogs')->name('admin.logs.activity');
 
 });
-
-Route::resource('teams', 'TeamController')->middleware('notifications');
-Route::get('/team/{id}/availability', 'AvailabilityController@getTeamAvailability');
-Route::post('/team/{id}/add', 'TeamController@addMember');
-Route::delete('/team/{team}/remove/{user}', 'TeamController@removeMember')->name('team.remove');
-Route::delete('/invitations/{invitation}', 'InvitationController@destroy')->name('invitation.remove');
-
-Route::get('/debug-sentry', function () {
-    throw new Exception('My first Sentry error!');
-})->middleware('notifications');

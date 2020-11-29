@@ -19,6 +19,20 @@ class ProjectDatatable extends Datatable
         ->editColumn('created_at', function ($query) {
             return $query->created_at ? with(new Carbon($query->created_at))->format('Y-m-d') : '';
         })
+        ->addColumn('members', function ($query) {
+            $membersHtml = "";
+
+            if ($query->members->count() > 0)
+            {
+                foreach($query->members as $member)
+                {
+                    $membersHtml .= '<img src="/storage/'.$member->photo .'" alt="{'.$member->name .'" title="'.$member->name .'" class="img-circle elevation-2 " style="width:24px;">';
+;
+                }
+            }
+
+            return $membersHtml;
+        })
         ->escapeColumns([]);
     }
 
@@ -37,6 +51,7 @@ class ProjectDatatable extends Datatable
     {
         return [
             Column::make('name'),
+            Column::make('members'),
             Column::make('created_at')->title('Created')
 
         ];

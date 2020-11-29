@@ -48,7 +48,7 @@ class ReceiveEmailCmd extends Command
             $body = 'Some example text in the body'
         );
 
-        $toEmail = $this->argument('slug') . '@traqker.test';
+        $toEmail = $this->argument('slug') . '@' . config('app.mail_domain');
 
         // When: we receive that e-mail
         Mail::to($toEmail)->send($email);

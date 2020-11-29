@@ -5,7 +5,7 @@
 
 
 @section('content')
-
+<div class="container">
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Projects</h3>
@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-<div class="row row-short">
+    <div class="row row-short">
 	<div class="col-lg-4">
         <div class="card">
             <div class="card-header border-transparent">
@@ -143,5 +143,7 @@
 		  <!-- /.card-footer -->
 		</div>
 	</div>
+</div>
+
 </div>
 @stop

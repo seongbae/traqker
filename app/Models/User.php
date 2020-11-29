@@ -116,7 +116,7 @@ class User extends Authenticatable implements Searchable
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class);
+        return $this->belongsToMany(Project::class)->with('members');
     }
 
     public function teams()

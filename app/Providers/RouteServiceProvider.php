@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use App\Models\Project;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -30,8 +31,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
 
         Route::bind('task', function($id) {
@@ -41,6 +40,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('project', function($id) {
             return \App\Models\Project::withoutGlobalScopes()->findOrFail($id);
         });
+
+        Route::model('project',Project::class);
     }
 
     /**

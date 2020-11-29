@@ -84,6 +84,10 @@ class Project extends Model
         return false;
     }
 
+    public function getRouteKeyName(){
+        return 'slug';
+    }
+
     protected static function boot()
 	{
 	    parent::boot();

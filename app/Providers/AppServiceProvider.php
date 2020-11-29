@@ -39,6 +39,6 @@ class AppServiceProvider extends ServiceProvider
 
         CalendarResource::withoutWrapping();
 
-        Mailbox::to('{projectname}@'.config('app.base_domain'), MailHandler::class);
+        Mailbox::to('{projectname}@'.config('app.mail_domain'), MailHandler::class);
     }
 }

@@ -10,6 +10,8 @@ use App\Observers\AttachmentObserver;
 use App\Models\Attachment;
 use App\Observers\HourObserver;
 use App\Models\Hour;
+use BeyondCode\Mailbox\Facades\Mailbox;
+use App\MailHandler;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -36,5 +38,7 @@ class AppServiceProvider extends ServiceProvider
         //Hour::observe(HourObserver::class);
 
         CalendarResource::withoutWrapping();
+
+        Mailbox::to('{projectname}@'.config('app.base_domain'), MailHandler::class);
     }
 }

@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Notifications\NewTeamMemberNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Group;
 use App\Achievement;
@@ -30,7 +32,7 @@ use App\Notifications\InviteAcceptedNotification;
 
 class User extends Authenticatable implements Searchable
 {
-    use Notifiable, HasRoles, LogsActivity, Billable, Commenter;
+    use Notifiable, HasRoles, LogsActivity, Billable, Commenter, HasFactory, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

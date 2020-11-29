@@ -30,36 +30,36 @@ class TaskTest extends TestCase
      *
      * @return void
      */
-    public function test_task_list_can_be_retrieved()
-    {
+//    public function test_task_list_can_be_retrieved()
+//    {
+//
+//        Sanctum::actingAs(
+//            $this->user,
+//            ['view-tasks']
+//        );
+//
+//        $response = $this->get('/api/tasks');
+//
+//        $response->assertOk();
+//    }
 
-        Sanctum::actingAs(
-            $this->user,
-            ['view-tasks']
-        );
-
-        $response = $this->get('/api/tasks');
-
-        $response->assertOk();
-    }
-
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_task_detail_can_be_retrieved()
-    {
-
-        Sanctum::actingAs(
-            $this->user,
-            ['view-tasks']
-        );
-
-        $task = Task::factory()->make();
-
-        $response = $this->get('/api/task/'.$task->id);
-
-        $response->assertOk();
-    }
+//    /**
+//     * A basic unit test example.
+//     *
+//     * @return void
+//     */
+//    public function test_task_detail_can_be_retrieved()
+//    {
+//
+//        Sanctum::actingAs(
+//            $this->user,
+//            ['view-tasks']
+//        );
+//
+//        $task = Task::factory()->make();
+//
+//        $response = $this->get('/api/task/'.$task->id);
+//
+//        $response->assertOk();
+//    }
 }

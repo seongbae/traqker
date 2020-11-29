@@ -66,7 +66,7 @@ class ProjectController extends Controller
 
     public function store(ProjectRequest $request)
     {
-        $project = Project::create(array_merge($request->all(),['user_id'=>Auth::id()]));
+        $project = Project::create(array_merge($request->all(),['user_id'=>Auth::id(), 'slug'=>$this->createSlug($request->name)]));
 
         $project->members()->attach(Auth::id(),['access'=>'owner']);
 
@@ -286,5 +286,31 @@ class ProjectController extends Controller
             }
         }
         return redirect()->back();
+    }
+
+    public function createSlug($title, $id = 0)
+    {
+        $slug = str_slug($title);
+        $allSlugs = $this->getRelatedSlugs($slug, $id);
+        if (! $allSlugs->contains('slug', $slug)){
+            return $slug;
+        }
+
+        $i = 1;
+        $is_contain = true;
+        do {
+            $newSlug = $slug . '-' . $i;
+            if (!$allSlugs->contains('slug', $newSlug)) {
+                $is_contain = false;
+                return $newSlug;
+            }
+            $i++;
+        } while ($is_contain);
+    }
+    protected function getRelatedSlugs($slug, $id = 0)
+    {
+        return Project::select('slug')->where('slug', 'like', $slug.'%')
+            ->where('id', '<>', $id)
+            ->get();
     }
 }

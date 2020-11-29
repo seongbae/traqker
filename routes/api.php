@@ -32,11 +32,11 @@ Route::post('/token', function (Request $request) {
     return $user->createToken($request->device_name)->plainTextToken;
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum','notifications'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum','notifications']], function () {
     Route::get('task/{task}', 'TaskController@show')->name('tasks.show');
     Route::get('tasks', 'TaskController@index')->name('tasks.index');
 });

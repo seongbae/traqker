@@ -10,7 +10,7 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('projects')->ignore($this->route('project'))],
+            'name' => ['required'], //, Rule::unique('projects')->ignore($this->route('project'))
         ];
     }
 }

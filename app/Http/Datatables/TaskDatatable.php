@@ -14,6 +14,12 @@ class TaskDatatable extends Datatable
     protected function jsonMethods(DataTableAbstract &$datatables)
     {
         $datatables
+        ->addColumn('check', function ($query) {
+            return '<div class="custom-control custom-checkbox">
+                          <input class="custom-control-input mark-complete" type="checkbox" id="task_'.$query->id.'" value="complete">
+                          <label for="task_'.$query->id.'" class="custom-control-label"></label>
+                        </div>';
+        })
         ->editColumn('name', function ($query) {
             return '<a href="'.route('tasks.show',['task'=>$query]).'">'.$query->name.'</a>';
         })
@@ -38,12 +44,26 @@ class TaskDatatable extends Datatable
             ->setTableId("tasks-table")
             ->serverSide(true)
             ->processing(true);
+//            ->ajax([
+//                'url'  => '/tasks',
+//                'data' => "function(data){
+//                                  data.fromDate      = $('input#fromDate').val();
+//                                  data.toDate          = $('input#toDate').val();
+//                                  data.searchBox    = $('input#searchBox').val();
+//                                  data.userStatus    = $('select[name=userStatus]').val();
+//                                  data.userGender  = $('select[name=userGender]').val();
+//                                  data.userCredit    = $('input#userCredit').val();
+//                                  data.userReseller = $('input#userReseller').is(':checked');
+//                                  alert();
+//                        }"
+//            ]);
 
     }
 
     protected function columns()
     {
         return [
+            //Column::make('check')->title('')->width(10)->orderable(false),
             Column::make('name'),
             Column::make('project')->title('Project'),
             Column::make('due_on')->title('Due')->width(150),

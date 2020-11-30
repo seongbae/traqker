@@ -3,9 +3,16 @@
         <x-canvas-input name="name" :value="old('name', $task->name ?? '')" :autofocus="true"/>
         <x-canvas-textarea name="description" :value="old('description', $task->description ?? '')" />
         <x-canvas-select name="priority" :options="$priority" :value="old('priority', $task->priority ?? '')" />
-        @if (count($users)>0)
-        <x-canvas-select name="assigned_to" :options="$users" :value="old('assigned_to', $task->assigned_to ?? '')" />
-        @endif
+
+        <div class="list-group-item py-3">
+            <div class="row">
+                <label for="description" class="col-form-label col-md-2">Assigned to</label>
+                <div class="col-md tagsinput">
+                    <input type="text" name="assignees" class="form-control" id="assignees">
+                </div>
+            </div>
+        </div>
+
         <x-canvas-select name="project_id" label="Project" :options="$projects" :value="old('project_id', $task->project_id ?? $project_id ?? '')" />
     </div>
     <div class="col-lg-6">

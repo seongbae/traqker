@@ -33,11 +33,11 @@
   @stack('styles')
 
 
-    <script src="{{ asset('canvas/js/jquery.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script
+  <script src="{{ asset('canvas/js/jquery.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 
 
-    <script src="{{ asset('canvas/js/moment.min.js') }}"></script>
+  <script src="{{ asset('canvas/js/moment.min.js') }}"></script>
   <script src="{{ asset('canvas/js/bootstrap.min.js') }}"></script>
   <script src="{{ asset('canvas/js/adminlte.min.js') }}"></script>
   <script src="{{ asset('canvas/js/datatables.min.js') }}"></script>
@@ -49,6 +49,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.3.1/bloodhound.min.js"></script>
+
     <script src="{{ asset('js/vendor.js') }}"></script>
 
 </head>

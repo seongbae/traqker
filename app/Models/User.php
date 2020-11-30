@@ -154,24 +154,49 @@ class User extends Authenticatable implements Searchable
         return $this->hasMany(Hour::class);
     }
 
-    public function assignedTasks()
-    {
-        return $this->hasMany(Task::class, 'assigned_to');
-    }
+//    public function assignedTasks()
+//    {
+//        return $this->hasMany(Task::class, 'assigned_to');
+//    }
 
-    public function myTasks()
-    {
-        return $this->hasMany(Task::class, 'user_id');
-    }
+//    public function myTasks()
+//    {
+//        return $this->hasMany(Task::class, 'user_id');
+//    }
+
+//    public function tasks()
+//    {
+//        return $this->assignedTasks->merge($this->myTasks);
+//    }
 
     public function tasks()
     {
-        return $this->assignedTasks->merge($this->myTasks);
+        return $this->belongsToMany(Task::class);
     }
 
     public function activeTasks()
     {
-        return $this->hasMany(Task::class, 'assigned_to')->where('status','!=','complete')->orderBy('created_at', 'desc');
+        return $this->tasks()->where('status','!=','complete')->orderBy('created_at', 'desc');
+    }
+
+    public function upcomingTasks()
+    {
+        return $this->tasks()->where('status','!=','complete')->whereNotNull('due_on')->where('due_on', '>=',Carbon::now())->orderBy('due_on');
+    }
+
+    public function deletedTasks()
+    {
+        return $this->tasks()->withTrashed()->whereNotNull('deleted_at');
+    }
+
+    public function archivedTasks()
+    {
+        return $this->tasks()->withoutGlobalScope(new ArchiveScope)->where('archived', true)->orderBy('completed_on','desc');
+    }
+
+    public function pastDueTasks()
+    {
+        return $this->tasks()->where('status','!=','complete')->where('due_on', '<',Carbon::now())->orderBy('due_on');
     }
 
     public function availabilities()
@@ -220,14 +245,7 @@ class User extends Authenticatable implements Searchable
 
     public function relatedComments($count=10)
     {
-        $tasks = Task::where('user_id', $this->id)->orWhere('assigned_to', $this->id)->get();
-
-        return Comment::whereIn('commentable_id', $tasks->pluck('id')->toArray())->orderBy('created_at','desc')->paginate($count);
-    }
-
-    public function upcomingTasks()
-    {
-        return $this->hasMany(Task::class, 'assigned_to')->where('status','!=','complete')->whereNotNull('due_on')->where('due_on', '>=',Carbon::now())->orderBy('due_on');
+        return Comment::whereIn('commentable_id', $this->tasks()->pluck('id')->toArray())->orderBy('created_at','desc')->paginate($count);
     }
 
     public function getAvailability($timezone)
@@ -242,21 +260,6 @@ class User extends Authenticatable implements Searchable
         }
 
         return $availabilities;
-    }
-
-    public function deletedTasks()
-    {
-        return $this->hasMany(Task::class, 'user_id')->withTrashed()->whereNotNull('deleted_at');
-    }
-
-    public function archivedTasks()
-    {
-        return $this->hasMany(Task::class, 'user_id')->withoutGlobalScope(new ArchiveScope)->where('archived', true)->orderBy('completed_on','desc');
-    }
-
-    public function pastDueTasks()
-    {
-        return $this->hasMany(Task::class, 'assigned_to')->where('status','!=','complete')->where('due_on', '<',Carbon::now())->orderBy('due_on');
     }
 
     public function quicklinks()

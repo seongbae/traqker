@@ -16,6 +16,9 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::get('tasks/{task}/archive', 'TaskController@archiveTask')->name('tasks.archive');
     Route::get('tasks/{task}/unarchive', 'TaskController@unarchiveTask')->name('tasks.unarchive');
 
+    Route::get('tasks/archived', 'TaskController@indexArchived');
+    Route::get('tasks/deleted', 'TaskController@indexDeleted');
+    Route::get('tasks/completed', 'TaskController@indexCompleted');
     Route::resource('tasks', 'TaskController');
     Route::get('sections/create/{project}', 'SectionController@create');
     Route::post('sections/orders', 'SectionController@updateOrders');

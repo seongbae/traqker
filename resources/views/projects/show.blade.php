@@ -60,7 +60,7 @@
                             @foreach($project->noSectionTasks as $task)
                                 <tr data-id="task-{{$task->id}}" data-type="task" data-section-id="{{$task->section_id}}"  class="task-row">
                                     <td><a href="{{ route('tasks.show', ['task'=>$task])}}">{{$task->name}}</a></td>
-                                    <td>{{$task->assigned->name}}</td>
+                                    <td>@include('partials.task_assigned',['users'=>$task->users])</td>
                                     <td>{{$task->due_on}}</td>
                                     <td>{{$task->priority}}</td>
                                     <td></td>
@@ -84,7 +84,7 @@
                                 @foreach($section->tasks as $task)
                                     <tr data-id="task-{{$task->id}}" data-type="task" data-section-id="{{$task->section_id}}"  class="task-row">
                                         <td><a href="{{ route('tasks.show', ['task'=>$task])}}">{{$task->name}}</a></td>
-                                        <td>{{$task->assigned->name}}</td>
+                                        <td>@include('partials.task_assigned',['users'=>$task->users])</td>
                                         <td>{{$task->due_on}}</td>
                                         <td>{{$task->priority}}</td>
                                         <td></td>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Datatables\TaskDatatable;
 use App\Http\Requests\TaskRequest;
+use App\Scopes\CompletedScope;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Auth;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Hour;
 use Illuminate\Support\Facades\Mail;
 use App\Scopes\ArchiveScope;
+use App\Http\Resources\MemberResource;
 
 class TaskController extends Controller
 {
@@ -24,20 +26,13 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        $status = $request->get('status');
-        $project = $request->get('project');
+        $status = $request->get('completed');
         $deleted = $request->get('deleted');
         $archived = $request->get('archived');
 
         if ($status)
             $query = Task::with('assigned')->with('project')
                 ->where('status', $status)
-                ->where(function($query) {
-                    $query->where('user_id', Auth::id())->orWhere('assigned_to', Auth::id());
-                });
-        else if ($project)
-            $query = Task::with('assigned')->with('project')
-                ->where('project_id', $project)
                 ->where(function($query) {
                     $query->where('user_id', Auth::id())->orWhere('assigned_to', Auth::id());
                 });
@@ -50,7 +45,40 @@ class TaskController extends Controller
                     $query->where('user_id', Auth::id())->orWhere('assigned_to', Auth::id());
                 });
         else
-            $query = Task::with('assigned')->with('project')->where('assigned_to', Auth::id());
+            $query = Auth::user()->tasks;
+
+        $datatables = TaskDatatable::make($query);
+
+        return $request->ajax()
+            ? $datatables->json()
+            : view('tasks.index', $datatables->html());
+    }
+
+    public function indexArchived(Request $request)
+    {
+        $query = Auth::user()->tasks()->withoutGlobalScope(ArchiveScope::class)->where('archived', true);
+
+        $datatables = TaskDatatable::make($query);
+
+        return $request->ajax()
+            ? $datatables->json()
+            : view('tasks.index', $datatables->html());
+    }
+
+    public function indexDeleted(Request $request)
+    {
+        $query = Auth::user()->tasks()->withTrashed()->whereNotNull('deleted_at');
+
+        $datatables = TaskDatatable::make($query);
+
+        return $request->ajax()
+            ? $datatables->json()
+            : view('tasks.index', $datatables->html());
+    }
+
+    public function indexCompleted(Request $request)
+    {
+        $query = Auth::user()->tasks()->withoutGlobalScope(CompletedScope::class)->where('status', 'complete')->select('tasks.*');
 
         $datatables = TaskDatatable::make($query);
 
@@ -86,17 +114,14 @@ class TaskController extends Controller
 
     public function store(TaskRequest $request)
     {
-        if ($request->assigned_to)
-            $assignedTo = $request->assigned_to;
-        else
-            $assignedTo = Auth::id();
-
         if ($request->priority)
             $priority = $request->priority;
         else
             $priority = "medium";
 
-        $task = Task::create(array_merge($request->all(),['user_id'=>Auth::id(),'status'=>'created','priority'=>$priority, 'assigned_to'=>$assignedTo]));
+        $task = Task::create(array_merge($request->all(),['user_id'=>Auth::id(),'status'=>'created','priority'=>$priority]));
+
+        $task->users()->attach(Auth::id());
 
         if ($request->ajax())
             return $request->json([], 200);
@@ -126,9 +151,15 @@ class TaskController extends Controller
 
         $priority = ['high','medium','low'];
 
-        $users = User::all()->pluck('id','name')->toArray();
+        $users = [];
+        if ($task->project_id)
+            $users = MemberResource::collection($task->project->members);
+        else
+            $users[] = array('value'=>Auth::id(), 'text'=>Auth::user()->name);
 
-        return view('tasks.edit', compact('task', 'projects', 'users', 'priority'));
+        $assignees = MemberResource::collection($task->users);
+
+        return view('tasks.edit', compact('task', 'projects', 'users', 'priority', 'assignees'));
     }
 
     public function update(TaskRequest $request, Task $task)
@@ -136,6 +167,11 @@ class TaskController extends Controller
         $this->authorize('update', $task);
 
         $task->update($request->all());
+
+        if ($request->assignees)
+            $task->users()->syncWithoutDetaching($request->assignees);
+        else
+            $task->users()->detach();
 
         if ($request->orders)
         {

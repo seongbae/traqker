@@ -45,14 +45,14 @@ class Task extends Model implements Searchable
         return Carbon::parse($this->due_on)->endOfDay();
     }
 
-    public function assigned()
-    {
-        return $this->belongsTo(User::class, 'assigned_to')->withDefault(['name' => null]);
-    }
-
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
 
     public function project()

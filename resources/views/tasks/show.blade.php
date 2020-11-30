@@ -71,8 +71,8 @@
                                     Assigned to
                                 </div>
                                 <div class="col-md">
-                                   @if ($task->assigned_to)
-                                   <img src="/storage/{{$task->assigned->photo}}" alt="{{$task->assigned->name}}" class="rounded-circle profile-small mr-2">{{ $task->assigned->name }}
+                                   @if (count($task->users) > 0)
+                                        @include('partials.task_assigned',['users'=>$task->users])
                                    @endif
                                 </div>
                             </div>

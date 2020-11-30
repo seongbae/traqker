@@ -12,7 +12,6 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('assigned_to')->nullable();
             $table->date('start_on')->nullable();
             $table->date('due_on')->nullable();
             $table->date('completed_on')->nullable();
@@ -21,7 +20,6 @@ class CreateTasksTable extends Migration
             $table->integer('user_id');
             $table->integer('project_id')->nullable();
             $table->integer('parent_id')->nullable();
-            $table->boolean('paid')->default(false);
             $table->timestamps();
         });
     }

@@ -63,7 +63,7 @@ if (isset($_GET['code'])) { // Redirect w/ code
               <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
-                            <form action="/admin/users/{{$user->id}}" method="POST" enctype="multipart/form-data" style="display:inline;">
+                            <form action="/admin/users/{{$user->id}}" method="POST" enctype="multipart/form-data" style="display:inline;" autocomplete="off">
                                 {{ csrf_field() }}
                                  @method('PUT')
                                 <div class="form-group">

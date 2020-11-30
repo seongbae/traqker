@@ -26,26 +26,7 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        $status = $request->get('completed');
-        $deleted = $request->get('deleted');
-        $archived = $request->get('archived');
-
-        if ($status)
-            $query = Task::with('assigned')->with('project')
-                ->where('status', $status)
-                ->where(function($query) {
-                    $query->where('user_id', Auth::id())->orWhere('assigned_to', Auth::id());
-                });
-        else if ($deleted == 1)
-            $query = Task::withTrashed()->with('assigned')->with('project')->where('user_id', Auth::id())->whereNotNull('deleted_at');
-        else if ($archived == 1)
-            $query = Task::with('assigned')->with('project')->withoutGlobalScope(ArchiveScope::class)
-                ->where('archived', true)
-                ->where(function($query) {
-                    $query->where('user_id', Auth::id())->orWhere('assigned_to', Auth::id());
-                });
-        else
-            $query = Auth::user()->tasks;
+        $query = Auth::user()->tasks;
 
         $datatables = TaskDatatable::make($query);
 

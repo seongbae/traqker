@@ -98,44 +98,44 @@ if (isset($_GET['code'])) { // Redirect w/ code
                     </div>
 
               </div>
-              <div class="tab-pane fade" id="payentmethods" role="tabpanel" aria-labelledby="payentmethods-tab">
-                Payout methods are for sending payment to others. You can use credit card or PayPal.
+{{--              <div class="tab-pane fade" id="payentmethods" role="tabpanel" aria-labelledby="payentmethods-tab">--}}
+{{--                Payout methods are for sending payment to others. You can use credit card or PayPal.--}}
 
-                <div class="mt-4">
-                  <form method="POST" action="/account/payment">
-                      @csrf
-                      <div class="form-group">
-                        <label form="paypal_client_id">PayPal Client ID</label>
-                        <input type="text" name="paypal_client_id" value="{{ old('paypal_client_id', $user->paypal_client_id ?? '')}}" class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label form="paypal_secret">PayPal Secret</label>
-                        <input type="text" name="paypal_secret" value="{{ old('paypal_secret', $user->paypal_secret ?? '')}}" class="form-control">
-                      </div>
-                      <button type="submit" class="btn btn-primary mr-2">Save</button>
+{{--                <div class="mt-4">--}}
+{{--                  <form method="POST" action="/account/payment">--}}
+{{--                      @csrf--}}
+{{--                      <div class="form-group">--}}
+{{--                        <label form="paypal_client_id">PayPal Client ID</label>--}}
+{{--                        <input type="text" name="paypal_client_id" value="{{ old('paypal_client_id', $user->paypal_client_id ?? '')}}" class="form-control">--}}
+{{--                      </div>--}}
+{{--                      <div class="form-group">--}}
+{{--                        <label form="paypal_secret">PayPal Secret</label>--}}
+{{--                        <input type="text" name="paypal_secret" value="{{ old('paypal_secret', $user->paypal_secret ?? '')}}" class="form-control">--}}
+{{--                      </div>--}}
+{{--                      <button type="submit" class="btn btn-primary mr-2">Save</button>--}}
 
-                  </form>
+{{--                  </form>--}}
 
-                  </div>
-              </div>
+{{--                  </div>--}}
+{{--              </div>--}}
 
-              <div class="tab-pane fade" id="payoutmethods" role="tabpanel" aria-labelledby="payoutmethods-tab">
-                Payout methods are for receiving payment. You can use Stripe or PayPal to receive payment from others.
-                <div class="mt-4">
-                <form method="POST" action="/account/payment">
-                    @csrf
-                    <div class="form-group">
-                      <label form="paypal_email">PayPal E-mail</label>
-                      <input type="text" name="paypal_email" value="{{ old('paypal_email', $user->paypal_email ?? '')}}" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-primary mr-2">Save</button>
+{{--              <div class="tab-pane fade" id="payoutmethods" role="tabpanel" aria-labelledby="payoutmethods-tab">--}}
+{{--                Payout methods are for receiving payment. You can use Stripe or PayPal to receive payment from others.--}}
+{{--                <div class="mt-4">--}}
+{{--                <form method="POST" action="/account/payment">--}}
+{{--                    @csrf--}}
+{{--                    <div class="form-group">--}}
+{{--                      <label form="paypal_email">PayPal E-mail</label>--}}
+{{--                      <input type="text" name="paypal_email" value="{{ old('paypal_email', $user->paypal_email ?? '')}}" class="form-control">--}}
+{{--                    </div>--}}
+{{--                    <button type="submit" class="btn btn-primary mr-2">Save</button>--}}
 
-                </form>
-              </div>
+{{--                </form>--}}
+{{--              </div>--}}
 
-                <a href="{{$url}}" class="btn btn-primary" style="display:none;">Connect with Stripe</a>
+{{--                <a href="{{$url}}" class="btn btn-primary" style="display:none;">Connect with Stripe</a>--}}
 
-              </div>
+{{--              </div>--}}
               <div class="tab-pane fade" id="availability" role="tabpanel" aria-labelledby="availability-tab">
                 <p>My timezone: {{ Auth::user()->timezone }}</p>
                 <div id="dp"></div>
@@ -163,96 +163,96 @@ if (isset($_GET['code'])) { // Redirect w/ code
                       <a href="{{ route('teams.create') }}" class="btn btn-primary">{{ __('Create Team') }}</a>
                   </div>
               </div>
-              <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">
-                <div class="row">
-          <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>${{ number_format(Auth::user()->getTotalEarned()) }}</h3>
-
-                <p>Total Earned</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-dollar-sign"></i>
-              </div>
-
-            </div>
-          </div>
-          <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>{{ Auth::user()->getTotalTimeSpent() }} <sup style="font-size: 16px">hours</sup></h3>
-
-                <p>Total Time Spent</p>
-              </div>
-              <div class="icon">
-                <i class="far fa-clock"></i>
-              </div>
-
-            </div>
-          </div>
-          <!-- ./col -->
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>{{ Auth::user()->getOnTimeCompletionRate() }} <sup style="font-size: 16px">%</sup></h3>
-
-                <p>On-Time Completion Rate</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-history"></i>
-              </div>
-
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small card -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>{{ Auth::user()->getEfficiencyRate() }} <sup style="font-size: 16px">%</sup></h3>
-
-                <p>Efficiency Rate</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-user-ninja"></i>
-              </div>
-
-            </div>
-          </div>
-          <!-- ./col -->
-        </div>
-                  <div class="col-md-auto mb-3 mb-md-0">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Amount</th>
-                          <th>From</th>
-                          <th>To</th>
-                          <th>Method</th>
-                          <th>Transaction ID</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      @foreach(Auth::user()->transactions as $payment)
-                      <tr>
-                        <td>{{$payment->created_at->format('Y-m-d')}}</a></td>
-                        <td>${{$payment->amount}}</td>
-                        <td><img src="/storage/{{ $payment->payer->photo }}" class="profile-small img-circle"> {{$payment->payer->name}}</a></td>
-                        <td><img src="/storage/{{ $payment->payee->photo }}" class="profile-small img-circle"> {{$payment->payee->name }}</td>
-                        <td>{{$payment->method}}</td>
-                        <td>{{$payment->external_transaction_id}}</td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                    </table>
-                  </div>
-              </div>
+{{--              <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">--}}
+{{--                <div class="row">--}}
+{{--                  <div class="col-lg-3 col-6">--}}
+{{--                    <!-- small card -->--}}
+{{--                    <div class="small-box bg-success">--}}
+{{--                      <div class="inner">--}}
+{{--                        <h3>${{ number_format(Auth::user()->getTotalEarned()) }}</h3>--}}
+{{--        --}}
+{{--                        <p>Total Earned</p>--}}
+{{--                      </div>--}}
+{{--                      <div class="icon">--}}
+{{--                        <i class="fas fa-dollar-sign"></i>--}}
+{{--                      </div>--}}
+{{--        --}}
+{{--                    </div>--}}
+{{--                  </div>--}}
+{{--                  <div class="col-lg-3 col-6">--}}
+{{--                    <!-- small card -->--}}
+{{--                    <div class="small-box bg-info">--}}
+{{--                      <div class="inner">--}}
+{{--                        <h3>{{ Auth::user()->getTotalTimeSpent() }} <sup style="font-size: 16px">hours</sup></h3>--}}
+{{--        --}}
+{{--                        <p>Total Time Spent</p>--}}
+{{--                      </div>--}}
+{{--                      <div class="icon">--}}
+{{--                        <i class="far fa-clock"></i>--}}
+{{--                      </div>--}}
+{{--        --}}
+{{--                    </div>--}}
+{{--                  </div>--}}
+{{--                  <!-- ./col -->--}}
+{{--                  <!-- ./col -->--}}
+{{--                  <div class="col-lg-3 col-6">--}}
+{{--                    <!-- small card -->--}}
+{{--                    <div class="small-box bg-warning">--}}
+{{--                      <div class="inner">--}}
+{{--                        <h3>{{ Auth::user()->getOnTimeCompletionRate() }} <sup style="font-size: 16px">%</sup></h3>--}}
+{{--        --}}
+{{--                        <p>On-Time Completion Rate</p>--}}
+{{--                      </div>--}}
+{{--                      <div class="icon">--}}
+{{--                        <i class="fas fa-history"></i>--}}
+{{--                      </div>--}}
+{{--        --}}
+{{--                    </div>--}}
+{{--                  </div>--}}
+{{--                  <!-- ./col -->--}}
+{{--                  <div class="col-lg-3 col-6">--}}
+{{--                    <!-- small card -->--}}
+{{--                    <div class="small-box bg-danger">--}}
+{{--                      <div class="inner">--}}
+{{--                        <h3>{{ Auth::user()->getEfficiencyRate() }} <sup style="font-size: 16px">%</sup></h3>--}}
+{{--        --}}
+{{--                        <p>Efficiency Rate</p>--}}
+{{--                      </div>--}}
+{{--                      <div class="icon">--}}
+{{--                        <i class="fas fa-user-ninja"></i>--}}
+{{--                      </div>--}}
+{{--        --}}
+{{--                    </div>--}}
+{{--                  </div>--}}
+{{--                  <!-- ./col -->--}}
+{{--                </div>--}}
+{{--                  <div class="col-md-auto mb-3 mb-md-0">--}}
+{{--                    <table class="table">--}}
+{{--                      <thead>--}}
+{{--                        <tr>--}}
+{{--                          <th>Date</th>--}}
+{{--                          <th>Amount</th>--}}
+{{--                          <th>From</th>--}}
+{{--                          <th>To</th>--}}
+{{--                          <th>Method</th>--}}
+{{--                          <th>Transaction ID</th>--}}
+{{--                        </tr>--}}
+{{--                      </thead>--}}
+{{--                      <tbody>--}}
+{{--                      @foreach(Auth::user()->transactions as $payment)--}}
+{{--                      <tr>--}}
+{{--                        <td>{{$payment->created_at->format('Y-m-d')}}</a></td>--}}
+{{--                        <td>${{$payment->amount}}</td>--}}
+{{--                        <td><img src="/storage/{{ $payment->payer->photo }}" class="profile-small img-circle"> {{$payment->payer->name}}</a></td>--}}
+{{--                        <td><img src="/storage/{{ $payment->payee->photo }}" class="profile-small img-circle"> {{$payment->payee->name }}</td>--}}
+{{--                        <td>{{$payment->method}}</td>--}}
+{{--                        <td>{{$payment->external_transaction_id}}</td>--}}
+{{--                      </tr>--}}
+{{--                      @endforeach--}}
+{{--                    </tbody>--}}
+{{--                    </table>--}}
+{{--                  </div>--}}
+{{--              </div>--}}
             </div>
 
         </div>

@@ -44,20 +44,6 @@ class TaskDatatable extends Datatable
             ->setTableId("tasks-table")
             ->serverSide(true)
             ->processing(true);
-//            ->ajax([
-//                'url'  => '/tasks',
-//                'data' => "function(data){
-//                                  data.fromDate      = $('input#fromDate').val();
-//                                  data.toDate          = $('input#toDate').val();
-//                                  data.searchBox    = $('input#searchBox').val();
-//                                  data.userStatus    = $('select[name=userStatus]').val();
-//                                  data.userGender  = $('select[name=userGender]').val();
-//                                  data.userCredit    = $('input#userCredit').val();
-//                                  data.userReseller = $('input#userReseller').is(':checked');
-//                                  alert();
-//                        }"
-//            ]);
-
     }
 
     protected function columns()

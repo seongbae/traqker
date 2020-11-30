@@ -48,7 +48,7 @@ class UpdateTaskAssignedCmd extends Command
         {
             if ($task->assigned_to)
             {
-                $task->users()->save($task->assigned_to);
+                $task->users()->attach($task->assigned_to);
                 $task->save();
             }
 

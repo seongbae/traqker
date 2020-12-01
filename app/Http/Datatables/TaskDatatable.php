@@ -35,6 +35,19 @@ class TaskDatatable extends Datatable
             else
                 return '';
         })
+        ->addColumn('assignees', function ($query) {
+            $membersHtml = "";
+
+            if ($query->users->count() > 0)
+            {
+                foreach($query->users as $member)
+                {
+                    $membersHtml .= '<img src="/storage/'.$member->photo .'" alt="{'.$member->name .'" title="'.$member->name .'" class="rounded-circle profile-small mr-1">';
+                }
+            }
+
+            return $membersHtml;
+        })
         ->escapeColumns([]);
     }
 
@@ -51,6 +64,7 @@ class TaskDatatable extends Datatable
         return [
             //Column::make('check')->title('')->width(10)->orderable(false),
             Column::make('name'),
+            Column::make('assignees'),
             Column::make('project')->title('Project'),
             Column::make('due_on')->title('Due')->width(150),
             Column::make('created_at')->hidden()

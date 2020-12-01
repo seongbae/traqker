@@ -70,13 +70,23 @@ class TaskController extends Controller
 
     public function create()
     {
-        $projects = Project::where('user_id', Auth::id())->get();
-
         $users = [];
-        foreach($projects as $project)
-            foreach($project->members as $member)
-                if (!array_key_exists($member->id, $users))
-                    $users[$member->id] = $member->name;
+        $assignees = [];
+
+        if (app('request')->input('project'))
+        {
+            $project = Project::find(app('request')->input('project'));
+
+            if ($project)
+                $users = MemberResource::collection($project->members);
+        }
+        else
+        {
+            foreach(Auth::user()->projects as $project)
+                foreach($project->members as $member)
+                    if (!array_key_exists($member->id, $users))
+                        $users[] = array('value'=>$member->id, 'text'=>$member->name);
+        }
 
         if (app('request')->input('type') == 'milestone')
             $milestone = 1;
@@ -86,11 +96,12 @@ class TaskController extends Controller
         $priority = ['high','medium','low'];
 
         return view('tasks.create')
-                ->with('projects', $projects->pluck('id','name')->toArray())
-                ->with('users', array_flip($users))
+                ->with('projects', Auth::user()->projects->pluck('id','name')->toArray())
+                ->with('users', $users)
                 ->with('task', null)
                 ->with('priority', $priority)
-                ->with('milestone', $milestone);
+                ->with('milestone', $milestone)
+                ->with('assignees', $assignees);
     }
 
     public function store(TaskRequest $request)
@@ -102,7 +113,10 @@ class TaskController extends Controller
 
         $task = Task::create(array_merge($request->all(),['user_id'=>Auth::id(),'status'=>'created','priority'=>$priority]));
 
-        $task->users()->attach(Auth::id());
+        if ($request->project_id && $request->assignees)
+            $task->users()->syncWithoutDetaching(explode(",", $request->assignees));
+        else
+            $task->users()->attach(Auth::id());
 
         if ($request->ajax())
             return $request->json([], 200);

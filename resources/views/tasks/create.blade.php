@@ -2,6 +2,7 @@
 
 @section('title', __('Create Task'))
 @section('content')
+    <div class="container">
         <form method="post" action="{{ route('tasks.store') }}"  enctype="multipart/form-data">
             @csrf
 
@@ -18,4 +19,7 @@
                 </div>
             </div>
         </form>
+    </div>
 @endsection
+
+@include('tasks.scripts')

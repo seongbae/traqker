@@ -26,7 +26,7 @@ class ProjectDatatable extends Datatable
             {
                 foreach($query->members as $member)
                 {
-                    $membersHtml .= '<img src="/storage/'.$member->photo .'" alt="{'.$member->name .'" title="'.$member->name .'" class="img-circle elevation-2 " style="width:24px;">';
+                    $membersHtml .= '<img src="/storage/'.$member->photo .'" alt="{'.$member->name .'" title="'.$member->name .'" class=" rounded-circle profile-small mr-1">';
                 }
             }
 

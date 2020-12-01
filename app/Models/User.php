@@ -171,7 +171,7 @@ class User extends Authenticatable implements Searchable
 
     public function tasks()
     {
-        return $this->belongsToMany(Task::class)->with('project');
+        return $this->belongsToMany(Task::class)->with('project')->with('users');
     }
 
     public function activeTasks()

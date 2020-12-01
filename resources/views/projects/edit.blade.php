@@ -14,11 +14,6 @@
                 @include('projects.fields', ['action'=>'edit'])
 
                 <div class="card-footer text-md-right border-top-0">
-                    <a href="{{ route('projects.destroy', $project) }}" class="btn {{ !request()->ajax() ? 'btn-danger' : 'btn-link text-secondary p-1' }}" title="{{ __('Delete') }}"
-                       onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_project_{{ $project->id }}_form').submit();">
-                        <i class="far fa-trash-alt {{ !request()->ajax() ? 'fa-fw' : '' }}"></i>
-                    </a>
-
                     <button type="submit" name="submit" value="reload" class="btn btn-primary">{{ __('Update & Continue Edit') }}</button>
                     <button type="submit" name="submit" value="redirect" class="btn btn-primary">{{ __('Update') }}</button>
                 </div>

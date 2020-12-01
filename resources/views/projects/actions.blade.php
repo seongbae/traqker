@@ -10,17 +10,17 @@
         <input type="hidden" name="archived" value="0">
     </form>
     @else
-    <a href="{{ route('projects.edit', $project->id) }}" class="btn {{ !request()->ajax() ? 'btn-primary' : 'btn-link text-secondary p-1' }}" title="{{ __('Edit') }}">
+    <a href="{{ route('projects.edit', $project) }}" class="btn {{ !request()->ajax() ? 'btn-primary' : 'btn-link text-secondary p-1' }}" title="{{ __('Edit') }}">
         <i class="far fa-edit {{ !request()->ajax() ? 'fa-fw' : '' }}"></i>
     </a>
     @endif
 
-    <a href="{{ route('projects.destroy', $project->id) }}" class="btn {{ !request()->ajax() ? 'btn-primary' : 'btn-link text-secondary p-1' }}" title="{{ __('Delete') }}"
+    <a href="{{ route('projects.destroy', $project) }}" class="btn {{ !request()->ajax() ? 'btn-primary' : 'btn-link text-secondary p-1' }}" title="{{ __('Delete') }}"
        onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_project_{{ $project->id }}_form').submit();">
         <i class="far fa-trash-alt {{ !request()->ajax() ? 'fa-fw' : '' }}"></i>
     </a>
 
-    <form method="post" action="{{ route('projects.destroy', $project->id) }}" id="delete_project_{{ $project->id }}_form" class="d-none">
+    <form method="post" action="{{ route('projects.destroy', $project) }}" id="delete_project_{{ $project->id }}_form" class="d-none">
         @csrf
         @method('delete')
     </form>

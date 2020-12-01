@@ -27,7 +27,6 @@ class ProjectDatatable extends Datatable
                 foreach($query->members as $member)
                 {
                     $membersHtml .= '<img src="/storage/'.$member->photo .'" alt="{'.$member->name .'" title="'.$member->name .'" class="img-circle elevation-2 " style="width:24px;">';
-;
                 }
             }
 
@@ -52,8 +51,6 @@ class ProjectDatatable extends Datatable
         return [
             Column::make('name'),
             Column::make('members')
-            //Column::make('created_at')->title('Created')
-
         ];
     }
 

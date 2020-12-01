@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MemberResource;
 use App\Models\Project;
 use App\Http\Datatables\ProjectDatatable;
 use App\Http\Datatables\AttachmentDatatable;
@@ -39,7 +40,7 @@ class ProjectController extends Controller
 
     public function indexArchived(Request $request)
     {
-        $query = Auth::user()->projects()->withoutGlobalScope(ArchiveScope::class)->where('archived',1);
+        $query = Auth::user()->projects()->withoutGlobalScope(ArchiveScope::class);
         $datatables = ProjectDatatable::make($query);
 
         return $request->ajax()
@@ -132,10 +133,23 @@ class ProjectController extends Controller
                         $q->whereIn('teams.id', $teamIds);
                     })->pluck('id','name')->toArray();
         $data = $project->members;
-        $memberDeleteLink = '/project/'.$project->id.'/user/';
-        $additionalFields = array();
 
-        return view('projects.edit', compact('project', 'projects', 'teams', 'users', 'data','memberDeleteLink','additionalFields'));
+        $availableUsers = [];
+        foreach(Auth::user()->teams as $team)
+        {
+            if ($team->pivot->access == 'owner' || $team->pivot->access == 'manager')
+            {
+                foreach($team->members as $member)
+                {
+                    if (!in_array($member->id, $availableUsers))
+                        $availableUsers[] = array('value'=>$member->id, 'text'=>$member->name);
+                }
+            }
+        }
+
+        $projectUsers = MemberResource::collection($project->members);
+
+        return view('projects.edit', compact('project', 'projects', 'teams', 'users', 'data','availableUsers', 'projectUsers'));
     }
 
     public function update(ProjectRequest $request, Project $project)
@@ -144,20 +158,30 @@ class ProjectController extends Controller
 
         $project->update($request->all());
 
-        if($request->get('project_user'))
+        if (!$request->has('archived'))
         {
-            if (!$project->members->contains($request->get('project_user')))
-            {
-                $project->members()->attach($request->get('project_user'));
-                Mail::to(User::find($request->get('project_user')))->send(new MemberAdded($project));
-            }
+            if ($request->users)
+                $project->members()->sync(explode(",", $request->users));
+            else
+                $project->members()->detach();
         }
-
+        
         if ($request->team_id)
             $project->teams()->sync($request->team_id);
 
         return $request->input('submit') == 'reload'
-            ? redirect()->route('projects.edit', $project->id)
+            ? redirect()->route('projects.edit', $project)
+            : redirect()->route('projects.show', $project);
+    }
+
+    public function archive(ProjectRequest $request, Project $project)
+    {
+        $this->authorize('update', $project);
+
+        $project->update($request->all());
+
+        return $request->input('submit') == 'reload'
+            ? redirect()->route('projects.edit', $project)
             : redirect()->route('projects.index');
     }
 

@@ -111,9 +111,9 @@
                                         <i class="fas fa-chevron-down"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{ route('projects.edit', $project->id) }}">Edit</a>
+                                        <a class="dropdown-item" href="{{ route('projects.edit', $project) }}">Edit</a>
                                         <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_project_{{ $project->id }}_form').submit();">Delete</a>
-                                        <form method="post" action="{{ route('projects.destroy', $project->id) }}" id="delete_project_{{ $project->id }}_form" class="d-none">
+                                        <form method="post" action="{{ route('projects.destroy', $project) }}" id="delete_project_{{ $project->id }}_form" class="d-none">
                                             @csrf
                                             @method('delete')
                                         </form>

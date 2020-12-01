@@ -96,6 +96,21 @@ class Project extends Model
 	        $query->user_id = auth()->id();
 	    });
 
+        static::updating(function ($query) {
+            if($query->isDirty('archived')){
+                foreach($query->tasks as $task)
+                {
+                    $task->archived = $query->archived;
+                    $task->save();
+                }
+            }
+        });
+
+        static::deleting(function ($query) {
+            foreach($query->tasks as $task)
+                $task->delete();
+        });
+
         static::addGlobalScope(new ArchiveScope);
 	}
 

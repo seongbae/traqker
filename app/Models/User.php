@@ -346,6 +346,15 @@ class User extends Authenticatable implements Searchable
             return false;
     }
 
+    public function canManageTeam($team)
+    {
+        foreach($team->members as $member)
+            if ($member->id == $this->id && in_array($member->pivot->access, ["owner","manager"]))
+                return true;
+
+        return false;
+    }
+
     public function getTotalEarned()
     {
         return $this->paymentReceived()->where('payee_id',Auth::id())->sum('amount');

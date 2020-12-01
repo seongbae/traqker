@@ -165,7 +165,7 @@ class ProjectController extends Controller
             else
                 $project->members()->detach();
         }
-        
+
         if ($request->team_id)
             $project->teams()->sync($request->team_id);
 

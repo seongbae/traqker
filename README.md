@@ -21,7 +21,7 @@
   <h3 align="center">Traqker</h3>
 
   <p align="center">
-    Traqker is an open source project management tool.
+    Traqker is an open source project and task management tool.
   </p>
 </p>
 
@@ -52,14 +52,14 @@
 Traqker is a simple project management tool for small to medium-sized teams. 
 
 Features:
-* Manage projects
-* Archive projects
-* Manage teams - create teams and add/remove members
-* Manage tasks
+* Manage multiple projects
+* Manage project tasks
 * Track task status
-* View tasks on a calendar and kanban board
+* Manage teams
+* Kanban board and calendar
 * Share files with teams
-
+* E-mail & web notifications
+* Archive tasks & projects
 
 ### Built With
 * [Laravel](https://laravel.com)
@@ -130,21 +130,6 @@ Seong Bae - [@baeseong](https://twitter.com/baeseong) - seong@lnidigital.com
 
 Project Link: [https://github.com/seongbae/traqker](https://github.com/seongbae/traqker)
 
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
 
 
 

@@ -100,7 +100,6 @@ class Task extends Model implements Searchable
                 return "success";
                 break;
             default:
-                return "info";
                 break;
         }
     }

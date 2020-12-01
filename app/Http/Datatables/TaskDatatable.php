@@ -30,8 +30,8 @@ class TaskDatatable extends Datatable
             return '<span class="badge badge-'.$query->status_badge.'">'.$query->status.'</span>';
         })
         ->addColumn('project', function($query) {
-            if ($query->project != null)
-                return 'test';
+            if ($query->project_id)
+                return '<a href="'.route('projects.show',['project'=>$query->project]).'">'.$query->project->name.'</a>';
             else
                 return '';
         })

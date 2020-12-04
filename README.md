@@ -87,17 +87,21 @@ git clone https://github.com/seongbae/traqker.git
 ```sh
 composer install
 ```
-3. Install NPM packages
+3. Install & compile NPM packages
 ```sh
 npm install
+npm dev run
 ```
-
+4. Run the installation script
+```sh
+php artisan install:traqker
+```
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Documentation will be added later.
+You can log in with username: admin@admin.com and "password" as password upon initial installation.
 
 
 <!-- ROADMAP -->

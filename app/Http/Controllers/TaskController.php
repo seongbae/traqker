@@ -124,6 +124,13 @@ class TaskController extends Controller
         else
             $task->users()->attach(Auth::id());
 
+        if ($request->file('files')) {
+            $files = $request->file('files');
+            foreach ($files as $file) {
+                $task->addFile($file);
+            }
+        }
+
         if ($request->ajax())
             return $request->json([], 200);
 

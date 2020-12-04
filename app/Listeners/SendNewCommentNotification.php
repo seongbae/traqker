@@ -11,6 +11,7 @@ use App\Models\Task;
 use Auth;
 use App\Notifications\NewCommentNotification;
 use Notification;
+use Log;
 
 class SendNewCommentNotification
 {
@@ -32,14 +33,16 @@ class SendNewCommentNotification
      */
     public function handle(CommentCreated $event)
     {
-
         $notifyUsers = [];
 
         if ($event->comment->commenter_id != $event->comment->commentable->user_id)
             $notifyUsers[] = User::find($event->comment->commentable->user_id);
 
-        if ($event->comment->commentable->assigned_to && $event->comment->commenter_id != $event->comment->commentable->assigned_to)
-            $notifyUsers[] = User::find($event->comment->commentable->assigned_to);
+        foreach($event->comment->commentable->users as $assignee)
+        {
+            if (!in_array($assignee, $notifyUsers))
+                $notifyUsers[] = $assignee;
+        }
 
         if ($event->comment->child_id != null)
         {
@@ -51,6 +54,8 @@ class SendNewCommentNotification
         }
 
         $msg = "\"".$event->comment->comment."\""." on <i>".$event->comment->commentable->name."</i>";
+
+        Log::info('Notify Users: '.json_encode($notifyUsers));
 
         if (count($notifyUsers)>0)
            Notification::send($notifyUsers, new NewCommentNotification($event->comment->commenter, $event->comment, $msg));

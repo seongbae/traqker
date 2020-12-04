@@ -171,7 +171,7 @@
                                 Members<br>
                                 <div class="my-2">
                                 @foreach($project->members as $member)
-                                    <img src="/storage/{{ $member->photo }}" alt="{{ $member->name }}" title="{{ $member->name }}" class="img-circle elevation-2 " style="width:30px;">
+                                    <img src="/storage/{{ $member->photo }}" alt="{{ $member->name }}" title="{{ $member->name }}" class="rounded-circle profile-small mr-1" >
                                 @endforeach
                                 </div>
                             </div>

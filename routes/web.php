@@ -12,7 +12,7 @@ Route::get('home', [HomeController::class, 'index']);
 Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::get('dashboard', 'HomeController@showHome')->name('dashboard')->middleware('notifications');
 
-    Route::post('tasks/{task}/status', 'TaskController@updateStatus');
+    Route::put('tasks/{task}/status', 'TaskController@updateStatus');
     Route::get('tasks/{task}/archive', 'TaskController@archiveTask')->name('tasks.archive');
     Route::get('tasks/{task}/unarchive', 'TaskController@unarchiveTask')->name('tasks.unarchive');
 
@@ -39,6 +39,10 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::post('/team/{team}/add', 'TeamController@addMember');
     Route::delete('/team/{team}/remove/{user}', 'TeamController@removeMember')->name('team.remove');
     Route::delete('/invitations/{invitation}', 'InvitationController@destroy')->name('invitation.remove');
+
+    Route::get('/invites/{invite}', 'InvitationController@show')->name('invites.show');
+    Route::put('/invites/{invite}', 'InvitationController@update')->name('invites.update');
+
 
     Route::resource('notifications', 'NotificationController');
     Route::resource('attachments', 'AttachmentController');

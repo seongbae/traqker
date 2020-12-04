@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Attachment;
-use App\Events\TaskUpdated;
+use App\Events\TaskComplete;
 use App\Models\Task;
 use Auth;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +20,7 @@ class AttachmentObserver
     {
         if ($attachment->attachable instanceof Task)
         {
-            event(new TaskUpdated(Auth::user(), $attachment->attachable, "New attachment added"));
+            event(new TaskComplete(Auth::user(), $attachment->attachable, "New attachment added"));
         }
     }
 

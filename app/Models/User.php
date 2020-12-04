@@ -437,20 +437,6 @@ class User extends Authenticatable implements Searchable
             if (option('default_role'))
                 $user->assignRole(option('default_role'));
 
-            $invitation = Invitation::where('email',$user->email)->first();
-            if ($invitation)
-            {
-                if ($invitation->team_id)
-                {
-                    $user->teams()->attach($invitation->team_id);
-                }
-
-
-                $invitation->registered_at = $user->created_at;
-                $invitation->save();
-
-                $invitation->user->notify(new InviteAcceptedNotification($user, $user->name . ' has accepted your invitation.'));
-            }
         });
     }
 

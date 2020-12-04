@@ -6,7 +6,7 @@ use App\Models\Task;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TaskComplete;
 use App\Events\TaskAssigned;
-use App\Events\TaskUpdated;
+use App\Events\TaskComplete;
 use Illuminate\Support\Facades\Log;
 use Auth;
 use Carbon\Carbon;
@@ -54,7 +54,7 @@ class TaskObserver
             Mail::to($task->owner)->send(new TaskComplete($task));
         }
 
-        event(new TaskUpdated(Auth::user(), $task, "Task <strong>".$task->name."</strong> has been marked ".$task->status));
+        event(new TaskComplete(Auth::user(), $task, "Task <strong>".$task->name."</strong> has been marked ".$task->status));
       }
     }
 

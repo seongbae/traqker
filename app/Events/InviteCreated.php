@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,27 +12,17 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class TaskAssigned
+class InviteCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $task;
-    private $users;
-    private $msg;
+    private $invitation;
+    private $team;
+    private $user;
 
-    public function getTask()
+    public function getInvitation()
     {
-        return $this->task;
-    }
-
-    public function getUsers()
-    {
-        return $this->users;
-    }
-
-    public function getMessage()
-    {
-        return $this->msg;
+        return $this->invitation;
     }
 
     /**
@@ -39,11 +30,9 @@ class TaskAssigned
      *
      * @return void
      */
-    public function __construct($users, $task, $msg='New task assigned.')
+    public function __construct($invitation)
     {
-        $this->task = $task;
-        $this->users = $users;
-        $this->msg = $msg;
+        $this->invitation = $invitation;
     }
 
     /**
@@ -53,6 +42,6 @@ class TaskAssigned
      */
     public function broadcastOn()
     {
-        //return new PrivateChannel('channel-name');
+        return new PrivateChannel('channel-name');
     }
 }

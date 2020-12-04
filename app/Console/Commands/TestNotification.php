@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\InviteDeclined;
 use Illuminate\Console\Command;
 use App\Mail\MemberAdded;
 use App\Mail\TaskAssigned;
@@ -13,15 +14,16 @@ use App\Models\Task;
 use Illuminate\Support\Facades\Mail;
 use App\Events\InviteAccepted;
 use App\Models\Team;
+use App\Models\Invitation;
 
-class SendTeamJoinedNotification extends Command
+class TestNotification extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'team:join {userid} {teamid}';
+    protected $signature = 'send:notification';
 
     /**
      * The console command description.
@@ -47,16 +49,11 @@ class SendTeamJoinedNotification extends Command
      */
     public function handle()
     {
-        $user = User::find($this->argument('userid'));
-        $team = Team::find($this->argument('teamid'));
+        $invite = Invitation::find(21);
 
-        if ($user && $team)
+        if ($invite)
         {
-            event(new InviteAccepted($user, $team, $user, 'Hello world.  Thank you for joining traqker. '.$team->name));
-        }
-        else
-        {
-            echo "No user or team found.\n";
+            event(new InviteDeclined($invite));
         }
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Events;
-
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -13,27 +11,21 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class UserInvited
+class AddedToProject
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $invitation;
-    private $team;
-    private $msg;
+    private $project;
+    private $users;
 
-    public function getInvitation()
+    public function getProject()
     {
-        return $this->invitation;
+        return $this->project;
     }
 
-    public function getTeam()
+    public function getUsers()
     {
-        return $this->team;
-    }
-
-    public function getMessage()
-    {
-        return $this->msg;
+        return $this->users;
     }
 
     /**
@@ -41,11 +33,10 @@ class UserInvited
      *
      * @return void
      */
-    public function __construct($invitation, $team, $msg='Task has been updated.')
+    public function __construct($users, $project)
     {
-        $this->invitation = $invitation;
-        $this->team = $team;
-        $this->msg = $msg;
+        $this->project = $project;
+        $this->users = $users;
     }
 
     /**
@@ -55,6 +46,6 @@ class UserInvited
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        //return new PrivateChannel('App.User.'.$this->user->id);
     }
 }

@@ -8,24 +8,24 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 
-class TaskUpdatedNotification extends Notification
+class TaskCompleteNotification extends Notification
 {
     use Queueable;
 
     private $user;
     private $task;
-    private $msg;
+    private $subject;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $task, $msg=null)
+    public function __construct($user, $task)
     {
         $this->user = $user;
         $this->task = $task;
-        $this->msg = $msg;
+        $this->subject = "Task complete: ".$task->name;
     }
 
     /**
@@ -36,7 +36,7 @@ class TaskUpdatedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail','database'];
     }
 
     /**
@@ -45,13 +45,12 @@ class TaskUpdatedNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    // public function toMail($notifiable)
-    // {
-    //     return (new MailMessage)
-    //                 ->line('The introduction to the notification.')
-    //                 ->action('Notification Action', url('/'))
-    //                 ->line('Thank you for using our application!');
-    // }
+     public function toMail($notifiable)
+     {
+        return (new MailMessage)
+             ->subject($this->subject)
+             ->markdown('emails.tasks.complete',['task'=>$this->task]);
+     }
 
     /**
      * Get the array representation of the notification.
@@ -64,7 +63,7 @@ class TaskUpdatedNotification extends Notification
         return [
             'name' => $this->task->name,
             'description' => $this->task->description,
-            'notif_msg'=>$this->msg,
+            'notif_msg'=>$this->subject,
             'link'=>route('tasks.show', $this->task),
             'image'=>'/storage/'.$this->user->photo
         ];

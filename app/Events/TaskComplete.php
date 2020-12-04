@@ -11,13 +11,12 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class TaskUpdated
+class TaskComplete
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $task;
     private $user;
-    private $msg;
 
     public function getTask()
     {
@@ -29,21 +28,15 @@ class TaskUpdated
         return $this->user;
     }
 
-    public function getMessage()
-    {
-        return $this->msg;
-    }
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user, $task, $msg='Task has been updated.')
+    public function __construct($user, $task)
     {
         $this->task = $task;
         $this->user = $user;
-        $this->msg = $msg;
     }
 
     /**

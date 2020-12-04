@@ -2,7 +2,7 @@
     <script type="text/javascript">
 
         var data = @json($users);
-
+        console.log(data);
         var users = new Bloodhound({
             datumTokenizer:  Bloodhound.tokenizers.obj.whitespace('text'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,

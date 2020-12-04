@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Hour;
-use App\Events\TaskUpdated;
+use App\Events\TaskComplete;
 use Auth;
 
 class HourObserver
@@ -17,7 +17,7 @@ class HourObserver
     public function created(Hour $hour)
     {
         if ($hour->task)
-            event(new TaskUpdated(Auth::user(), $hour->task, "New hours has been added"));
+            event(new TaskComplete(Auth::user(), $hour->task, "New hours has been added"));
     }
 
     /**

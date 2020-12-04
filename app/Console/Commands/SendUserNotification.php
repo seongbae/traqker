@@ -11,7 +11,6 @@ use App\Models\User;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Support\Facades\Mail;
-use App\Events\TaskUpdated;
 
 class SendUserNotification extends Command
 {
@@ -54,7 +53,7 @@ class SendUserNotification extends Command
 
         if ($user && $task)
         {
-            event(new TaskUpdated($user, $task));
+            event(new TaskComplete($user, $task));
         }
         else
         {

@@ -2,14 +2,15 @@
 
 namespace App\Listeners;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Notifications\NewTeamMemberNotification;
+use App\Notifications\InviteDeclinedNotification;
 use Notification;
-use App\Events\TeamMemberAdded;
+use App\Events\InviteDeclined;
 use Illuminate\Support\Facades\Log;
 
-class SendNewTeamMemberNotification
+class SendInviteDeclinedNotification
 {
     /**
      * Create the event listener.
@@ -18,7 +19,6 @@ class SendNewTeamMemberNotification
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -27,8 +27,9 @@ class SendNewTeamMemberNotification
      * @param  object  $event
      * @return void
      */
-    public function handle(TeamMemberAdded $event)
+    public function handle(InviteDeclined $event)
     {
-        $event->getUser()->notify(new NewTeamMemberNotification($event->getCauser(), $event->getTeam(), $event->getMessage()));
+        $invite = $event->getInvite();
+        $invite->fromUser->notify(new InviteDeclinedNotification($event->getInvite()));
     }
 }

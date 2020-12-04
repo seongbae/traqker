@@ -261,9 +261,6 @@
 </div>
 @endsection
 
-@push('styles')
-@endpush
-
 @push('scripts')
 
 <script src="/js/daypilot-all.min.js?v=2018.2.232" type="text/javascript"></script>
@@ -345,7 +342,7 @@
                     status: $(this).html()
                 },
                 type: 'PUT',
-                url: '/tasks/{{$task->id}}'
+                url: '/tasks/{{$task->id}}/status'
             });
         });
 

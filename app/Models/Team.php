@@ -22,6 +22,11 @@ class Team extends Model
         return $this->hasMany(Invitation::class);
     }
 
+    public function pendingInvitations()
+    {
+        return $this->hasMany(Invitation::class)->whereNull('accepted_at')->whereNull('declined_at');
+    }
+
     public function members()
     {
         return $this->belongsToMany(User::class)->withPivot('title', 'access');

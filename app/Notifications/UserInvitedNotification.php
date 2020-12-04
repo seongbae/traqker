@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -8,24 +9,23 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 
-class TaskAssignedNotification extends Notification
+class UserInvitedNotification extends Notification
 {
     use Queueable;
 
-    private $user;
-    private $task;
-    private $msg;
+    private $invitation;
+    private $team;
+    private $subject;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $task, $msg=null)
+    public function __construct($invitation)
     {
-        $this->user = $user;
-        $this->task = $task;
-        $this->msg = $msg;
+        $this->invitation = $invitation;
+        $this->subject = "You have been invited to team: " . $this->invitation->team->name;
     }
 
     /**
@@ -36,7 +36,7 @@ class TaskAssignedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail','database'];
     }
 
     /**
@@ -48,8 +48,8 @@ class TaskAssignedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject($this->msg)
-                    ->markdown('emails.tasks.assigned',['task'=>$this->task]);
+            ->subject($this->subject)
+            ->markdown('emails.invites.show',['team'=>$this->team, 'invitation'=>$this->invitation ]);
 
     }
     /**
@@ -61,11 +61,11 @@ class TaskAssignedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'name' => $this->task->name,
-            'description' => $this->task->description,
-            'notif_msg'=>$this->msg,
-            'link'=>route('tasks.show', $this->task),
-            'image'=>'/storage/'.$this->user->photo
+            'name' => $this->invitation->team->name,
+            'description' => $this->invitation->team->description,
+            'notif_msg'=>$this->subject,
+            'link'=>route('invites.show', $this->invitation),
+            'image'=>'/storage/'.$this->invitation->fromUser->photo
         ];
     }
 }

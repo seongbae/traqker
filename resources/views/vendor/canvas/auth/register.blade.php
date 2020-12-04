@@ -77,6 +77,7 @@
                                 </button>
                             </div>
                         </div>
+                        <input type="hidden" name="invitation_token" value="{{app('request')->input('invitation_token')}}">
                     </form>
                 </div>
             </div>

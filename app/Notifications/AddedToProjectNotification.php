@@ -8,24 +8,24 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 
-class TaskAssignedNotification extends Notification
+class AddedToProjectNotification extends Notification
 {
     use Queueable;
 
     private $user;
     private $task;
-    private $msg;
+    private $subject;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $task, $msg=null)
+    public function __construct($user, $project)
     {
         $this->user = $user;
-        $this->task = $task;
-        $this->msg = $msg;
+        $this->project = $project;
+        $this->subject = 'You have been added to a project: '.$this->project->name;
     }
 
     /**
@@ -48,8 +48,8 @@ class TaskAssignedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject($this->msg)
-                    ->markdown('emails.tasks.assigned',['task'=>$this->task]);
+                    ->subject($this->subject)
+                    ->markdown('emails.projects.assigned',['project'=>$this->project]);
 
     }
     /**
@@ -61,10 +61,10 @@ class TaskAssignedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'name' => $this->task->name,
-            'description' => $this->task->description,
-            'notif_msg'=>$this->msg,
-            'link'=>route('tasks.show', $this->task),
+            'name' => $this->project->name,
+            'description' => $this->project->description,
+            'notif_msg'=>$this->subject,
+            'link'=>route('projects.show', $this->project),
             'image'=>'/storage/'.$this->user->photo
         ];
     }

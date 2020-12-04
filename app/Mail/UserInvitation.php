@@ -12,7 +12,6 @@ class UserInvitation extends Mailable
     use Queueable, SerializesModels;
 
     private $invitation;
-    private $team;
     private $msg;
 
     /**
@@ -20,11 +19,10 @@ class UserInvitation extends Mailable
      *
      * @return void
      */
-    public function __construct($invitation, $team, $msg="You have been invited")
+    public function __construct($invitation)
     {
         $this->invitation = $invitation;
-        $this->team = $team;
-        $this->msg = $msg;
+        $this->msg = "You have been invited to join ".config('app.name');
     }
 
     /**
@@ -35,6 +33,6 @@ class UserInvitation extends Mailable
     public function build()
     {
         return $this->subject($this->msg)
-                    ->markdown('emails.users.invited',['team'=>$this->team, 'invitation'=>$this->invitation ]);
+                    ->markdown('emails.invites.createaccount',['invitation'=>$this->invitation ]);
     }
 }

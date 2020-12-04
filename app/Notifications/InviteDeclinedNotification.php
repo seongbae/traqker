@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -8,25 +7,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
+use App\Mail\TeamMemberAdded;
 
-class SendInviteNotification extends Notification
+class InviteDeclinedNotification extends Notification
 {
     use Queueable;
 
-    private $invitation;
-    private $team;
-    private $msg;
+    private $invite;
+    private $subject;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($invitation, $team, $msg=null)
+    public function __construct($invite)
     {
-        $this->invitation = $invitation;
-        $this->team = $team;
-        $this->msg = $msg;
+        $this->invite = $invite;
+        $this->subject = $invite->toUser->name . ' has declined your invite.';
     }
 
     /**
@@ -37,7 +35,7 @@ class SendInviteNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -48,13 +46,12 @@ class SendInviteNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = route('tasks.show', $this->task);
-
         return (new MailMessage)
-            ->subject($this->msg)
-            ->markdown('emails.users.invited',['team'=>$this->team, 'invitation'=>$this->invitation ]);
+                    ->subject($this->subject)
+                    ->markdown('emails.invites.declined',['invite'=>$this->invite]);
 
     }
+
     /**
      * Get the array representation of the notification.
      *
@@ -64,11 +61,11 @@ class SendInviteNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-//            'name' => $this->task->name,
-//            'description' => $this->task->description,
-//            'notif_msg'=>$this->msg,
-//            'link'=>route('tasks.show', $this->task),
-//            'image'=>'/storage/'.$this->user->photo
+            'name' => $this->invite->toUser->name,
+            'description' => $this->subject,
+            'notif_msg'=>$this->subject,
+            'link'=>url('/dashboard'),
+            'image'=>'/storage/'.$this->invite->toUser->photo
         ];
     }
 }

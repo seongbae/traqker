@@ -2,14 +2,15 @@
 
 namespace App\Listeners;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Notifications\TaskUpdatedNotification;
+use App\Notifications\InviteAcceptedNotification;
 use Notification;
-use App\Events\TaskUpdated;
+use App\Events\InviteAccepted;
 use Illuminate\Support\Facades\Log;
 
-class SendTaskUpdatedNotification
+class SendInviteAcceptedNotification
 {
     /**
      * Create the event listener.
@@ -27,8 +28,9 @@ class SendTaskUpdatedNotification
      * @param  object  $event
      * @return void
      */
-    public function handle(TaskUpdated $event)
+    public function handle(InviteAccepted $event)
     {
-        Notification::send($event->getTask()->usersToNotify($event->getUser()), new TaskUpdatedNotification($event->getUser(), $event->getTask(), $event->getMessage()));
+        $invite = $event->getInvite();
+        $invite->fromUser->notify(new InviteAcceptedNotification($event->getInvite()));
     }
 }

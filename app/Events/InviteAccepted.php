@@ -11,27 +11,15 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class TaskAssigned
+class InviteAccepted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $task;
-    private $users;
-    private $msg;
+    private $invite;
 
-    public function getTask()
+    public function getInvite()
     {
-        return $this->task;
-    }
-
-    public function getUsers()
-    {
-        return $this->users;
-    }
-
-    public function getMessage()
-    {
-        return $this->msg;
+        return $this->invite;
     }
 
     /**
@@ -39,11 +27,9 @@ class TaskAssigned
      *
      * @return void
      */
-    public function __construct($users, $task, $msg='New task assigned.')
+    public function __construct($invite)
     {
-        $this->task = $task;
-        $this->users = $users;
-        $this->msg = $msg;
+        $this->invite = $invite;
     }
 
     /**
@@ -53,6 +39,6 @@ class TaskAssigned
      */
     public function broadcastOn()
     {
-        //return new PrivateChannel('channel-name');
+        //return new PrivateChannel('App.User.'.$this->user->id);
     }
 }

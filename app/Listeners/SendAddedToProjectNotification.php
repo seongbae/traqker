@@ -2,14 +2,15 @@
 
 namespace App\Listeners;
 
+use App\Events\AddedToProject;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Notifications\TaskAssignedNotification;
+use App\Notifications\AddedToProjectNotification;
 use Notification;
-use App\Events\TaskAssigned;
+use App\Events\InviteAccepted;
 use Illuminate\Support\Facades\Log;
 
-class SendTaskAssignedNotification
+class SendAddedToProjectNotification
 {
     /**
      * Create the event listener.
@@ -27,9 +28,9 @@ class SendTaskAssignedNotification
      * @param  object  $event
      * @return void
      */
-    public function handle(TaskAssigned $event)
+    public function handle(AddedToProject $event)
     {
         foreach($event->getUsers() as $user)
-            Notification::send($user, new TaskAssignedNotification($user, $event->getTask(), $event->getMessage()));
+            Notification::send($user, new AddedToProjectNotification($user, $event->getProject()));
     }
 }

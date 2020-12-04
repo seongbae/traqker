@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -8,24 +9,24 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 
-class TaskAssignedNotification extends Notification
+class EmailInviteNotification extends Notification
 {
     use Queueable;
 
-    private $user;
-    private $task;
-    private $msg;
+    private $invitation;
+    private $team;
+    private $subject;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $task, $msg=null)
+    public function __construct($invitation, $team, $msg=null)
     {
-        $this->user = $user;
-        $this->task = $task;
-        $this->msg = $msg;
+        $this->invitation = $invitation;
+        $this->team = $team;
+        $this->subject = "You have been invited to team: " . $this->team->name;
     }
 
     /**
@@ -36,7 +37,7 @@ class TaskAssignedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail','database'];
     }
 
     /**
@@ -48,8 +49,8 @@ class TaskAssignedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject($this->msg)
-                    ->markdown('emails.tasks.assigned',['task'=>$this->task]);
+            ->subject($this->msg)
+            ->markdown('emails.invites.createaccount',['team'=>$this->team, 'invitation'=>$this->invitation ]);
 
     }
     /**

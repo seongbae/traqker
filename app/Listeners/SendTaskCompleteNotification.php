@@ -4,12 +4,12 @@ namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Notifications\TaskAssignedNotification;
+use App\Notifications\TaskCompleteNotification;
 use Notification;
-use App\Events\TaskAssigned;
+use App\Events\TaskComplete;
 use Illuminate\Support\Facades\Log;
 
-class SendTaskAssignedNotification
+class SendTaskCompleteNotification
 {
     /**
      * Create the event listener.
@@ -27,9 +27,12 @@ class SendTaskAssignedNotification
      * @param  object  $event
      * @return void
      */
-    public function handle(TaskAssigned $event)
+    public function handle(TaskComplete $event)
     {
-        foreach($event->getUsers() as $user)
-            Notification::send($user, new TaskAssignedNotification($user, $event->getTask(), $event->getMessage()));
+        foreach($event->getTask()->getAllRelatedUsersExcept($event->getUser()) as $user)
+        {
+            Notification::send($user, new TaskCompleteNotification($user, $event->getTask()));
+        }
+
     }
 }

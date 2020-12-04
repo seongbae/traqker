@@ -12,7 +12,7 @@ use Auth;
 use App\Models\Team;
 use App\Http\Datatables\TeamDatatable;
 use App\Http\Requests\TeamRequest;
-
+use App\Models\Invitation;
 
 class HomeController extends Controller
 {
@@ -24,13 +24,6 @@ class HomeController extends Controller
     public function showHome()
     {
         return view('canvas::admin.home');
-    }
-
-    public function home()
-    {
-        $comments = Comment::all();
-
-        // return view('canvas::frontend.home',compact('comments');
     }
 
     public function showAccount()

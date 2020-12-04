@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\InviteAccepted;
 use App\Http\Controllers\Controller;
+use App\Models\Invitation;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Camroncade\Timezone\Facades\Timezone;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -65,11 +68,29 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        if ($data['invitation_token'])
+        {
+            $invite = Invitation::where('invitation_token', $data['invitation_token'])->whereNull('accepted_at')->whereNull('declined_at')->first();
+
+            if ($invite)
+            {
+                $user->teams()->syncWithoutDetaching($invite->team_id, ['access'=>$invite->access,'title'=>$invite->title]);
+                $invite->registered_at = Carbon::now()->toDateTimeString();
+                $invite->accepted_at = Carbon::now()->toDateTimeString();
+                $invite->to_user_id = $user->id;
+                $invite->save();
+
+                event(new InviteAccepted($invite));
+            }
+        }
+
+        return $user;
     }
 
     /**

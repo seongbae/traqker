@@ -13,18 +13,18 @@ class InviteAcceptedNotification extends Notification
 {
     use Queueable;
 
-    private $user;
-    private $msg;
+    private $invite;
+    private $subject;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user, $msg=null)
+    public function __construct($invite)
     {
-        $this->user = $user;
-        $this->msg = $msg;
+        $this->invite = $invite;
+        $this->subject = $invite->toUser->name . ' has accepted the invite and joined '.$invite->team->name;
     }
 
     /**
@@ -47,8 +47,8 @@ class InviteAcceptedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject($this->msg)
-                    ->markdown('emails.members.inviteaccepted',['user'=>$this->user]);
+                    ->subject($this->subject)
+                    ->markdown('emails.invites.accepted',['invite'=>$this->invite]);
 
     }
 
@@ -61,11 +61,11 @@ class InviteAcceptedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'name' => $this->user->name,
-            'description' => $this->user->name . ' has accepted the invitation',
-            'notif_msg'=>$this->msg,
+            'name' => $this->invite->toUser->name,
+            'description' => $this->invite->toUser->name . ' has accepted the invitation',
+            'notif_msg'=>$this->subject,
             'link'=>url('/dashboard'),
-            'image'=>'/storage/'.$this->user->photo
+            'image'=>'/storage/'.$this->invite->toUser->photo
         ];
     }
 }

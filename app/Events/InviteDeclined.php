@@ -11,33 +11,15 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class TeamMemberAdded
+class InviteDeclined
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $causer;
-    private $team;
-    private $user;
-    private $msg;
+    private $invite;
 
-    public function getTeam()
+    public function getInvite()
     {
-        return $this->team;
-    }
-
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    public function getCauser()
-    {
-        return $this->causer;
-    }
-
-    public function getMessage()
-    {
-        return $this->msg;
+        return $this->invite;
     }
 
     /**
@@ -45,12 +27,9 @@ class TeamMemberAdded
      *
      * @return void
      */
-    public function __construct($causer, $team, $user, $msg='You have been added to a team.')
+    public function __construct($invite)
     {
-        $this->causer = $causer;
-        $this->team = $team;
-        $this->user = $user;
-        $this->msg = $msg;
+        $this->invite = $invite;
     }
 
     /**
@@ -60,6 +39,6 @@ class TeamMemberAdded
      */
     public function broadcastOn()
     {
-        //return new PrivateChannel('App.User.'.$this->user->id);
+        return new PrivateChannel('channel-name');
     }
 }

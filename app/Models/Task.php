@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Events\TaskAssigned;
-use App\Events\TaskUpdated;
-use App\Mail\TaskComplete;
+use App\Events\TaskComplete;
 use App\Models\User;
 use App\Traits\HasAttachments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
+use PayPal\Api\Notification;
 use Seongbae\Canvas\Traits\FillsColumns;
 use Seongbae\Canvas\Traits\SerializesDates;
 use App\Models\Project;
@@ -27,6 +27,7 @@ use App\Scopes\CompletedScope;
 use App\Models\Section;
 use Carbon\Carbon;
 use Auth;
+use Log;
 
 
 class Task extends Model implements Searchable
@@ -53,6 +54,16 @@ class Task extends Model implements Searchable
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function assignees()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function getAssigneesNameAttribute()
+    {
+        return $this->assignees->implode('name', ", ");
     }
 
     public function project()
@@ -115,20 +126,31 @@ class Task extends Model implements Searchable
         );
     }
 
-    public function usersToNotify($user)
+    public function getAllRelatedUsersExcept($user)
     {
+        Log::info('Getting related users');
+
         $users = array();
 
-        if ($this->user_id && $this->user_id != $user->id)
+        if ($this->user_id != $user->id)
             $users[] = $this->user_id;
 
-        if ($this->assigned_to && $this->assigned_to != $user->id)
-            $users[] = $this->assigned_to;
+        Log::info('There are '.count($this->assignees).' assignees.');
+
+        if (count($this->assignees) > 0)
+        {
+
+
+            foreach($this->assignees as $relatedUser)
+            {
+                Log::info('relatedUser:'.$relatedUser->name);
+                if (!in_array($relatedUser, $users) && $relatedUser->id != $user->id)
+                    $users[] = $relatedUser->id;
+            }
+        }
 
         return User::whereIn('id', $users)->get();
     }
-
-
 
     public function getCreatedAtAttribute($input)
     {
@@ -148,22 +170,23 @@ class Task extends Model implements Searchable
         static::addGlobalScope(new CompletedScope);
 
         static::created(function ($task) {
-            if ($task->assigned_to && $task->assigned_to != Auth::id())
-                event(new TaskAssigned(Auth::user(), $task->assigned, $task, "New task assigned: ".$task->name));
+            if (count($task->users)>0)
+                event(new TaskAssigned($task->users, $task));
 
             if ($task->project_id)
                 $task->project->touch();
         });
 
-        static::updating(function ($task) {
+       static::updated(function ($task) {
+           Log::info('Task updated');
             if($task->isDirty('status')){
                 // status has changed
-//                if ($this->status == 'complete') {
-//                    Mail::to($this->owner)->send(new TaskComplete($task));
-//                }
-
-                event(new TaskUpdated(Auth::user(), $task, "Task <strong>".$task->name."</strong> has been marked ".$task->status));
+                if ($task->status == 'complete') {
+                    event(new TaskComplete(Auth::user(), $task));
+                }
             }
+
+            $task->project->touch();
         });
     }
 }

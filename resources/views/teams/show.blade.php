@@ -113,62 +113,54 @@
                                         </div>
                                       </div>
                                     @endforeach
+
                                 </div>
+                                @if (count($team->pendingInvitations) > 0)
+                                    <div class="row ">
+                                        <div class="col-md-2 text-secondary">
+
+                                        </div>
+                                        <div class="col-md-10 text-secondary">
+                                            Pending Invitation
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Title</th>
+                                                    <th>Access</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($team->pendingInvitations as $invitation)
+                                                    <tr>
+                                                        <td>{{$invitation->email}} (invited)</td>
+                                                        <td></td>
+                                                        <td class="text-center">
+
+                                                        </td>
+                                                        <td>
+                                                            <form action="{{ route('invitation.remove', ['invitation'=>$invitation])}}" method="POST" class="d-inline"  onSubmit="if(!confirm('Are you sure?')){return false;}">
+                                                                @csrf
+                                                                <input type="hidden" name="_method" value="DELETE">
+                                                                <button type="submit" name="submit" class="btn btn-link text-secondary p-1" >
+                                                                    <i class="far fa-trash-alt "></i></button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
+
                     </div>
                   </div>
                   <div class="tab-pane fade" id="availability" role="tabpanel" aria-labelledby="availability-tab">
                     <p>My timezone: {{ Auth::user()->timezone }}</p>
                     <div id="dp"></div>
-                  </div>
-                  <div class="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
-                    <table class="table">
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th>Name</th>
-                              <th>Title</th>
-                              <th>Access</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          @foreach($team->members as $member)
-                          <tr>
-                            <td style="width:50px;"><img src="/storage/{{ $member->photo }}" class="profile-medium img-circle"></td>
-                            <td>{{$member->name}}</td>
-                            <td>{{$member->pivot->title }}</td>
-                            <td>{{$member->pivot->access }}</td>
-                            <td>
-                                <a href="#"  data-toggle="modal" data-target="#updateMember" class="btn btn-link text-secondary p-1" title="Edit" id="editMember" data-id="{{$member->id}}" data-name="{{$member->name}}"  data-email="{{$member->email}}"  data-title="{{$member->pivot->title}}"  >
-                                    <i class="far fa-edit "></i>
-                                </a>
-                                @if($member->id != $team->user_id)
-
-                                @endif
-                            </td>
-                          </tr>
-                          @endforeach
-                          @foreach($team->invitations()->whereNull('registered_at')->get() as $invitation)
-                          <tr>
-                            <td style="width:50px;"></td>
-                            <td>{{$invitation->email}} (invited)</td>
-                            <td></td>
-                            <td class="text-center">
-
-                            </td>
-                            <td>
-                                <form action="{{ route('invitation.remove', ['invitation'=>$invitation])}}" method="POST" class="d-inline"  onSubmit="if(!confirm('Are you sure?')){return false;}">
-                                    @csrf
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" name="submit" class="btn btn-link text-secondary p-1" onClick="return confirm('Are you sure?')">
-                                    <i class="far fa-trash-alt "></i></button>
-                                </form>
-                            </td>
-                          </tr>
-                          @endforeach
-                        </tbody>
-                        </table>
                   </div>
                 </div>
             </div>

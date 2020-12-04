@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InviteCreated;
 use App\Models\Team;
 use App\Http\Datatables\TeamDatatable;
 use App\Http\Requests\TeamRequest;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
-use App\Events\TeamMemberAdded;
+use App\Events\InviteAccepted;
 use App\Models\Invitation;
 use App\Events\UserInvited;
+use Log;
 
 class TeamController extends Controller
 {
@@ -55,21 +57,40 @@ class TeamController extends Controller
             $team->members()->updateExistingPivot($request->get('user_id'), ['title'=>$request->get('title'), 'access'=>$request->get('access')]);
         elseif ($team && $user && !$team->members->contains($user))
         {
-            $team->members()->attach($user, ['access'=>$request->get('access'),'title'=>$request->get('title')]);
-            event(new TeamMemberAdded(Auth::user(), $team, $user, 'You have been added to '.$team->name));
-        }
-        elseif ($team)
-        {
-            $invitation = Invitation::where('email', '=', $request->get('email'))->first();
+            $invitation = Invitation::where('to_user_id', $user->id)->where('team_id', $team->id)->whereNull('accepted_at')->whereNull('declined_at')->first();
 
             if (!$invitation)
             {
-                $invitation = new Invitation(['email'=>$request->get('email'),'user_id'=>Auth::id(),'team_id'=>$team->id]);
+                $invitation = new Invitation(
+                    [
+                        'email'=>$request->get('email'),
+                        'from_user_id'=>Auth::id(),
+                        'to_user_id'=>$user->id,
+                        'team_id'=>$team->id,
+                        'access'=>$request->get('access'),
+                        'title'=>$request->get('title')
+                    ]);
                 $invitation->generateInvitationToken();
                 $invitation->save();
             }
+        }
+        elseif ($team)
+        {
+            $invitation = Invitation::where('email', '=', $request->get('email'))->whereNull('accepted_at')->whereNull('declined_at')->first();
 
-            event(new UserInvited($invitation, $team));
+            if (!$invitation)
+            {
+                $invitation = new Invitation(
+                    [
+                        'email'=>$request->get('email'),
+                        'from_user_id'=>Auth::id(),
+                        'team_id'=>$team->id,
+                        'access'=>$request->get('access'),
+                        'title'=>$request->get('title')
+                    ]);
+                $invitation->generateInvitationToken();
+                $invitation->save();
+            }
         }
 
         return redirect()->back();
@@ -96,7 +117,7 @@ class TeamController extends Controller
 
                     if ($task->user_id === $user->id)
                     {
-                        $task->user_id = $team->firstAvailableManager()->id;
+                        $task->user_id = $team->firstAvailableManagerExcept()->id;
                         $task->save();
                     }
                 }

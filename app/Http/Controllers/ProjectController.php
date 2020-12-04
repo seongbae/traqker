@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AddedToProject;
 use App\Http\Resources\MemberResource;
 use App\Models\Project;
 use App\Http\Datatables\ProjectDatatable;
@@ -158,13 +159,15 @@ class ProjectController extends Controller
 
         $project->update($request->all());
 
-        if (!$request->has('archived'))
+        if ($request->users)
         {
-            if ($request->users)
-                $project->members()->sync(explode(",", $request->users));
-            else
-                $project->members()->detach();
+            $changes = $project->members()->sync(explode(",", $request->users));
+
+            if (count($changes['attached'])>0)
+                event(new AddedToProject(User::find($changes['attached']), $project));
         }
+        else
+            $project->members()->detach();
 
         if ($request->team_id)
             $project->teams()->sync($request->team_id);

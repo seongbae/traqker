@@ -16,6 +16,7 @@ use App\Models\Hour;
 use Illuminate\Support\Facades\Mail;
 use App\Scopes\ArchiveScope;
 use App\Http\Resources\MemberResource;
+use App\Events\TaskAssigned;
 
 class TaskController extends Controller
 {
@@ -114,7 +115,12 @@ class TaskController extends Controller
         $task = Task::create(array_merge($request->all(),['user_id'=>Auth::id(),'status'=>'created','priority'=>$priority]));
 
         if ($request->project_id && $request->assignees)
-            $task->users()->syncWithoutDetaching(explode(",", $request->assignees));
+        {
+            $changes = $task->users()->sync(explode(",", $request->assignees));
+
+            if (count($changes['attached'])>0)
+                event(new TaskAssigned(User::find($changes['attached']), $task));
+        }
         else
             $task->users()->attach(Auth::id());
 
@@ -159,19 +165,24 @@ class TaskController extends Controller
 
     public function update(TaskRequest $request, Task $task)
     {
+        Log::info('Updating task...');
+
         $this->authorize('update', $task);
 
         $task->update($request->all());
 
         if ($request->assignees)
-            $task->users()->syncWithoutDetaching($request->assignees);
+        {
+            $changes = $task->users()->sync(explode(",", $request->assignees));
+
+            if (count($changes['attached'])>0)
+                event(new TaskAssigned(User::find($changes['attached']), $task));
+        }
         else
             $task->users()->detach();
 
         if ($request->orders)
         {
-            Log::info('orders:'.json_encode($request->orders));
-
             $order = 1;
             $placeholders = implode(',',array_fill(0, count($request->orders), '?'));
             $tasks = Task::whereIn('id', $request->orders)->orderByRaw("field(id,{$placeholders})", $request->orders)->get();
@@ -215,6 +226,8 @@ class TaskController extends Controller
 
     public function updateStatus(Request $request, Task $task)
     {
+        Log::info('Updating status...');
+
         $this->authorize('update', $task);
 
         $task->status = $request->get('status');
@@ -235,6 +248,9 @@ class TaskController extends Controller
                 'project_id'=>$task->project->id
             ]));
         }
+
+        if ($request->ajax())
+            return response()->json(['success'], 200);
 
         return redirect()->back();
     }

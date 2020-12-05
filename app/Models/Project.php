@@ -13,8 +13,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\ArchiveScope;
 
 use App\Models\Task;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Project extends Model
+class Project extends Model implements Searchable
 {
     use FillsColumns, SerializesDates, SoftDeletes;
 
@@ -82,6 +84,19 @@ class Project extends Model
                 return true;
 
         return false;
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('projects.show', $this);
+
+        return new SearchResult(
+            $this,
+            $this->name,
+            $url,
+            $this->description,
+            $this->created_at
+        );
     }
 
     public function getRouteKeyName(){

@@ -325,3 +325,15 @@ form .list-group-item {
   font-size: 0.8rem;
 }
 
+.search-result-box .tab-content {
+  padding: 30px 30px 10px 30px;
+  box-shadow: none;
+  -moz-box-shadow: none;
+}
+
+.search-result-box .search-item {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e3eaef;
+  margin-bottom: 20px;
+}
+

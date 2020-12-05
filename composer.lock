@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9126747b2fdb7d4deb5d1e9671f11f5a",
+    "content-hash": "91c491c07069792546ac1bc565dff3b4",
     "packages": [
         {
             "name": "appstract/laravel-options",
@@ -1656,16 +1656,16 @@
         },
         {
             "name": "laravel/cashier",
-            "version": "v12.5.0",
+            "version": "v12.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/cashier-stripe.git",
-                "reference": "00b61d7ac6e02cdace822a2dbfd9c9ce1db4f9d5"
+                "reference": "0e378193f56d384bf1876290b3d5f9d8c003299b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/cashier-stripe/zipball/00b61d7ac6e02cdace822a2dbfd9c9ce1db4f9d5",
-                "reference": "00b61d7ac6e02cdace822a2dbfd9c9ce1db4f9d5",
+                "url": "https://api.github.com/repos/laravel/cashier-stripe/zipball/0e378193f56d384bf1876290b3d5f9d8c003299b",
+                "reference": "0e378193f56d384bf1876290b3d5f9d8c003299b",
                 "shasum": ""
             },
             "require": {
@@ -1730,7 +1730,7 @@
                 "issues": "https://github.com/laravel/cashier/issues",
                 "source": "https://github.com/laravel/cashier"
             },
-            "time": "2020-11-03T14:54:45+00:00"
+            "time": "2020-11-24T16:41:13+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2219,16 +2219,16 @@
         },
         {
             "name": "laravelista/comments",
-            "version": "4.4.0",
+            "version": "4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravelista/comments.git",
-                "reference": "c5ab788caa0105a4fd076baebfefcb414b23ac6a"
+                "reference": "d8acb6d840e93abcc526a020db90c5ca5591cf7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravelista/comments/zipball/c5ab788caa0105a4fd076baebfefcb414b23ac6a",
-                "reference": "c5ab788caa0105a4fd076baebfefcb414b23ac6a",
+                "url": "https://api.github.com/repos/laravelista/comments/zipball/d8acb6d840e93abcc526a020db90c5ca5591cf7b",
+                "reference": "d8acb6d840e93abcc526a020db90c5ca5591cf7b",
                 "shasum": ""
             },
             "require": {
@@ -2273,7 +2273,7 @@
             ],
             "support": {
                 "issues": "https://github.com/laravelista/comments/issues",
-                "source": "https://github.com/laravelista/comments/tree/4.4.0"
+                "source": "https://github.com/laravelista/comments/tree/4.4.1"
             },
             "funding": [
                 {
@@ -2281,7 +2281,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-10-30T11:01:08+00:00"
+            "time": "2020-11-15T07:40:08+00:00"
         },
         {
             "name": "league/commonmark",
@@ -2604,23 +2604,23 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.24",
+            "version": "3.1.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "8b267b4a940634195eb6ea60c2da62f178a15940"
+                "reference": "66f7c9584304ad0b6a267a5d8ffbfa2ff4272e85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/8b267b4a940634195eb6ea60c2da62f178a15940",
-                "reference": "8b267b4a940634195eb6ea60c2da62f178a15940",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/66f7c9584304ad0b6a267a5d8ffbfa2ff4272e85",
+                "reference": "66f7c9584304ad0b6a267a5d8ffbfa2ff4272e85",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
-                "php": "^7.0",
-                "phpoffice/phpspreadsheet": "^1.14"
+                "illuminate/support": "5.8.*|^6.0|^7.0|^8.0",
+                "php": "^7.0|^8.0",
+                "phpoffice/phpspreadsheet": "^1.15"
             },
             "require-dev": {
                 "orchestra/testbench": "^6.0",
@@ -2666,7 +2666,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Maatwebsite/Laravel-Excel/issues",
-                "source": "https://github.com/Maatwebsite/Laravel-Excel/tree/3.1.24"
+                "source": "https://github.com/Maatwebsite/Laravel-Excel/tree/3.1.26"
             },
             "funding": [
                 {
@@ -2678,7 +2678,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-28T09:10:05+00:00"
+            "time": "2020-11-27T16:17:38+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -3107,16 +3107,16 @@
         },
         {
             "name": "myclabs/php-enum",
-            "version": "1.7.6",
+            "version": "1.7.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "5f36467c7a87e20fbdc51e524fd8f9d1de80187c"
+                "reference": "d178027d1e679832db9f38248fcc7200647dc2b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/5f36467c7a87e20fbdc51e524fd8f9d1de80187c",
-                "reference": "5f36467c7a87e20fbdc51e524fd8f9d1de80187c",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/d178027d1e679832db9f38248fcc7200647dc2b7",
+                "reference": "d178027d1e679832db9f38248fcc7200647dc2b7",
                 "shasum": ""
             },
             "require": {
@@ -3151,9 +3151,19 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/php-enum/issues",
-                "source": "https://github.com/myclabs/php-enum/tree/master"
+                "source": "https://github.com/myclabs/php-enum/tree/1.7.7"
             },
-            "time": "2020-02-14T08:15:52+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/mnapoli",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/myclabs/php-enum",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-11-14T18:14:52+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -5074,16 +5084,16 @@
         },
         {
             "name": "seongbae/canvas",
-            "version": "1.0.2",
+            "version": "1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seongbae/canvas.git",
-                "reference": "310accad4fcf831bbaba5a0090435faf22c6d959"
+                "reference": "7102ac123250ed4837b43019864028827aa64554"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seongbae/canvas/zipball/310accad4fcf831bbaba5a0090435faf22c6d959",
-                "reference": "310accad4fcf831bbaba5a0090435faf22c6d959",
+                "url": "https://api.github.com/repos/seongbae/canvas/zipball/7102ac123250ed4837b43019864028827aa64554",
+                "reference": "7102ac123250ed4837b43019864028827aa64554",
                 "shasum": ""
             },
             "require": {
@@ -5095,10 +5105,10 @@
                 "laravel/ui": "^3.0",
                 "laravelista/comments": "^4.0",
                 "rap2hpoutre/laravel-log-viewer": "^1.7",
+                "seongbae/laravel-searchable": "^1.8",
                 "spatie/laravel-activitylog": "^3.0",
                 "spatie/laravel-flash": "^1.0",
                 "spatie/laravel-permission": "^3.11",
-                "spatie/laravel-searchable": "^1.6",
                 "spatie/laravel-tags": "^3.0",
                 "stripe/stripe-php": "^7.0",
                 "yajra/laravel-datatables": "^1.5",
@@ -5136,32 +5146,95 @@
             "homepage": "https://github.com/seongbae/canvas",
             "support": {
                 "issues": "https://github.com/seongbae/canvas/issues",
-                "source": "https://github.com/seongbae/canvas/tree/1.0.2"
+                "source": "https://github.com/seongbae/canvas/tree/1.1"
             },
-            "time": "2020-11-06T23:29:03+00:00"
+            "time": "2020-12-05T05:17:32+00:00"
         },
         {
-            "name": "spatie/eloquent-sortable",
-            "version": "3.9.0",
+            "name": "seongbae/laravel-searchable",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spatie/eloquent-sortable.git",
-                "reference": "51bca09f0c49ac2da8cd480e1e667ddcfce5a3f2"
+                "url": "https://github.com/seongbae/laravel-searchable.git",
+                "reference": "05c4a012d030263e99bd8e152aa2ed5dcfbd2993"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/eloquent-sortable/zipball/51bca09f0c49ac2da8cd480e1e667ddcfce5a3f2",
-                "reference": "51bca09f0c49ac2da8cd480e1e667ddcfce5a3f2",
+                "url": "https://api.github.com/repos/seongbae/laravel-searchable/zipball/05c4a012d030263e99bd8e152aa2ed5dcfbd2993",
+                "reference": "05c4a012d030263e99bd8e152aa2ed5dcfbd2993",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "~5.8.0|^6.0|^7.0|^8.0",
-                "illuminate/support": "~5.8.0|^6.0|^7.0|^8.0",
-                "php": "^7.3"
+                "laravel/framework": "~5.8.0|^6.0|^7.0|^8.0",
+                "php": "^7.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
+                "larapack/dd": "^1.0",
                 "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^7.5|^8.0|^9.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Searchable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Vanderbist",
+                    "email": "alex@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Pragmatically search through models and other sources",
+            "homepage": "https://github.com/spatie/laravel-searchable",
+            "keywords": [
+                "laravel-searchable",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/seongbae/laravel-searchable/tree/1.8.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-12-05T05:20:43+00:00"
+        },
+        {
+            "name": "spatie/eloquent-sortable",
+            "version": "3.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/eloquent-sortable.git",
+                "reference": "efc786971d5308ff75d5af8e04f7f759dd8450c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/eloquent-sortable/zipball/efc786971d5308ff75d5af8e04f7f759dd8450c2",
+                "reference": "efc786971d5308ff75d5af8e04f7f759dd8450c2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^6.0|^7.0|^8.0",
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0|^5.0|^6.0",
                 "phpunit/phpunit": "^8.0|^9.0"
             },
             "type": "library",
@@ -5199,7 +5272,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/eloquent-sortable/issues",
-                "source": "https://github.com/spatie/eloquent-sortable/tree/3.9.0"
+                "source": "https://github.com/spatie/eloquent-sortable/tree/3.10.0"
             },
             "funding": [
                 {
@@ -5207,7 +5280,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-15T06:48:07+00:00"
+            "time": "2020-11-25T12:55:36+00:00"
         },
         {
             "name": "spatie/laravel-activitylog",
@@ -5301,25 +5374,25 @@
         },
         {
             "name": "spatie/laravel-flash",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-flash.git",
-                "reference": "a892f2dfa68a26455f30fdeb7b4a361813aed60c"
+                "reference": "e91ad1a63227482d5cd394015f2e4e8a3e427f58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-flash/zipball/a892f2dfa68a26455f30fdeb7b4a361813aed60c",
-                "reference": "a892f2dfa68a26455f30fdeb7b4a361813aed60c",
+                "url": "https://api.github.com/repos/spatie/laravel-flash/zipball/e91ad1a63227482d5cd394015f2e4e8a3e427f58",
+                "reference": "e91ad1a63227482d5cd394015f2e4e8a3e427f58",
                 "shasum": ""
             },
             "require": {
-                "illuminate/session": "^5.8|^6.0|^7.0|^8.0",
-                "php": "^7.4"
+                "illuminate/session": "^6.0|^7.0|^8.0",
+                "php": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "orchestra/testbench": "^3.8|^4.0|^5.0|^6.0",
-                "phpunit/phpunit": "^9.3"
+                "orchestra/testbench": "^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|^9.0"
             },
             "type": "library",
             "autoload": {
@@ -5350,7 +5423,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-flash/issues",
-                "source": "https://github.com/spatie/laravel-flash/tree/1.7.0"
+                "source": "https://github.com/spatie/laravel-flash/tree/1.8.0"
             },
             "funding": [
                 {
@@ -5358,7 +5431,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-09-08T19:39:11+00:00"
+            "time": "2020-11-27T07:26:26+00:00"
         },
         {
             "name": "spatie/laravel-honeypot",
@@ -5434,16 +5507,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "3.17.0",
+            "version": "3.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "35d40a45e49f5713f477823b571e05ef6a3a0394"
+                "reference": "1c51a5fa12131565fe3860705163e53d7a26258a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/35d40a45e49f5713f477823b571e05ef6a3a0394",
-                "reference": "35d40a45e49f5713f477823b571e05ef6a3a0394",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/1c51a5fa12131565fe3860705163e53d7a26258a",
+                "reference": "1c51a5fa12131565fe3860705163e53d7a26258a",
                 "shasum": ""
             },
             "require": {
@@ -5451,7 +5524,7 @@
                 "illuminate/container": "^5.8|^6.0|^7.0|^8.0",
                 "illuminate/contracts": "^5.8|^6.0|^7.0|^8.0",
                 "illuminate/database": "^5.8|^6.0|^7.0|^8.0",
-                "php": "^7.2.5"
+                "php": "^7.2.5|^8.0"
             },
             "require-dev": {
                 "orchestra/testbench": "^3.8|^4.0|^5.0|^6.0",
@@ -5500,98 +5573,33 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/3.17.0"
+                "source": "https://github.com/spatie/laravel-permission/tree/3.18.0"
             },
             "funding": [
                 {
-                    "url": "https://spatie.be/open-source/support-us",
-                    "type": "custom"
+                    "url": "https://github.com/spatie",
+                    "type": "github"
                 }
             ],
-            "time": "2020-09-16T16:47:18+00:00"
-        },
-        {
-            "name": "spatie/laravel-searchable",
-            "version": "1.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-searchable.git",
-                "reference": "f30f86d42748a2f2966df1c422d741e0d48030c7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-searchable/zipball/f30f86d42748a2f2966df1c422d741e0d48030c7",
-                "reference": "f30f86d42748a2f2966df1c422d741e0d48030c7",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "~5.8.0|^6.0|^7.0|^8.0",
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "larapack/dd": "^1.0",
-                "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0",
-                "phpunit/phpunit": "^7.5|^8.0|^9.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\Searchable\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alex Vanderbist",
-                    "email": "alex@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Pragmatically search through models and other sources",
-            "homepage": "https://github.com/spatie/laravel-searchable",
-            "keywords": [
-                "laravel-searchable",
-                "spatie"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/laravel-searchable/issues",
-                "source": "https://github.com/spatie/laravel-searchable/tree/1.7.0"
-            },
-            "funding": [
-                {
-                    "url": "https://spatie.be/open-source/support-us",
-                    "type": "custom"
-                }
-            ],
-            "time": "2020-09-09T09:22:26+00:00"
+            "time": "2020-11-09T14:08:36+00:00"
         },
         {
             "name": "spatie/laravel-tags",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-tags.git",
-                "reference": "f0259277cc87f54046a3253fe4372ec683f67113"
+                "reference": "e190d1496b4ae18ff13db67086352dec9f594c06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-tags/zipball/f0259277cc87f54046a3253fe4372ec683f67113",
-                "reference": "f0259277cc87f54046a3253fe4372ec683f67113",
+                "url": "https://api.github.com/repos/spatie/laravel-tags/zipball/e190d1496b4ae18ff13db67086352dec9f594c06",
+                "reference": "e190d1496b4ae18ff13db67086352dec9f594c06",
                 "shasum": ""
             },
             "require": {
                 "laravel/framework": "^8.0",
-                "php": "^7.4",
+                "php": "^7.4|^8.0",
                 "spatie/eloquent-sortable": "^3.5",
                 "spatie/laravel-translatable": "^4.1"
             },
@@ -5633,7 +5641,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-tags/issues",
-                "source": "https://github.com/spatie/laravel-tags/tree/3.0.0"
+                "source": "https://github.com/spatie/laravel-tags/tree/3.0.1"
             },
             "funding": [
                 {
@@ -5641,31 +5649,30 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-09T12:13:10+00:00"
+            "time": "2020-11-05T10:52:50+00:00"
         },
         {
             "name": "spatie/laravel-translatable",
-            "version": "4.5.2",
+            "version": "4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-translatable.git",
-                "reference": "73e5c922a0004967e6be2bf73e36780af4090155"
+                "reference": "5900d6002a5795712058a04c7ca7c2c44b3e0850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-translatable/zipball/73e5c922a0004967e6be2bf73e36780af4090155",
-                "reference": "73e5c922a0004967e6be2bf73e36780af4090155",
+                "url": "https://api.github.com/repos/spatie/laravel-translatable/zipball/5900d6002a5795712058a04c7ca7c2c44b3e0850",
+                "reference": "5900d6002a5795712058a04c7ca7c2c44b3e0850",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "~5.8.0|^6.0|^7.0|^8.0",
-                "illuminate/support": "~5.8.0|^6.0|^7.0|^8.0",
-                "php": "^7.2"
+                "illuminate/database": "^6.0|^7.0|^8.0",
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "php": "^7.2|^8.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
-                "mockery/mockery": "^1.3",
-                "orchestra/testbench": "~3.8.0|^4.0|^5.0|^6.0"
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^4.0|^5.0|^6.0"
             },
             "type": "library",
             "extra": {
@@ -5716,7 +5723,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-translatable/issues",
-                "source": "https://github.com/spatie/laravel-translatable/tree/4.5.2"
+                "source": "https://github.com/spatie/laravel-translatable/tree/4.6.0"
             },
             "funding": [
                 {
@@ -5724,20 +5731,20 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-10-22T13:52:25+00:00"
+            "time": "2020-11-19T14:19:29+00:00"
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v7.61.0",
+            "version": "v7.66.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "51c6cd18cb51740101c940a3fefc876ef7cd8cae"
+                "reference": "a2ebaa272a8797b21e81afaf8d5ba0953ff15e13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/51c6cd18cb51740101c940a3fefc876ef7cd8cae",
-                "reference": "51c6cd18cb51740101c940a3fefc876ef7cd8cae",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/a2ebaa272a8797b21e81afaf8d5ba0953ff15e13",
+                "reference": "a2ebaa272a8797b21e81afaf8d5ba0953ff15e13",
                 "shasum": ""
             },
             "require": {
@@ -5747,7 +5754,7 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "2.16.1",
+                "friendsofphp/php-cs-fixer": "2.16.5",
                 "php-coveralls/php-coveralls": "^2.1",
                 "phpunit/phpunit": "^5.7",
                 "squizlabs/php_codesniffer": "^3.3",
@@ -5783,9 +5790,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v7.61.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v7.66.1"
             },
-            "time": "2020-10-20T20:01:45+00:00"
+            "time": "2020-12-01T18:44:12+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -6720,16 +6727,16 @@
         },
         {
             "name": "symfony/intl",
-            "version": "v5.1.8",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "e353c6c37afa1ff90739b3941f60ff9fa650eec3"
+                "reference": "eaac169bf64d307d48daef7e349729d670df6659"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/e353c6c37afa1ff90739b3941f60ff9fa650eec3",
-                "reference": "e353c6c37afa1ff90739b3941f60ff9fa650eec3",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/eaac169bf64d307d48daef7e349729d670df6659",
+                "reference": "eaac169bf64d307d48daef7e349729d670df6659",
                 "shasum": ""
             },
             "require": {
@@ -6788,7 +6795,7 @@
                 "localization"
             ],
             "support": {
-                "source": "https://github.com/symfony/intl/tree/v5.1.8"
+                "source": "https://github.com/symfony/intl/tree/v5.2.0"
             },
             "funding": [
                 {
@@ -6804,7 +6811,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-24T12:01:57+00:00"
+            "time": "2020-11-03T11:59:17+00:00"
         },
         {
             "name": "symfony/mime",
@@ -8717,16 +8724,16 @@
         },
         {
             "name": "yajra/laravel-datatables-buttons",
-            "version": "v4.10.1",
+            "version": "v4.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-buttons.git",
-                "reference": "d0d5e125054f833a6858f7b2336f7b130fe2bc14"
+                "reference": "ae234f48ebb5885d5ca3e4428fb8803a9621c4eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-buttons/zipball/d0d5e125054f833a6858f7b2336f7b130fe2bc14",
-                "reference": "d0d5e125054f833a6858f7b2336f7b130fe2bc14",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-buttons/zipball/ae234f48ebb5885d5ca3e4428fb8803a9621c4eb",
+                "reference": "ae234f48ebb5885d5ca3e4428fb8803a9621c4eb",
                 "shasum": ""
             },
             "require": {
@@ -8779,7 +8786,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-buttons/issues",
-                "source": "https://github.com/yajra/laravel-datatables-buttons/tree/v4.10.1"
+                "source": "https://github.com/yajra/laravel-datatables-buttons/tree/v4.10.2"
             },
             "funding": [
                 {
@@ -8791,7 +8798,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-10-31T09:54:49+00:00"
+            "time": "2020-11-05T08:23:51+00:00"
         },
         {
             "name": "yajra/laravel-datatables-editor",
@@ -8933,16 +8940,16 @@
         },
         {
             "name": "yajra/laravel-datatables-html",
-            "version": "v4.35.0",
+            "version": "v4.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-html.git",
-                "reference": "d8091a68c3ea0e0bec036b9cf17d190b081e0a6e"
+                "reference": "b51c7a6e036ea685b292e8fe92138cbc2ecc28cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/d8091a68c3ea0e0bec036b9cf17d190b081e0a6e",
-                "reference": "d8091a68c3ea0e0bec036b9cf17d190b081e0a6e",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/b51c7a6e036ea685b292e8fe92138cbc2ecc28cc",
+                "reference": "b51c7a6e036ea685b292e8fe92138cbc2ecc28cc",
                 "shasum": ""
             },
             "require": {
@@ -8991,7 +8998,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-html/issues",
-                "source": "https://github.com/yajra/laravel-datatables-html/tree/v4.35.0"
+                "source": "https://github.com/yajra/laravel-datatables-html/tree/v4.36.0"
             },
             "funding": [
                 {
@@ -9003,20 +9010,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-11-03T10:11:19+00:00"
+            "time": "2020-11-14T06:56:53+00:00"
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v9.14.0",
+            "version": "v9.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "568e670df088123e9e535154fd6c66d38b081ef9"
+                "reference": "309d0341fab69f5a44188cf2489db09236b52941"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/568e670df088123e9e535154fd6c66d38b081ef9",
-                "reference": "568e670df088123e9e535154fd6c66d38b081ef9",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/309d0341fab69f5a44188cf2489db09236b52941",
+                "reference": "309d0341fab69f5a44188cf2489db09236b52941",
                 "shasum": ""
             },
             "require": {
@@ -9025,7 +9032,7 @@
                 "illuminate/http": "5.8.*|^6|^7|^8",
                 "illuminate/support": "5.8.*|^6|^7|^8",
                 "illuminate/view": "5.8.*|^6|^7|^8",
-                "php": "^7.1.3"
+                "php": "^7.1.3|^8"
             },
             "require-dev": {
                 "orchestra/testbench": "^3.8"
@@ -9076,7 +9083,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables/issues",
-                "source": "https://github.com/yajra/laravel-datatables/tree/v9.14.0"
+                "source": "https://github.com/yajra/laravel-datatables/tree/v9.15.1"
             },
             "funding": [
                 {
@@ -9088,7 +9095,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-11-03T09:58:06+00:00"
+            "time": "2020-12-03T09:31:52+00:00"
         },
         {
             "name": "zbateson/mail-mime-parser",

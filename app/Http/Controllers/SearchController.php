@@ -17,8 +17,7 @@ class SearchController extends Controller
     {
         $searchResults = (new Search())
             ->registerModel(Task::class, 'name','description')
-            //->registerModel(Comment::class, 'comment')
-            //->registerModel(Project::class, 'name')
+            ->registerModel(Project::class, 'name', 'description')
             ->perform($request->input('query'));
 
         return view('canvas::admin.search', compact('searchResults'));

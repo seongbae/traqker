@@ -123,25 +123,23 @@ class Task extends Model implements Searchable
 
     public function getSearchResult(): SearchResult
     {
-        $url = route('tasks.show', $this->id);
+        $url = route('tasks.show', $this);
 
         return new SearchResult(
             $this,
             $this->name,
-            $url
+            $url,
+            $this->description,
+            $this->created_at
         );
     }
 
     public function getAllRelatedUsersExcept($user)
     {
-        Log::info('Getting related users');
-
         $users = array();
 
         if ($this->user_id != $user->id)
             $users[] = $this->user_id;
-
-        Log::info('There are '.count($this->assignees).' assignees.');
 
         if (count($this->assignees) > 0)
         {

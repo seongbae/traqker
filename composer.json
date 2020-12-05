@@ -20,7 +20,7 @@
         "laravel/tinker": "^2.0",
         "paypal/rest-api-sdk-php": "^1.14",
         "sentry/sentry-laravel": "^1.7",
-        "seongbae/canvas": "^1.0"
+        "seongbae/canvas": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

@@ -5156,12 +5156,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/seongbae/laravel-searchable.git",
-                "reference": "05c4a012d030263e99bd8e152aa2ed5dcfbd2993"
+                "reference": "5774747fc4e1db8072aca7344219f0d0980cc6ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seongbae/laravel-searchable/zipball/05c4a012d030263e99bd8e152aa2ed5dcfbd2993",
-                "reference": "05c4a012d030263e99bd8e152aa2ed5dcfbd2993",
+                "url": "https://api.github.com/repos/seongbae/laravel-searchable/zipball/5774747fc4e1db8072aca7344219f0d0980cc6ca",
+                "reference": "5774747fc4e1db8072aca7344219f0d0980cc6ca",
                 "shasum": ""
             },
             "require": {
@@ -5212,7 +5212,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-12-05T05:20:43+00:00"
+            "time": "2020-12-05T06:13:17+00:00"
         },
         {
             "name": "spatie/eloquent-sortable",

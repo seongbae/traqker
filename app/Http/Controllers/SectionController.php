@@ -78,7 +78,7 @@ class SectionController extends Controller
     {
         $section->delete();
 
-        return redirect()->route('projects.show', ['project'=>$section->project_id]);
+        return redirect()->back(); //route('projects.show', ['project'=>$section->project]);
     }
 
 }

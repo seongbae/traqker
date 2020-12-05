@@ -66,8 +66,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
-    <form class="form-inline ml-3" action="{{ route('search') }}" method="POST">
-      @csrf
+    <form class="form-inline ml-3" action="{{ route('search') }}" method="GET">
       <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" name="query" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">

@@ -58,7 +58,7 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
 
     Route::get('/download/{attachment}', 'AttachmentController@download')->name('download');
     Route::get('/reports/{start?}/{end?}', 'ReportController@index')->name('reports.index');
-    Route::post('/search', 'SearchController@search')->name('search');
+    Route::get('/search', 'SearchController@search')->name('search');
     Route::post('/mark-as-read', 'HomeController@markNotification')->name('markNotification');
 
     Route::get('my-account', 'HomeController@showAccount');

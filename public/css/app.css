@@ -337,3 +337,12 @@ form .list-group-item {
   margin-bottom: 20px;
 }
 
+/* Kanban board CSS */
+
+.kanban-board,
+.kanban-item {
+  background: #ffffff;
+  border: 1px #c5c5c5 solid;
+  border-radius: 0.25rem;
+}
+

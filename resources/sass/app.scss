@@ -339,3 +339,12 @@ form .list-group-item {
     border-bottom: 1px solid #e3eaef;
     margin-bottom: 20px
 }
+
+/* Kanban board CSS */
+
+.kanban-board, .kanban-item {
+    //margin: 20px 0 !important;
+    background: #ffffff;
+    border: 1px #c5c5c5 solid;
+    border-radius: .25rem;
+}

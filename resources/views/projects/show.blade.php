@@ -23,7 +23,7 @@
                 <div class="col-md">
                     <!-- Example split danger button -->
                     <div class="btn-group">
-                        <a class="btn btn-primary btn-sm" href="/tasks/create?project={{$project->id}}&redirect_to=project">Add task</a>
+                        <a class="btn btn-primary btn-sm" href="/tasks/create?project={{$project->id}}&redirect_to=project"><i class="fas fa-plus"></i> Add task</a>
                         <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
@@ -184,9 +184,9 @@
             </div>
         </div>
         <div class="tab-pane fade" id="board-tab-content" role="tabpanel" aria-labelledby="board-tab" style="height:500px;">
-            <div class="row mb-2 mx-2">
+            <div class="row mb-2">
                 <div class="col-md">
-                    <a class="btn btn-primary btn-sm" href="#" id="addBoard">Add Board</a>
+                    <a class="btn btn-primary btn-sm" href="#" id="addBoard"><i class="fas fa-plus"></i> Add Board</a>
                 </div>
                 <div class="col-md-auto mb-3 mb-md-0">
 
@@ -227,9 +227,9 @@
 
         var kanban = new jKanban({
             element          : '#board',                                           // selector of the kanban container
-            gutter           : '15px',                                       // gutter of the board
+            gutter           : '5px',                                       // gutter of the board
             widthBoard       : '300px',                                      // width of the board
-            responsivePercentage: true,                                    // if it is true I use percentage in the width of the boards and it is not necessary gutter and widthBoard
+            responsivePercentage: false,                                    // if it is true I use percentage in the width of the boards and it is not necessary gutter and widthBoard
             dragItems        : true,                                         // if false, all items are not draggable
             boards           : @json($boards),                                           // json of boards
             dragBoards       : true,                                         // the boards are draggable, if false only item can be dragged
@@ -269,8 +269,6 @@
 
             },                     // callback when any board stop drag
             dragendBoard     : function (el) {
-                console.log(el.parentNode);
-
                 var boardIds = [].map.call(el.parentNode.children, function (e) {
                     return e.getAttribute('data-id')
                 })
@@ -289,7 +287,6 @@
                 });
             },                             // callback when any board stop drag
             buttonClick      : function(el, boardId) {
-                console.log(boardId);
                 var formItem = document.createElement("form");
                 formItem.setAttribute("class", "itemform");
                 formItem.innerHTML =
@@ -340,8 +337,6 @@
                 type: 'POST',
                 url: '/sections',
                 success: function(data) {
-                    console.log(data);
-
                     kanban.addBoards([
                         {
                             id: data.id,

@@ -18,7 +18,7 @@
                         <div class="search-item">
                             <h4 class="mb-1"><a href="{{ $searchResult->url }}">{{ $searchResult->title }}</a></h4>
                             <div class="font-13 text-success mb-3">{{ $searchResult->url }}</div>
-                            <p class="mb-0 text-muted">{{ $searchResult->description }}</p>
+                            <p class="mb-0 text-muted">{{ Helper::limitText($searchResult->description, 400)}}</p>
                         </div>
                     @endforeach
                     </div>

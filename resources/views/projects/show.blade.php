@@ -157,7 +157,7 @@
 
                         <div class="list-group list-group-flush">
                             <div class="list-group-item">
-                                {{ $project->description}}
+                                {{ Helper::limitText($project->description, 200) }}
                             </div>
                             <div class="list-group-item">
                                 Created by {{ $project->user->name }} on {{ $project->created_at->format('Y-m-d') }}

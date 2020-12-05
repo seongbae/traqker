@@ -2,7 +2,7 @@
     <div class="card" style="min-height:160px;width:100%">
         <div class="card-body">
             <strong><a href="{{ route('projects.show', ['project'=>$project])}}" >{{$project->name}}</a></strong>
-            <div class="project-description">{{$project->description}}</div>
+            <div class="project-description">{{Helper::limitText($project->description, 200)}}</div>
         </div>
         <div class="card-footer bg-white text-right p-2">
             @foreach($project->members as $member)

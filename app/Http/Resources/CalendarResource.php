@@ -18,7 +18,13 @@ class CalendarResource extends JsonResource
             'id' => $this->id,
             'title' => $this->name,
             'start' => $this->start_on == null ? $this->due_on : $this->start_on,
-            'end' => $this->due_on_day_end
+            'end' => $this->due_on_day_end,
+            'description'=>$this->description,
+            'url'=>route('tasks.show', $this),
+            'extendedProps'=>
+                [
+                    'id'=>$this->id
+                ]
         ];
     }
 }

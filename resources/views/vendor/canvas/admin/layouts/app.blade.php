@@ -16,44 +16,21 @@
   <link href="{{ asset('canvas/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('canvas/css/adminlte.min.css') }}" rel="stylesheet">
   <link href="{{ asset('canvas/css/datatables.min.css') }}" rel="stylesheet" >
-    <link href="{{ asset('css/vendor.css') }}" rel="stylesheet" >
-    <link href="{{ asset('css/skin-blue.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/vendor.css') }}" rel="stylesheet" >
+  <link href="{{ asset('css/skin-blue.min.css') }}" rel="stylesheet">
   <link href="{{ asset('canvas/css/canvas.css') }}" rel="stylesheet" >
-  <link href="{{ asset('canvas/css/custom.css') }}" rel="stylesheet">
-
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-  <link href="https://fonts.googleapis.com/css2?family=Volkhov&display=swap" rel="stylesheet">
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
-
 
   <!-- Load styles from child views -->
   @stack('styles')
 
-
-  <script src="{{ asset('canvas/js/jquery.min.js') }}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-
-
-  <script src="{{ asset('canvas/js/moment.min.js') }}"></script>
-  <script src="{{ asset('canvas/js/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('canvas/js/adminlte.min.js') }}"></script>
-  <script src="{{ asset('canvas/js/datatables.min.js') }}"></script>
-  <script src="{{ asset('canvas/js/buttons.server-side.js') }}"></script>
-  <script src="{{ asset('canvas/js/tagsinput.js') }}"></script>
-
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-  <script src="https://cdn.ravenjs.com/3.3.0/raven.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.3.1/bloodhound.min.js"></script>
-
+    <script src="{{ asset('canvas/js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/vendor.js') }}"></script>
-
+    <script src="{{ asset('canvas/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('canvas/js/datatables.min.js') }}"></script>
+    <script src="{{ asset('canvas/js/buttons.server-side.js') }}"></script>
+    <script src="{{ asset('canvas/js/tagsinput.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed  @if (Cookie::get('toggleState') === 'closed') {{ 'sidebar-collapse' }} @endif skin-blue">
 <div class="wrapper">
@@ -248,17 +225,11 @@
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
   </aside>
-  <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
 
 
-<!-- Tempusdominus Bootstrap 4 -->
-<!-- <script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script> -->
-
- <script>
+<script>
 
     function sendMarkRequest(id = null) {
         _token = "{{ csrf_token() }}";
@@ -340,11 +311,11 @@
             history.replaceState(null, null, newUrl);
         });
     });
-    </script>
+</script>
 
 
 
 
- @stack('scripts')
+@stack('scripts')
 </body>
 </html>

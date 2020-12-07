@@ -27,11 +27,14 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::get('projects/archived', 'ProjectController@indexArchived');
     Route::post('projects/tasks/reposition', 'ProjectController@repositionTasks');
     Route::get('projects/{project}/calendar', 'ProjectController@showCalendar');
-    Route::get('calendar/{project}', 'CalendarController@index');
-    Route::post('calendar/{project}/create', 'CalendarController@store');
     Route::get('projects/{project}/files', 'ProjectController@showFiles');
     Route::get('project/{projectid}/user/{userid}', 'ProjectController@removeMember');
     Route::resource('projects', 'ProjectController');
+
+    Route::get('calendar', 'CalendarController@index')->name('calendar.index');
+    Route::get('calendar/user', 'CalendarController@indexUser');
+    Route::get('calendar/{project}', 'CalendarController@indexProject');
+    Route::post('calendar/{project}/create', 'CalendarController@store');
 
 
     Route::resource('teams', 'TeamController')->middleware('notifications');

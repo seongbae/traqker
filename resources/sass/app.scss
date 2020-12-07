@@ -1,5 +1,17 @@
 //
 
+@media (min-width: 375px) {
+    section {
+        padding: 100px 0;
+    }
+}
+
+@media (min-width: 768px) {
+    section {
+        padding: 100px 0;
+    }
+}
+
 .site-logo {
 	font-family: 'Nunito',  sans-serif;
 	color: #212B35;

@@ -182,7 +182,6 @@ class Task extends Model implements Searchable
         });
 
        static::updated(function ($task) {
-           Log::info('Task updated');
             if($task->isDirty('status')){
                 // status has changed
                 if ($task->status == 'complete') {
@@ -190,7 +189,8 @@ class Task extends Model implements Searchable
                 }
             }
 
-            $task->project->touch();
+            if ($task->project_id)
+                $task->project->touch();
         });
     }
 }

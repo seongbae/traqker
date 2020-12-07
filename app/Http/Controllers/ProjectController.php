@@ -159,15 +159,18 @@ class ProjectController extends Controller
 
         $project->update($request->all());
 
-        if ($request->users)
+        if ($request->has('users'))
         {
-            $changes = $project->members()->sync(explode(",", $request->users));
+            if ($request->users == null)
+                $project->members()->detach();
+            else
+            {
+                $changes = $project->members()->sync(explode(",", $request->users));
 
-            if (count($changes['attached'])>0)
-                event(new AddedToProject(User::find($changes['attached']), $project));
+                if (count($changes['attached'])>0)
+                    event(new AddedToProject(User::find($changes['attached']), $project));
+            }
         }
-        else
-            $project->members()->detach();
 
         if ($request->team_id)
             $project->teams()->sync($request->team_id);

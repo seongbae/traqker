@@ -7,6 +7,9 @@
           <li class="nav-item">
               <a class="nav-link {{ (request()->is('tasks*')) ? 'active' : '' }}" href="{{ route('tasks.index') }}"><i class="fas fa-tasks mr-2"></i> <p>{{ __('Tasks') }}</p></a>
           </li>
+            <li class="nav-item">
+                <a class="nav-link {{ (request()->is('calendar*')) ? 'active' : '' }}" href="{{ route('calendar.index') }}"><i class="far fa-calendar-alt mr-2"></i> <p>{{ __('Calendar') }}</p></a>
+            </li>
           <li class="nav-item">
               <a class="nav-link {{ (request()->is('projects')) ? 'active' : '' }}" href="{{ route('projects.index') }}"><i class="fas fa-project-diagram mr-2"></i> <p>{{ __('Projects') }}</p></a>
           </li>

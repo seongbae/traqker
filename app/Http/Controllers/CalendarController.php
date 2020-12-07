@@ -7,16 +7,38 @@ use App\Http\Resources\CalendarResource;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use Auth;
 
 class CalendarController extends Controller
 {
-    public function index(Project $project)
+    public function indexProject(Project $project)
     {
         if (\Illuminate\Support\Facades\Request::ajax()) {
             return CalendarResource::collection($project->tasks);
         }
 
         return view('projects.calendar');
+    }
+
+    public function indexTeam(Project $project)
+    {
+        if (\Illuminate\Support\Facades\Request::ajax()) {
+            return CalendarResource::collection($project->tasks);
+        }
+
+        return view('projects.calendar');
+    }
+
+    public function indexUser()
+    {
+        $tasks = Auth::user()->tasks;
+
+        return CalendarResource::collection($tasks);
+    }
+
+    public function index()
+    {
+        return view('calendar.index');
     }
 
 }

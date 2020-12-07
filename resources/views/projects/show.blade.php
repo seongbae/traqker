@@ -199,7 +199,7 @@
         <div class="tab-pane fade" id="calendar-tab-content" role="tabpanel" aria-labelledby="calendar-tab" style="height:500px;">
             <div class="card">
                 <div class="card-body">
-            <div id='calendar' class="h-100 w-100"></div>
+                    <div id='calendar' class="h-100 w-100"></div>
                 </div>
             </div>
         </div>

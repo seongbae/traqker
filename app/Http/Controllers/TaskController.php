@@ -172,21 +172,20 @@ class TaskController extends Controller
 
     public function update(TaskRequest $request, Task $task)
     {
-        Log::info('Updating task...');
-
         $this->authorize('update', $task);
 
         $task->update($request->all());
 
-        if ($request->assignees)
-        {
-            $changes = $task->users()->sync(explode(",", $request->assignees));
+        if ($request->has('assignees')) {
+            if ($request->assignees == null)
+                $task->users()->detach();
+            else {
+                $changes = $task->users()->sync(explode(",", $request->assignees));
 
-            if (count($changes['attached'])>0)
-                event(new TaskAssigned(User::find($changes['attached']), $task));
+                if (count($changes['attached'])>0)
+                    event(new TaskAssigned(User::find($changes['attached']), $task));
+            }
         }
-        else
-            $task->users()->detach();
 
         if ($request->orders)
         {

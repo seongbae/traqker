@@ -5084,16 +5084,16 @@
         },
         {
             "name": "seongbae/canvas",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seongbae/canvas.git",
-                "reference": "7102ac123250ed4837b43019864028827aa64554"
+                "reference": "fbb5929f4058be8394943e4a13a48165f088de93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seongbae/canvas/zipball/7102ac123250ed4837b43019864028827aa64554",
-                "reference": "7102ac123250ed4837b43019864028827aa64554",
+                "url": "https://api.github.com/repos/seongbae/canvas/zipball/fbb5929f4058be8394943e4a13a48165f088de93",
+                "reference": "fbb5929f4058be8394943e4a13a48165f088de93",
                 "shasum": ""
             },
             "require": {
@@ -5146,9 +5146,9 @@
             "homepage": "https://github.com/seongbae/canvas",
             "support": {
                 "issues": "https://github.com/seongbae/canvas/issues",
-                "source": "https://github.com/seongbae/canvas/tree/1.1.1"
+                "source": "https://github.com/seongbae/canvas/tree/1.1.2"
             },
-            "time": "2020-12-05T05:17:32+00:00"
+            "time": "2020-12-07T05:02:19+00:00"
         },
         {
             "name": "seongbae/laravel-searchable",

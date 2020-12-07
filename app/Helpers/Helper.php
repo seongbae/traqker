@@ -14,6 +14,13 @@ class Helper
         	return $text;
     }
 
+    public static function convertURLtoLink($text, $target='_blank')
+    {
+        $url = '@(http(s)?)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
+        return preg_replace($url, '<a href="http$2://$4" target="'.$target.'" title="$0">$0</a>', $text);
+    }
+
+
     public static function getCommentUserImage($commenter)
     {
     	$user = Auth::user();

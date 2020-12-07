@@ -25,7 +25,7 @@
                                     Description
                                 </div>
                                 <div class="col-md">
-                                   {!! nl2br($task->description) !!}
+                                   {!! nl2br(Helper::convertURLtoLink($task->description)) !!}
                                 </div>
                             </div>
                         </div>

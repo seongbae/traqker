@@ -15,6 +15,7 @@ mix.combine([
     "node_modules/moment/min/moment.min.js",
     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
     "node_modules/corejs-typeahead/dist/typeahead.bundle.js",
+    "node_modules/raven-js/dist/raven.min.js",
     "node_modules/jkanban/dist/jkanban.min.js"
 ], "public/js/vendor.js");
 

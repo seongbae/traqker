@@ -8,23 +8,25 @@
 @endif
     <img class="mr-3 rounded-circle" src="/storage/{{Auth::user()->photo}}" alt="{{ $comment->commenter->name ?? $comment->guest_name }}" style="width:30px;">
     <div class="media-body">
-        <h5 class="mt-0 mb-1">{{ $comment->commenter->name ?? $comment->guest_name }} <small class="text-muted">- {{ $comment->created_at->diffForHumans() }}</small></h5>
+        <div class="mt-0 mb-1">{{ $comment->commenter->name ?? $comment->guest_name }} <small class="text-muted">- {{ $comment->created_at->diffForHumans() }}</small>
+            @can('edit-comment', $comment)
+                <button data-toggle="modal" data-target="#comment-modal-{{ $comment->id }}" class="btn btn-sm text-muted"><i class="far fa-edit"></i></button>
+            @endcan
+            @can('delete-comment', $comment)
+                <a href="{{ route('comments.destroy', $comment->id) }}" onclick="event.preventDefault();document.getElementById('comment-delete-form-{{ $comment->id }}').submit();" class="btn btn-sm btn-link text-muted"><i class="far fa-trash-alt"></i></a>
+                <form id="comment-delete-form-{{ $comment->id }}" action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display: none;">
+                    @method('DELETE')
+                    @csrf
+                </form>
+            @endcan
+        </div>
         <div style="white-space: pre-wrap;">{!! $markdown->line($comment->comment) !!}</div>
 
         <div>
             @can('reply-to-comment', $comment)
                 <button data-toggle="modal" data-target="#reply-modal-{{ $comment->id }}" class="btn btn-sm btn-link text-uppercase">Reply</button>
             @endcan
-            @can('edit-comment', $comment)
-                <button data-toggle="modal" data-target="#comment-modal-{{ $comment->id }}" class="btn btn-sm btn-link text-uppercase">Edit</button>
-            @endcan
-            @can('delete-comment', $comment)
-                <a href="{{ route('comments.destroy', $comment->id) }}" onclick="event.preventDefault();document.getElementById('comment-delete-form-{{ $comment->id }}').submit();" class="btn btn-sm btn-link text-danger text-uppercase">Delete</a>
-                <form id="comment-delete-form-{{ $comment->id }}" action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display: none;">
-                    @method('DELETE')
-                    @csrf
-                </form>
-            @endcan
+
         </div>
 
         @can('edit-comment', $comment)

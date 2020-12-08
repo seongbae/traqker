@@ -113,10 +113,12 @@ Coming soon
 <!-- ROADMAP -->
 ## Roadmap
 
-* Translation
 * Discussion board integration
+* Translation
+* Reporting
 * LDAP integration
 * OAuth2 client integration
+* REST API
 
 See the [open issues](https://github.com/seongbae/traqker/issues) for a list of proposed features (and known issues).
 

@@ -49,7 +49,7 @@
 
 ![Product Name Screen Shot](public/img/traqker.png)
 
-Traqker is a simple project management tool for small to medium-sized teams. 
+Traqker is a simple project and task management tool for small to medium-sized teams. 
 
 Features:
 * Manage multiple projects

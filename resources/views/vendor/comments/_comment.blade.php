@@ -6,7 +6,7 @@
 @else
   <li id="comment-{{ $comment->id }}" class="media">
 @endif
-    <img class="mr-3 rounded-circle" src="/storage/{{Auth::user()->photo}}" alt="{{ $comment->commenter->name ?? $comment->guest_name }}" style="width:30px;">
+    <img class="mr-3 rounded-circle" src="/storage/{{$comment->commenter->photo}}" alt="{{ $comment->commenter->name ?? $comment->guest_name }}" style="width:30px;">
     <div class="media-body">
         <div class="mt-0 mb-1">{{ $comment->commenter->name ?? $comment->guest_name }} <small class="text-muted">- {{ $comment->created_at->diffForHumans() }}</small>
             @can('edit-comment', $comment)

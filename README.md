@@ -62,10 +62,13 @@ Features:
 * Archive tasks & projects
 
 ### Built With
-* [Laravel](https://laravel.com)
-* [Canvas](https://github.com/seongbae/canvas)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [Laravel](https://laravel.com) - backend
+* [Bootstrap](https://getbootstrap.com) & [JQuery](https://jquery.com) - frontend
+* [Canvas](https://github.com/seongbae/canvas) - admin panel
+
+### Other libraries & tools used
+* [fullCalendar](https://fullcalendar.io) - Calendar integration
+* [jKanban](https://github.com/riktar/jkanban) - Kanban board integration
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -96,16 +99,24 @@ npm dev run
 ```sh
 php artisan install:traqker
 ```
-
+5. Browse to the site and login with 
+```sh
+Username: admin@admin.com
+Password: password
+```
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Documentation
 
-You can log in with username: admin@admin.com and "password" as password upon initial installation.
-
+Coming soon
 
 <!-- ROADMAP -->
 ## Roadmap
+
+* Translation
+* Discussion board integration
+* LDAP integration
+* OAuth2 client integration
 
 See the [open issues](https://github.com/seongbae/traqker/issues) for a list of proposed features (and known issues).
 

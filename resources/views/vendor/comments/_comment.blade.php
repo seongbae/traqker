@@ -10,10 +10,10 @@
     <div class="media-body">
         <div class="mt-0 mb-1">{{ $comment->commenter->name ?? $comment->guest_name }} <small class="text-muted">- {{ $comment->created_at->diffForHumans() }}</small>
             @can('edit-comment', $comment)
-                <button data-toggle="modal" data-target="#comment-modal-{{ $comment->id }}" class="btn btn-sm text-muted"><i class="far fa-edit"></i></button>
+                <button data-toggle="modal" data-target="#comment-modal-{{ $comment->id }}" class="btn btn-sm"><i class="far fa-edit" style="color:#DCDCDC"></i></button>
             @endcan
             @can('delete-comment', $comment)
-                <a href="{{ route('comments.destroy', $comment->id) }}" onclick="event.preventDefault();document.getElementById('comment-delete-form-{{ $comment->id }}').submit();" class="btn btn-sm btn-link text-muted"><i class="far fa-trash-alt"></i></a>
+                <a href="{{ route('comments.destroy', $comment->id) }}" onclick="event.preventDefault();document.getElementById('comment-delete-form-{{ $comment->id }}').submit();" class="btn btn-sm btn-link"><i class="far fa-trash-alt" style="color:#DCDCDC"></i></a>
                 <form id="comment-delete-form-{{ $comment->id }}" action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display: none;">
                     @method('DELETE')
                     @csrf

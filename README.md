@@ -113,6 +113,7 @@ Coming soon
 <!-- ROADMAP -->
 ## Roadmap
 
+* Gantt Chart
 * Discussion board integration
 * Translation
 * Reporting

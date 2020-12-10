@@ -94,7 +94,9 @@
                             </tbody>
                         </table>
                         @else
-                            Click <a href="{{route('tasks.create')}}">here</a> to create your first task!
+                            @if (count($project->tasks()->withoutGlobalScopes()->get()) == 0)
+                                Click <a href="{{route('tasks.create')}}">here</a> to create your first task!
+                            @endif
                         @endif
                         </div>
                         <div class="card-footer px-3">
@@ -114,11 +116,11 @@
                                 {{ $project->name }}
                             </div>
                             <div class="float-right">
-                                <div class="dropdown">
+                                <div class="dropdown ">
                                     <button class="btn btn-outline btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-chevron-down"></i>
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="{{ route('projects.edit', $project) }}">Edit</a>
                                         <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_project_{{ $project->id }}_form').submit();">Delete</a>
                                         <form method="post" action="{{ route('projects.destroy', $project) }}" id="delete_project_{{ $project->id }}_form" class="d-none">

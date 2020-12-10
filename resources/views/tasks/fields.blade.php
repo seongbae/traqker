@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <x-canvas-input name="name" :value="old('name', $task->name ?? '')" :autofocus="true"/>
         <x-canvas-textarea name="description" :value="old('description', $task->description ?? '')" />
         <x-canvas-select name="priority" :options="$priority" :value="old('priority', $task->priority ?? '')" />
@@ -19,8 +19,7 @@
             </div>
         </div>
 
-    </div>
-    <div class="col-lg-6">
+
         <x-canvas-input name="start_on" type="date" :value="old('start_on', $task->start_on ?? '')" />
         <x-canvas-input name="due_on" type="date" :value="old('due_on', $task->due_on ?? '')" />
         <x-canvas-input name="estimate_hour" type="number" :value="old('estimate_hour', $task->estimate_hour ?? '')" />

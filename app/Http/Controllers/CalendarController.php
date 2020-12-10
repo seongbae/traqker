@@ -11,13 +11,11 @@ use Auth;
 
 class CalendarController extends Controller
 {
-    public function indexProject(Project $project)
+    public function indexProject($id)
     {
-        if (\Illuminate\Support\Facades\Request::ajax()) {
-            return CalendarResource::collection($project->tasks);
-        }
+        $project = Project::find($id);
 
-        return view('projects.calendar');
+        return CalendarResource::collection($project->tasks);
     }
 
     public function indexTeam(Project $project)

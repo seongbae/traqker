@@ -196,10 +196,10 @@
 
             <div id='board' class="h-100 w-100"></div>
         </div>
-        <div class="tab-pane fade" id="calendar-tab-content" role="tabpanel" aria-labelledby="calendar-tab" style="height:500px;">
+        <div class="tab-pane fade" id="calendar-tab-content" role="tabpanel" aria-labelledby="calendar-tab">
             <div class="card">
                 <div class="card-body">
-                    <div id='calendar' class="h-100 w-100"></div>
+                    <div id='calendar' model="project" model-id="{{$project->id}}"></div>
                 </div>
             </div>
         </div>
@@ -376,96 +376,7 @@
 
             $( "#project-tasks-body" ).disableSelection();
 
-             var calendar = $('#calendar').fullCalendar({
-                events: "/calendar/{{$project->id}}",
-                displayEventTime: false,
-                editable: true,
-                eventRender: function (event, element, view) {
-                    if (event.allDay === 'true') {
-                        event.allDay = true;
-                    } else {
-                        event.allDay = false;
-                    }
-                },
-                beforeOpen: function (event, ui) {
-                    ui.menu.zIndex($(event.target).zIndex() + 1);
-                },
-                selectable: true,
-                selectHelper: true,
-                select: function (start, end, allDay) {
-                    var title = prompt('Title:');
-                    if (title) {
-                        var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
-                        var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
-                        var endPreviousDay = $.fullCalendar.formatDate(moment(end).subtract(1,'day'), "Y-MM-DD HH:mm:ss");
 
-                        $.ajax({
-                            url: "/tasks",
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                name: title,
-                                start_on: start,
-                                due_on: endPreviousDay,
-                                project_id: {{$project->id}}
-                            },
-                            type: "POST",
-                            success: function (data) {
-                                displayMessage("Added Successfully");
-                            }
-                        });
-                        calendar.fullCalendar('renderEvent',
-                            {
-                                title: title,
-                                start: start,
-                                end: end,
-                                allDay: allDay
-                            },
-                            true
-                        );
-                    }
-                    calendar.fullCalendar('unselect');
-                },
-                eventDrop: function (event, delta) {
-                    var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-                    var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-
-                    $.ajax({
-                        url: '/tasks/'+event.id,
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            _method: "PUT",
-                            start_on: start,
-                            due_on: end
-                        },
-                        type: "POST",
-                        success: function (response) {
-                            displayMessage("Updated Successfully");
-                        }
-                    });
-                },
-                eventClick: function (event) {
-                    window.location.href = "/tasks/"+event.id;
-
-                {{--var deleteMsg = confirm("Do you really want to delete?");--}}
-                    {{--if (deleteMsg) {--}}
-                    {{--    $.ajax({--}}
-                    {{--        type: "POST",--}}
-                    {{--        url: '/tasks/'+event.id,--}}
-                    {{--        data: {--}}
-                    {{--            _token: "{{ csrf_token() }}",--}}
-                    {{--            _method: "DELETE"--}}
-
-                    {{--        },--}}
-                    {{--        success: function (response) {--}}
-                    {{--            if(response == 'success') {--}}
-                    {{--                $('#calendar').fullCalendar('removeEvents', event.id);--}}
-                    {{--                displayMessage("Deleted Successfully");--}}
-                    {{--            }--}}
-                    {{--        }--}}
-                    {{--    });--}}
-                    {{--}--}}
-                }
-            });
         } );
     </script>
 @endpush

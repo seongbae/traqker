@@ -20,7 +20,7 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::get('tasks/deleted', 'TaskController@indexDeleted');
     Route::get('tasks/completed', 'TaskController@indexCompleted');
     Route::resource('tasks', 'TaskController');
-    Route::get('sections/create/{project}', 'SectionController@create');
+    Route::get('sections/create/{id}', 'SectionController@create');
     Route::post('sections/orders', 'SectionController@updateOrders');
     Route::resource('sections', 'SectionController');
 
@@ -29,11 +29,12 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::get('projects/{project}/calendar', 'ProjectController@showCalendar');
     Route::get('projects/{project}/files', 'ProjectController@showFiles');
     Route::get('project/{projectid}/user/{userid}', 'ProjectController@removeMember');
+    Route::get('projects/{project}/completed', 'ProjectController@index');
     Route::resource('projects', 'ProjectController');
 
     Route::get('calendar', 'CalendarController@index')->name('calendar.index');
     Route::get('calendar/user', 'CalendarController@indexUser');
-    Route::get('calendar/{project}', 'CalendarController@indexProject');
+    Route::get('calendar/project/{id}', 'CalendarController@indexProject');
     Route::post('calendar/{project}/create', 'CalendarController@store');
 
 

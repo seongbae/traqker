@@ -17,11 +17,17 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
     if (calendarEl !== null ) {
+        var eventListingURL = "/calendar/user";
+
+        if (calendarEl.getAttribute("model") == 'project')
+            eventListingURL = "/calendar/project/2"; //calendarEl.getAttribute("model-id");
+
         var calendar = new Calendar(calendarEl, {
             plugins: [ dayGridPlugin, interaction, bootstrapPlugin ],
-            events: "/calendar/user",
+            events: eventListingURL,
             displayEventTime: false,
             editable: true,
+            //height: 650,
             eventContent: function (info) {
 
             },

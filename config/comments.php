@@ -25,7 +25,7 @@ return [
      * Change this to your own implementation of the CommentController.
      * You can use the \Laravelista\Comments\CommentControllerInterface.
      */
-    'controller' => '\Laravelista\Comments\CommentController',
+    'controller' => '\App\Http\Controllers\CommentController',
 
     /**
      * Disable/enable the package routes.

@@ -103,7 +103,7 @@ class TaskController extends Controller
         $priority = ['high','medium','low'];
 
         return view('tasks.create')
-                ->with('projects', Auth::user()->projects->pluck('id','name')->toArray())
+                ->with('projects', Auth::user()->projects()->orderBy('projects.name')->pluck('projects.id','projects.name')->toArray())
                 ->with('users', $users)
                 ->with('task', null)
                 ->with('priority', $priority)

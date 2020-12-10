@@ -209,7 +209,7 @@
         <div class="tab-pane fade" id="calendar-tab-content" role="tabpanel" aria-labelledby="calendar-tab">
             <div class="card">
                 <div class="card-body">
-                    <div id='calendar' model="project" model-id="{{$project->id}}"></div>
+                    <div id="calendar" model="project" model-id="{{$project->id}}"></div>
                 </div>
             </div>
         </div>

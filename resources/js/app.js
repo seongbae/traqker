@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var eventListingURL = "/calendar/user";
 
         if (calendarEl.getAttribute("model") == 'project')
-            eventListingURL = "/calendar/project/2"; //calendarEl.getAttribute("model-id");
+            eventListingURL = "/calendar/project/" + calendarEl.getAttribute("model-id");
 
         var calendar = new Calendar(calendarEl, {
             plugins: [ dayGridPlugin, interaction, bootstrapPlugin ],
@@ -81,9 +81,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        calendar.render();
+
+        if (calendarEl.getAttribute("model") == 'project') {
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                calendar.render();
+            });
+        } else
+            calendar.render();
     }
-
-
-
 });

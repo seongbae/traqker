@@ -93,7 +93,7 @@ composer install
 3. Install & compile NPM packages
 ```sh
 npm install
-npm dev run
+npm run dev
 ```
 4. Run the installation script
 ```sh

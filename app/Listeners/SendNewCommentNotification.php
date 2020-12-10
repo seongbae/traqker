@@ -40,7 +40,7 @@ class SendNewCommentNotification
 
         foreach($event->comment->commentable->users as $assignee)
         {
-            if (!in_array($assignee, $notifyUsers))
+            if (!in_array($assignee, $notifyUsers) && $assignee->id != $event->comment->commenter_id)
                 $notifyUsers[] = $assignee;
         }
 

@@ -47,9 +47,12 @@ class TaskController extends Controller
             : view('tasks.index', $datatables->html());
     }
 
-    public function indexDeleted(Request $request)
+    public function indexDeleted(Request $request, Project $project)
     {
-        $query = Auth::user()->tasks()->withTrashed()->whereNotNull('deleted_at');
+        if (empty($project))
+            $query = $project->tasks()->withTrashed()->whereNotNull('deleted_at');
+        else
+            $query = Auth::user()->tasks()->withTrashed()->whereNotNull('deleted_at');
 
         $datatables = TaskDatatable::make($query);
 
@@ -58,9 +61,12 @@ class TaskController extends Controller
             : view('tasks.index', $datatables->html());
     }
 
-    public function indexCompleted(Request $request)
+    public function indexCompleted(Request $request, Project $project)
     {
-        $query = Auth::user()->tasks()->withoutGlobalScope(CompletedScope::class)->where('status', 'complete')->select('tasks.*');
+        if (empty($project))
+            $query = Auth::user()->tasks()->withoutGlobalScope(CompletedScope::class)->where('status', 'complete')->select('tasks.*');
+        else
+            $query = $project->tasks()->withoutGlobalScope(CompletedScope::class)->where('status', 'complete')->select('tasks.*');
 
         $datatables = TaskDatatable::make($query);
 

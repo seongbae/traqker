@@ -46,7 +46,7 @@
                     <div class="card">
                         <div class="card-body">
                         @if (count($project->tasks)>0)
-                        <table class="table table-hover" id="project-tasks">
+                        <table class="table" id="project-tasks">
                             <thead>
                             <tr>
                                 <th scope="col">Task name</th>
@@ -96,6 +96,14 @@
                         @else
                             Click <a href="{{route('tasks.create')}}">here</a> to create your first task!
                         @endif
+                        </div>
+                        <div class="card-footer px-3">
+                            @if (count($project->completedTasks)>0)
+                            <a href="/tasks/completed/{{$project->slug}}" class="text-secondary m-1"><i class="far fa-check-square" title="Completed Tasks"></i></a>
+                            @endif
+                            @if (count($project->deletedTasks)>0)
+                            <a href="/tasks/deleted/{{$project->slug}}" class="text-secondary m-1"><i class="far fa-trash-alt " title="Deleted Tasks"></i></a>
+                            @endif
                         </div>
                     </div>
                 </div>

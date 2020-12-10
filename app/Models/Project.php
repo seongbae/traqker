@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Client;
+use App\Scopes\CompletedScope;
 use Illuminate\Database\Eloquent\Model;
 use Seongbae\Canvas\Traits\FillsColumns;
 use Seongbae\Canvas\Traits\SerializesDates;
@@ -65,6 +66,16 @@ class Project extends Model implements Searchable
     public function tasks()
     {
         return $this->hasMany(Task::class)->orderBy('order','asc');
+    }
+
+    public function completedTasks()
+    {
+        return $this->hasMany(Task::class)->withoutGlobalScope(CompletedScope::class)->where('status','complete')->orderBy('completed_on','desc');
+    }
+
+    public function deletedTasks()
+    {
+        return $this->hasMany(Task::class)->onlyTrashed()->orderBy('deleted_at','desc');
     }
 
     public function noSectionTasks()

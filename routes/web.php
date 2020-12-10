@@ -18,8 +18,12 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
 
     Route::get('tasks/archived', 'TaskController@indexArchived');
     Route::get('tasks/deleted', 'TaskController@indexDeleted');
+    Route::get('tasks/deleted/{project}', 'TaskController@indexDeleted');
     Route::get('tasks/completed', 'TaskController@indexCompleted');
+    Route::get('tasks/completed/{project}', 'TaskController@indexCompleted');
+
     Route::resource('tasks', 'TaskController');
+
     Route::get('sections/create/{id}', 'SectionController@create');
     Route::post('sections/orders', 'SectionController@updateOrders');
     Route::resource('sections', 'SectionController');

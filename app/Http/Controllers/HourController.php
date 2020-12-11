@@ -99,7 +99,7 @@ class HourController extends Controller
     {
         if ($request->get('task_id'))
         {
-            $task = Task::find($request->get('task_id'));
+            $task = Task::withoutGlobalScopes()->find($request->get('task_id'));
 
             Hour::create(array_merge($request->all(), [
                 'description'=>$task->name,

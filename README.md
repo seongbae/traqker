@@ -115,6 +115,7 @@ Coming soon
 
 * Gantt Chart
 * Discussion board integration
+* Project templates
 * Translation
 * Reporting
 * LDAP integration

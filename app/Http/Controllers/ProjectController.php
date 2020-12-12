@@ -183,9 +183,11 @@ class ProjectController extends Controller
             }
         }
 
-        $projectUsers = MemberResource::collection($project->members);
+        //$projectUsers = MemberResource::collection($->members);
 
-        return view('projects.edit', compact('project', 'projects', 'teams', 'users', 'data','availableUsers', 'projectUsers'));
+        //Log::info()
+
+        return view('projects.edit', compact('project', 'projects', 'teams', 'users', 'data','availableUsers'));
     }
 
     public function update(ProjectRequest $request, Project $project)

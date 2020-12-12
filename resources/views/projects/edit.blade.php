@@ -62,11 +62,11 @@
             ]
         });
 
-        var projectUsers = @json($projectUsers);
+        {{--var projectUsers = @json($projectUsers);--}}
 
-        for (var i = 0; i < projectUsers.length; i++){
-            $('#users').tagsinput('add', { "value": projectUsers[i].value , "text": projectUsers[i].text    });
-        }
+        {{--for (var i = 0; i < projectUsers.length; i++){--}}
+        {{--    $('#users').tagsinput('add', { "value": projectUsers[i].value , "text": projectUsers[i].text    });--}}
+        {{--}--}}
 
         {{--function validateSelection() {--}}
         {{--    if(data.indexOf($(this).val()) === -1)--}}

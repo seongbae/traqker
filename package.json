@@ -35,6 +35,7 @@
         "raven-js": "^3.27.2",
         "raven.js": "^0.1.0",
         "typeahead": "^0.2.2",
+        "typeahead.js": "^0.11.1",
         "vue": "^2.6.12"
     }
 }

@@ -15,7 +15,7 @@ mix.combine([
     "node_modules/moment/min/moment.min.js",
     //"node_modules/jquery-ui/ui/widgets/draggable.js",
     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-    "node_modules/corejs-typeahead/dist/typeahead.bundle.js",
+    "node_modules/typeahead.js/dist/typeahead.bundle.js",
     "node_modules/raven-js/dist/raven.min.js",
     "node_modules/jkanban/dist/jkanban.min.js",
     "node_modules/frappe-gantt/dist/frappe-gantt.js"

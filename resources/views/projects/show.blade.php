@@ -3,25 +3,13 @@
 @section('title', __('Project'))
 @section('content')
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="true">List</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="board-tab" data-toggle="tab" href="#board-tab-content" role="tab" aria-controls="board" aria-selected="false">Board</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="calendar-tab" data-toggle="tab" href="#calendar-tab-content" role="tab" aria-controls="calendar" aria-selected="false">Calendar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Files</a>
-        </li>
-    </ul>
-    <div class="tab-content mt-4 d-flex flex-column flex-grow-1 rounded-right rounded-bottom" id="myTabContent" >
-        <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="list-tab">
-            <div class="row mb-2">
-                <div class="col-md">
-                    <!-- Example split danger button -->
+    @include('projects.menus')
+
+
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
                     <div class="btn-group">
                         <a class="btn btn-primary btn-sm" href="/tasks/create?project={{$project->id}}&redirect_to=project"><i class="fas fa-plus"></i> Add task</a>
                         <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -33,19 +21,7 @@
                             <a class="dropdown-item" href="/sections/create/{{$project->id}}">Add section</a>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-auto mb-3 mb-md-0">
-
-
-                </div>
-            </div>
-
-
-            <div class="row justify-content-center">
-                <div class="col-md-9">
-                    <div class="card">
-                        <div class="card-body">
-                        @if (count($project->tasks)>0)
+                    @if (count($project->tasks)>0)
                         <table class="table" id="project-tasks">
                             <thead>
                             <tr>
@@ -93,132 +69,102 @@
                             @endforeach
                             </tbody>
                         </table>
-                        @else
-                            @if (count($project->tasks()->withoutGlobalScopes()->get()) == 0)
-                                Click <a href="{{route('tasks.create')}}">here</a> to create your first task!
-                            @endif
+                    @else
+                        @if (count($project->tasks()->withoutGlobalScopes()->get()) == 0)
+                            Click <a href="{{route('tasks.create')}}">here</a> to create your first task!
                         @endif
-                        </div>
-                        <div class="card-footer px-3">
-                            @if (count($project->completedTasks)>0)
-                            <a href="/tasks/completed/{{$project->slug}}" class="text-secondary m-1"><i class="far fa-check-square" title="Completed Tasks"></i></a>
-                            @endif
-                            @if (count($project->deletedTasks)>0)
-                            <a href="/tasks/deleted/{{$project->slug}}" class="text-secondary m-1"><i class="far fa-trash-alt " title="Deleted Tasks"></i></a>
-                            @endif
+                    @endif
+                </div>
+                <div class="card-footer px-3">
+                    @if (count($project->completedTasks)>0)
+                        <a href="/tasks/completed/{{$project->slug}}" class="text-secondary m-1"><i class="far fa-check-square" title="Completed Tasks"></i></a>
+                    @endif
+                    @if (count($project->deletedTasks)>0)
+                        <a href="/tasks/deleted/{{$project->slug}}" class="text-secondary m-1"><i class="far fa-trash-alt " title="Deleted Tasks"></i></a>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card  no-gutters" id="project-info">
+                <div class="card-header">
+                    <div class="float-left">
+                        {{ $project->name }}
+                    </div>
+                    <div class="float-right">
+                        <div class="dropdown ">
+                            <button class="btn btn-outline btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ route('projects.edit', $project) }}">Edit</a>
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_project_{{ $project->id }}_form').submit();">Delete</a>
+                                <form method="post" action="{{ route('projects.destroy', $project) }}" id="delete_project_{{ $project->id }}_form" class="d-none">
+                                    @csrf
+                                    @method('delete')
+                                </form>
+
+                                @if ($project->archived)
+
+                                    <a class="dropdown-item" href="#" onclick="$('#archived').val('0');$('#archive_project_{{ $project->id }}_form').submit();">Un-archive</a>
+                                    <input type="hidden" name="archive" value="0">
+                                @else
+                                    <a class="dropdown-item" href="#" onclick="$('#archived').val('1');$('#archive_project_{{ $project->id }}_form').submit();">Archive</a>
+                                @endif
+                                <form method="post" action="{{ route('projects.update', ['project'=>$project]) }}" id="archive_project_{{ $project->id }}_form" class="d-none">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="name" value="{{$project->name}}">
+                                    <input type="hidden" name="archived" value="{{$project->archived}}" id="archived">
+                                </form>
+
+                                @if ($project->quicklink)
+                                    <a class="dropdown-item" href="#" onclick="$('#quicklink_project_{{ $project->id }}_form').submit();">Remove Quicklink</a>
+
+                                    <form method="post" action="{{ route('quicklinks.destroy', ['quicklink'=>$project->quicklink]) }}" id="quicklink_project_{{ $project->id }}_form" class="d-none">
+                                        @csrf
+                                        @method('delete')
+                                    </form>
+                                @else
+                                    <a class="dropdown-item" href="#" onclick="$('#quicklink_project_{{ $project->id }}_form').submit();">Add to Quicklink</a>
+
+                                    <form method="post" action="{{ route('quicklinks.store') }}" id="quicklink_project_{{ $project->id }}_form" class="d-none">
+                                        @csrf
+                                        <input type="hidden" name="title" value="{{$project->name}}">
+                                        <input type="hidden" name="model_id" value="{{$project->id}}">
+                                        <input type="hidden" name="url" value="{{route('projects.show',['project'=>$project])}}">
+                                    </form>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card  no-gutters" id="project-info">
-                        <div class="card-header">
-                            <div class="float-left">
-                                {{ $project->name }}
-                            </div>
-                            <div class="float-right">
-                                <div class="dropdown ">
-                                    <button class="btn btn-outline btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{ route('projects.edit', $project) }}">Edit</a>
-                                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Delete This Project?') }}')) $('#delete_project_{{ $project->id }}_form').submit();">Delete</a>
-                                        <form method="post" action="{{ route('projects.destroy', $project) }}" id="delete_project_{{ $project->id }}_form" class="d-none">
-                                            @csrf
-                                            @method('delete')
-                                        </form>
+                <div class="card-body" style="padding:0;">
 
-                                        @if ($project->archived)
-
-                                            <a class="dropdown-item" href="#" onclick="$('#archived').val('0');$('#archive_project_{{ $project->id }}_form').submit();">Un-archive</a>
-                                            <input type="hidden" name="archive" value="0">
-                                        @else
-                                            <a class="dropdown-item" href="#" onclick="$('#archived').val('1');$('#archive_project_{{ $project->id }}_form').submit();">Archive</a>
-                                        @endif
-                                        <form method="post" action="{{ route('projects.update', ['project'=>$project]) }}" id="archive_project_{{ $project->id }}_form" class="d-none">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="name" value="{{$project->name}}">
-                                            <input type="hidden" name="archived" value="{{$project->archived}}" id="archived">
-                                        </form>
-
-                                        @if ($project->quicklink)
-                                            <a class="dropdown-item" href="#" onclick="$('#quicklink_project_{{ $project->id }}_form').submit();">Remove Quicklink</a>
-
-                                            <form method="post" action="{{ route('quicklinks.destroy', ['quicklink'=>$project->quicklink]) }}" id="quicklink_project_{{ $project->id }}_form" class="d-none">
-                                                @csrf
-                                                @method('delete')
-                                            </form>
-                                        @else
-                                            <a class="dropdown-item" href="#" onclick="$('#quicklink_project_{{ $project->id }}_form').submit();">Add to Quicklink</a>
-
-                                            <form method="post" action="{{ route('quicklinks.store') }}" id="quicklink_project_{{ $project->id }}_form" class="d-none">
-                                                @csrf
-                                                <input type="hidden" name="title" value="{{$project->name}}">
-                                                <input type="hidden" name="model_id" value="{{$project->id}}">
-                                                <input type="hidden" name="url" value="{{route('projects.show',['project'=>$project])}}">
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            {{ Helper::limitText($project->description, 200) }}
                         </div>
-                        <div class="card-body" style="padding:0;">
-
-                        <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            Created by {{ $project->user->name }} on {{ $project->created_at->format('Y-m-d') }}
+                        </div>
+                        @if ($project->parent_id )
                             <div class="list-group-item">
-                                {{ Helper::limitText($project->description, 200) }}
+                                In <a href="{{ route('projects.show',['project'=>$project->parent]) }}">{{ $project->parent->name }}</a>
                             </div>
-                            <div class="list-group-item">
-                                Created by {{ $project->user->name }} on {{ $project->created_at->format('Y-m-d') }}
-                            </div>
-                            @if ($project->parent_id )
-                                <div class="list-group-item">
-                                    In <a href="{{ route('projects.show',['project'=>$project->parent]) }}">{{ $project->parent->name }}</a>
-                                </div>
-                            @endif
-                            <div class="list-group-item">
-                                Members<br>
-                                <div class="my-2">
+                        @endif
+                        <div class="list-group-item">
+                            Members<br>
+                            <div class="my-2">
                                 @foreach($project->members as $member)
                                     <img src="/storage/{{ $member->photo }}" alt="{{ $member->name }}" title="{{ $member->name }}" class="rounded-circle profile-small mr-1" >
                                 @endforeach
-                                </div>
                             </div>
                         </div>
-
-                        </div>
-
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="board-tab-content" role="tabpanel" aria-labelledby="board-tab" style="height:500px;">
-            <div class="row mb-2">
-                <div class="col-md">
-                    <a class="btn btn-primary btn-sm" href="#" id="addBoard"><i class="fas fa-plus"></i> Add Board</a>
-                </div>
-                <div class="col-md-auto mb-3 mb-md-0">
-
 
                 </div>
-            </div>
 
-            <div id='board' class="h-100 w-100"></div>
-        </div>
-        <div class="tab-pane fade" id="calendar-tab-content" role="tabpanel" aria-labelledby="calendar-tab">
-            <div class="card">
-                <div class="card-body">
-                    <div id="calendar" model="project" model-id="{{$project->id}}"></div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-tab">
-            <div class="card">
-                <div class="card-body">
-                {!! $html->table() !!}
-                {!! $html->scripts() !!}
-                </div>
             </div>
         </div>
     </div>
@@ -229,137 +175,6 @@
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-
-        function displayMessage(message) {
-            $(".response").html(""+message+"");
-            setInterval(function() { $(".success").fadeOut(); }, 1000);
-        }
-
-        var kanban = new jKanban({
-            element          : '#board',                                           // selector of the kanban container
-            gutter           : '5px',                                       // gutter of the board
-            widthBoard       : '300px',                                      // width of the board
-            responsivePercentage: false,                                    // if it is true I use percentage in the width of the boards and it is not necessary gutter and widthBoard
-            dragItems        : true,                                         // if false, all items are not draggable
-            boards           : @json($boards),                                           // json of boards
-            dragBoards       : true,                                         // the boards are draggable, if false only item can be dragged
-            addItemButton    : true,                                        // add a button to board for easy item creation
-            buttonContent    : '+',                                          // text or html content of the board button
-            itemHandleOptions: {
-                enabled             : false,                                 // if board item handle is enabled or not
-                handleClass         : "item_handle",                         // css class for your custom item handle
-                customCssHandler    : "drag_handler",                        // when customHandler is undefined, jKanban will use this property to set main handler class
-                customCssIconHandler: "drag_handler_icon",                   // when customHandler is undefined, jKanban will use this property to set main icon handler class. If you want, you can use font icon libraries here
-                customHandler       : "<span class='item_handle'>+</span> %s"// your entirely customized handler. Use %s to position item title
-            },
-            click            : function (el) {
-                window.location.href = "/tasks/"+el.getAttribute('data-eid');
-            },                             // callback when any board's item are clicked
-            dragEl           : function (el, source) {},                     // callback when any board's item are dragged
-            dragendEl        : function (el) {},                             // callback when any board's item stop drag
-            dropEl           : function (el, target, source, sibling) {
-
-                var taskIds = [].map.call(target.children, function (e) {
-                    return e.getAttribute('data-eid')
-                })
-
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        section_id: target.parentElement.getAttribute('data-id'),
-                        orders: taskIds
-                    },
-                    type: 'PUT',
-                    url: '/tasks/'+el.getAttribute('data-eid')
-                });
-            },    // callback when any board's item drop in a board
-            dragBoard        : function (el, source) {
-
-            },                     // callback when any board stop drag
-            dragendBoard     : function (el) {
-                var boardIds = [].map.call(el.parentNode.children, function (e) {
-                    return e.getAttribute('data-id')
-                })
-
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-
-                        project_id: {{$project->id}},
-                        orders: boardIds
-                    },
-                    type: 'POST',
-                    url: '/sections/orders'
-                });
-            },                             // callback when any board stop drag
-            buttonClick      : function(el, boardId) {
-                var formItem = document.createElement("form");
-                formItem.setAttribute("class", "itemform");
-                formItem.innerHTML =
-                    '<div class="form-group"><textarea class="form-control" rows="2" autofocus></textarea></div><div class="form-group"><button type="submit" class="btn btn-primary btn-xs pull-right">Submit</button><button type="button" id="CancelBtn" class="btn btn-default btn-xs pull-right">Cancel</button></div>';
-
-                kanban.addForm(boardId, formItem);
-                formItem.addEventListener("submit", function(e) {
-                    e.preventDefault();
-                    var text = e.target[0].value;
-                    kanban.addElement(boardId, {
-                        title: text,
-                        class: "traqker-kanban-item"
-                    });
-                    formItem.parentNode.removeChild(formItem);
-
-
-
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            project_id: {{$project->id}},
-                            section_id: boardId,
-                            name: text
-                        },
-                        type: 'POST',
-                        url: '/tasks'
-                    });
-                });
-                document.getElementById("CancelBtn").onclick = function() {
-                    formItem.parentNode.removeChild(formItem);
-                };
-            }                      // callback when the board's button is clicked
-        })
-
-        var addBoardDefault = document.getElementById("addBoard");
-        addBoardDefault.addEventListener("click", function() {
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    project_id: {{$project->id}},
-                    name: "Default"
-                },
-                type: 'POST',
-                url: '/sections',
-                success: function(data) {
-                    kanban.addBoards([
-                        {
-                            id: data.id,
-                            title: "Default",
-
-                            item: [
-
-                            ]
-                        }
-                    ]);
-                }
-            });
-        });
 
         $( function() {
             $( "#project-tasks-body" ).sortable({

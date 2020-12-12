@@ -18,9 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (calendarEl !== null ) {
         var eventListingURL = "/calendar/user";
+        var projectId = "";
 
-        if (calendarEl.getAttribute("model") == 'project')
-            eventListingURL = "/calendar/project/" + calendarEl.getAttribute("model-id");
+        if (calendarEl.getAttribute("data-model") == 'project') {
+            projectId = calendarEl.getAttribute("data-model-id");
+            eventListingURL = "/calendar/project/" + projectId;
+        }
 
         var calendar = new Calendar(calendarEl, {
             plugins: [ dayGridPlugin, interaction, bootstrapPlugin ],
@@ -28,12 +31,22 @@ document.addEventListener('DOMContentLoaded', function() {
             displayEventTime: false,
             editable: true,
             //height: 650,
-            eventContent: function (info) {
-
-            },
+            // dayClick: function(date, jsEvent, view) {
+            //     $("#myModal").modal("show");
+            // },
+            // eventClick:  function(event, jsEvent, view) {
+            //     $('#modalTitle').html(event.title);
+            //     $('#modalBody').html(event.description);
+            //     $('#eventUrl').attr('href',event.url);
+            //     $('#calendarModal').modal();
+            // },
+            // eventContent: function (info) {
+            //
+            // },
             selectable: true,
             selectHelper: true,
             select: function (selectionInfo) {
+                //$("#myModal").modal("show");
                 var start = moment(selectionInfo.start).format('YYYY-MM-DD HH:mm:ss');
                 var end = moment(selectionInfo.end).subtract(1, "minute").format('YYYY-MM-DD HH:mm:ss');
                 var csrf = $('meta[name="csrf-token"]'). attr('content');
@@ -44,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         url: "/tasks",
                         data: {
                             _token: csrf,
+                            project_id: projectId,
                             name: title,
                             start_on: start,
                             due_on: end
@@ -88,5 +102,32 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         } else
             calendar.render();
+
+        $(document).ready(function(){
+            $("#newTaskForm").submit(function(event){
+                alert('test');
+                submitForm();
+                return false;
+            });
+
+
+        });
+
+        // function submitForm(){
+        //     alert('test');
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "saveContact.php",
+        //         cache:false,
+        //         data: $('form#contactForm').serialize(),
+        //         success: function(response){
+        //             $("#contact").html(response)
+        //             $("#contact-modal").modal('hide');
+        //         },
+        //         error: function(){
+        //             alert("Error");
+        //         }
+        //     });
+        // }
     }
 });

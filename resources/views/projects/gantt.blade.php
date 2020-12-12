@@ -3,6 +3,8 @@
 @section('title', __('Project'))
 @section('content')
 
+@include('projects.menus')
+
 <div id='gantt'></div>
 
 @endsection

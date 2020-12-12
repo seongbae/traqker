@@ -83,10 +83,21 @@ class ProjectController extends Controller
 
     public function show(Project $project, Request $request)
     {
+        $page = "_list";
+
         $this->authorize('view', $project);
 
         $query = Attachment::where('attached_model', 'App\Models\Task')->whereIn('attached_model_id', $project->tasks->pluck('id'));
         $datatables = AttachmentDatatable::make($query);
+
+        return $request->ajax()
+            ? $datatables->json()
+            : view('projects.show', $datatables->html(), compact('project','page'));
+    }
+
+    public function showBoard(Project $project)
+    {
+        $page = "_board";
 
         $boards = [];
 
@@ -113,25 +124,38 @@ class ProjectController extends Controller
             ];
         }
 
-
-        return $request->ajax()
-            ? $datatables->json()
-            : view('projects.show', $datatables->html())->with('project',$project)->with('boards',$boards);
+        return view('projects.board', compact('project','boards', 'page'));
     }
+
 
     public function showCalendar(Project $project)
     {
-        return view('projects.calendar', compact('project'));
+        $page = "_calendar";
+
+        return view('projects.calendar', compact('project', 'page'));
     }
 
     public function showGantt(Project $project)
     {
+        $page = "_timeline";
+
         $tasks = GanttResource::collection($project->tasks()->where(function ($query) {
                 $query->orWhereNotNull('start_on');
                 $query->orWhereNotNull('due_on');
             })->get());
 
-        return view('projects.gantt', compact('tasks'));
+        return view('projects.gantt', compact('project', 'tasks', 'page'));
+    }
+
+    public function showFiles(Request $request, Project $project)
+    {
+        $query = Attachment::where('attached_model', 'App\Models\Task')->whereIn('attached_model_id', $project->tasks->pluck('id'));
+        $datatables = AttachmentDatatable::make($query);
+        $page = "_files";
+
+        return $request->ajax()
+            ? $datatables->json()
+            : view('projects.files', $datatables->html(), compact('project','page'));
     }
 
     public function edit(Project $project)

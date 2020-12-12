@@ -19,7 +19,8 @@ class GanttResource extends JsonResource
             'name' => $this->name,
             'start' => $this->start_on == null ? $this->due_on : $this->start_on,
             'end' => $this->due_on,
-            'progress' => 50
+            'progress' => 100,
+            'custom_class'=> 'gantt-bar'
         ];
 
 //        id: 'Task 1',

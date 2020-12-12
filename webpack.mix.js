@@ -17,11 +17,13 @@ mix.combine([
     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
     "node_modules/corejs-typeahead/dist/typeahead.bundle.js",
     "node_modules/raven-js/dist/raven.min.js",
-    "node_modules/jkanban/dist/jkanban.min.js"
+    "node_modules/jkanban/dist/jkanban.min.js",
+    "node_modules/frappe-gantt/dist/frappe-gantt.js"
 ], "public/js/vendor.js");
 
 mix.styles([
-    'node_modules/jkanban/dist/jkanban.min.css'
+    'node_modules/jkanban/dist/jkanban.min.css',
+    'node_modules/frappe-gantt/dist/frappe-gantt.css'
 ], 'public/css/vendor.css');
 
 mix.js('resources/js/app.js', 'public/js')

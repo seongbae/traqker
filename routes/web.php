@@ -34,6 +34,7 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::get('projects/{project}/files', 'ProjectController@showFiles');
     Route::get('project/{projectid}/user/{userid}', 'ProjectController@removeMember');
     Route::get('projects/{project}/completed', 'ProjectController@index');
+    Route::get('projects/{project}/gantt', 'ProjectController@showGantt');
     Route::resource('projects', 'ProjectController');
 
     Route::get('calendar', 'CalendarController@index')->name('calendar.index');

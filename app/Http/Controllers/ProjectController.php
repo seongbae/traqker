@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\AddedToProject;
+use App\Http\Resources\GanttResource;
 use App\Http\Resources\MemberResource;
 use App\Models\Project;
 use App\Http\Datatables\ProjectDatatable;
@@ -121,6 +122,16 @@ class ProjectController extends Controller
     public function showCalendar(Project $project)
     {
         return view('projects.calendar', compact('project'));
+    }
+
+    public function showGantt(Project $project)
+    {
+        $tasks = GanttResource::collection($project->tasks()->where(function ($query) {
+                $query->orWhereNotNull('start_on');
+                $query->orWhereNotNull('due_on');
+            })->get());
+
+        return view('projects.gantt', compact('tasks'));
     }
 
     public function edit(Project $project)

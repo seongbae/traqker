@@ -115,11 +115,13 @@ Coming soon
 
 * Gantt Chart
 * Discussion board integration
+* Project templates
 * Translation
 * Reporting
 * LDAP integration
 * OAuth2 client integration
 * REST API
+* Mobile applications
 
 See the [open issues](https://github.com/seongbae/traqker/issues) for a list of proposed features (and known issues).
 

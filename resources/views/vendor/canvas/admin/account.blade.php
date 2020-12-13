@@ -1,6 +1,6 @@
 <?php
-define('CLIENT_ID', 'ca_HErkY7bHVRwsB2HjZgY3k1ldueXfxf3W');
-define('API_KEY', 'sk_test_pQFIPtH0Y9CZ4B2pgskWPCEh');
+define('CLIENT_ID', '');
+define('API_KEY', '');
 
 define('TOKEN_URI', 'https://connect.stripe.com/oauth/token');
 define('AUTHORIZE_URI', 'https://connect.stripe.com/express/oauth/authorize');
@@ -57,6 +57,9 @@ if (isset($_GET['code'])) { // Redirect w/ code
               <li class="nav-item">
                 <a class="nav-link" id="teams-tab" data-toggle="tab" href="#teams" role="tab" aria-controls="teams" aria-selected="false">Teams</a>
               </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="teams" aria-selected="false">Settings</a>
+                </li>
 
             </ul>
             <div class="tab-content mt-4" id="myTabContent">
@@ -163,6 +166,23 @@ if (isset($_GET['code'])) { // Redirect w/ code
                       <a href="{{ route('teams.create') }}" class="btn btn-primary">{{ __('Create Team') }}</a>
                   </div>
               </div>
+                <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                    <div class="col-md-auto mb-3 mb-md-0">
+                        <form action="/user/{{Auth::user()->id}}/settings" method="POST" style="display:inline;" autocomplete="off">
+                            {{ csrf_field() }}
+                            @method('PUT')
+                            <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="dailyReminderEmail" name="daily_reminder_email" value="1" {{ Auth::user()->setting('daily_reminder_email') == 1 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="dailyReminderEmail">Receive daily task reminder emails</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm mr-2">Save</button>
+
+                        </form>
+
+                    </div>
+                </div>
 {{--              <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">--}}
 {{--                <div class="row">--}}
 {{--                  <div class="col-lg-3 col-6">--}}

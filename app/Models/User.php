@@ -59,9 +59,17 @@ class User extends Authenticatable implements Searchable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'settings' => 'array'
     ];
 
     protected $appends = ['role','photo'];
+
+    protected $attributes = [
+        'settings' => '{
+            "daily_reminder_email": 1
+        }'
+    ];
+
 
     protected $guard_name = 'web';
 
@@ -428,6 +436,32 @@ class User extends Authenticatable implements Searchable
 
     }
 
+    /**
+     * Retrieve a setting with a given name or fall back to the default.
+     *
+     */
+    public function setting(string $name, $default = null)
+    {
+        if (array_key_exists($name, $this->settings == null ? [] : $this->settings)) {
+            return $this->settings[$name];
+        }
+        return $default;
+    }
+
+    /**
+     * Update one or more settings and then optionally save the model.
+     *
+     */
+    public function settings(array $revisions, bool $save = true) : self
+    {
+        $this->settings = array_merge($this->settings == null ? [] : $this->settings, $revisions);
+
+        if ($save) {
+            $this->save();
+        }
+
+        return $this;
+    }
 
     protected static function boot()
     {

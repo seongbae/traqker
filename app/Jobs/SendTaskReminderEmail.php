@@ -37,14 +37,11 @@ class SendTaskReminderEmail implements ShouldQueue
         $todayStart = Carbon::now()->startOfDay();
         $todayEnd = Carbon::now()->endOfDay();
 
-//        Log::info($todayStart);
-//        Log::info($todayEnd);
-
         foreach($users as $user)
         {
             $tasks = $user->tasks()->whereBetween('due_on', [$todayStart, $todayEnd])->get();
 
-            if (count($tasks) > 0)
+            if (count($tasks) > 0 && $user->setting('daily_reminder_email'))
                 $user->notify(new SendTasksDueNotification($tasks));
         }
     }

@@ -72,6 +72,7 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::post('/mark-as-read', 'HomeController@markNotification')->name('markNotification');
 
     Route::get('my-account', 'HomeController@showAccount');
+    Route::put('user/{user}/settings', 'SettingsController@saveUserSettings');
 
 });
 

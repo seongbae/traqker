@@ -2,7 +2,7 @@
     <button class="btn btn-outline btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-chevron-down"></i>
     </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
         <a href="#" class="dropdown-item" data-toggle="modal" data-target="#updateStatusModal" title="Update Status">Update Status</a>
 
         <a href="#" class="dropdown-item" data-toggle="modal" data-target="#addTimeModal" title="Add Time">Add Time</a>

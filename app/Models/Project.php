@@ -25,7 +25,14 @@ class Project extends Model implements Searchable
         'name',
         'description',
         'user_id',
-        'archived'
+        'archived',
+        'settings'
+    ];
+
+    protected $attributes = [
+        'settings' => '{
+            "visibility": "public"
+        }'
     ];
 
     public function members()

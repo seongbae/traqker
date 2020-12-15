@@ -12,6 +12,12 @@ class Team extends Model
 {
     use FillsColumns, SerializesDates;
 
+    protected $attributes = [
+        'settings' => '{
+            "color_scheme": "default"
+        }'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

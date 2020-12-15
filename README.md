@@ -115,6 +115,7 @@ Coming soon
 
 * Gantt Chart
 * Discussion board integration
+* Additional details on tasks - progress, dependencies, sub-tasks
 * Project templates
 * Translation
 * Reporting

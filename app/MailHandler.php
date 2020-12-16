@@ -7,9 +7,12 @@ use BeyondCode\Mailbox\InboundEmail;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\Project;
+use Log;
 
 class MailHandler {
     public function __invoke(InboundEmail $email, $projectSlug) {
+
+        Log::info('MailHandler called...');
 
         $user = User::where('email', $email->from())->first();
         $project = Project::where('slug',$projectSlug)->first();

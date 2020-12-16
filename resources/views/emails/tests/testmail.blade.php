@@ -2,6 +2,6 @@
 
     {{ $body }}
 
-    Thanks,<br>
+    Thank you.<br>
     {{ config('app.name') }}
 @endcomponent

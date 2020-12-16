@@ -21,6 +21,6 @@ You have been assigned a new task:
 Go to Task
 @endcomponent
 
-Thanks,<br>
+Thank you.<br>
 {{ config('app.name') }}
 @endcomponent

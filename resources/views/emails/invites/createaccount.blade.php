@@ -6,6 +6,6 @@ You have been invited to join on <strong>{{ $invitation->team->name }}</strong> 
     Accept Invite
 @endcomponent
 
-Thanks,<br>
+Thank you.<br>
 {{ config('app.name') }}
 @endcomponent

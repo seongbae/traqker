@@ -13,6 +13,6 @@ You have been added to a project: {{$project->name}}.
 Go to Project
 @endcomponent
 
-Thanks,<br>
+Thank you.<br>
 {{ config('app.name') }}
 @endcomponent

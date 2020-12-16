@@ -26,6 +26,6 @@ The following task has been marked as complete.
 Go to Task
 @endcomponent
 
-Thanks,<br>
+Thank you.<br>
 {{ config('app.name') }}
 @endcomponent

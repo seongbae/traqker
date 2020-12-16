@@ -6,6 +6,6 @@ You have been added to the following team: **{{$team->name}}**
 Go to {{$team->name}}'s page
 @endcomponent
 
-Thanks,<br>
+Thank you.<br>
 {{ config('app.name') }}
 @endcomponent

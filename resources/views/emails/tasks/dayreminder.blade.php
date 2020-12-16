@@ -2,10 +2,12 @@
 
 You have tasks due today:
 
+<ul>
 @foreach($tasks as $task)
-    - <a href="{{ route('tasks.show', ['task'=>$task]) }}">{{ $task->name }}</a><br>
+        <li><a href="{{ route('tasks.show', ['task'=>$task]) }}">{{ $task->name }}</a></li>
 @endforeach
+</ul>
 
-Thanks,<br>
+Thank you.<br>
 {{ config('app.name') }}
 @endcomponent

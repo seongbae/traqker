@@ -6,6 +6,6 @@
 Go to {{ config('app.name') }}
 @endcomponent
 
-Thanks,<br>
+Thank you.<br>
 {{ config('app.name') }}
 @endcomponent

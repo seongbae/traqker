@@ -138,8 +138,6 @@ class TaskController extends Controller
             }
         }
 
-        event(new \App\Events\SendReminderEmail());
-
         if ($request->ajax())
             return $request->json([], 200);
 

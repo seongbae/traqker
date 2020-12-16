@@ -2,15 +2,20 @@
 
 namespace App\Jobs;
 
+use App\Mail\TaskReminder;
+use App\Notifications\AddedToProjectNotification;
 use App\Notifications\SendTasksDueNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
 use Carbon\Carbon;
 use Log;
+use Mail;
+use Notification;
 
 class SendTaskReminderEmail implements ShouldQueue
 {
@@ -37,24 +42,15 @@ class SendTaskReminderEmail implements ShouldQueue
         $todayStart = Carbon::now()->startOfDay();
         $todayEnd = Carbon::now()->endOfDay();
 
-        Log::info('SendTaskReminderEmail started...');
-
         foreach($users as $user)
         {
-            Log::info('Looking at '.$user->name);
-
             $tasks = $user->tasks()->whereBetween('due_on', [$todayStart, $todayEnd])->get();
-
-            Log::info($user->name . ' has '.count($tasks).' tasks due today.');
 
             if (count($tasks) > 0 && $user->setting('daily_reminder_email'))
             {
-                $user->notify(new SendTasksDueNotification($tasks));
-                Log::info('Notified '.$user->name);
+                Notification::send($user, new SendTasksDueNotification($tasks));
             }
 
         }
-
-        Log::info('SendTaskReminderEmail ended...');
     }
 }

@@ -56,7 +56,7 @@ class SendTasksDueNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'hello'=>'world'
         ];
     }
 }

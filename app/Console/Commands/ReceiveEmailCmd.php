@@ -32,7 +32,7 @@ class ReceiveEmailCmd extends Command
     {
         parent::__construct();
 
-        config(['mail.driver' => 'log']);
+        //config(['mail.driver' => 'log']);
     }
 
     /**

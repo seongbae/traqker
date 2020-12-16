@@ -55,8 +55,6 @@ class SendNewCommentNotification
 
         $msg = "\"".$event->comment->comment."\""." on <i>".$event->comment->commentable->name."</i>";
 
-        Log::info('Notify Users: '.json_encode($notifyUsers));
-
         if (count($notifyUsers)>0)
            Notification::send($notifyUsers, new NewCommentNotification($event->comment->commenter, $event->comment, $msg));
 

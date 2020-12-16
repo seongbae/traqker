@@ -184,7 +184,7 @@ class PaymentController extends Controller
             // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
             //ResultPrinter::printError("Created Single Synchronous Payout", "Payout", null, $request, $ex);
 
-            Log::info('Payout error: '.json_encode($ex) . '\n'.'Request: '.json_encode($request));
+            // Log::info('Payout error: '.json_encode($ex) . '\n'.'Request: '.json_encode($request));
         }
 
         // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY

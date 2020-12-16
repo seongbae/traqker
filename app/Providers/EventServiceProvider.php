@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Events\AddedToProject;
 use App\Events\InviteCreated;
+use App\Events\SendReminderEmail;
+use App\Listeners\SendReminderEmailNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;

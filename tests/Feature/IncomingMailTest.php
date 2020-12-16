@@ -19,7 +19,7 @@ class IncomingMailTest extends TestCase
     {
         parent::setUp();
 
-        config(['mail.driver' => 'log']);
+        //config(['mail.driver' => 'log']);
 
         User::factory()->make();
     }

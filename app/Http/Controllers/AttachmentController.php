@@ -38,16 +38,10 @@ class AttachmentController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info('Attachment:store');
-
         if($request->hasFile('file')) {
             $files = $request->file('file');
-            Log::info(json_encode($request->all()));
             $model = Task::find($request->task_id);
             $file = $model->addFile($files);
-//            foreach ($files as $file) {
-//                $model->addFile($file);
-//            }
 
             return response()->json([
                 'id' => $file->id,

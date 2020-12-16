@@ -141,7 +141,6 @@ class Task extends Model implements Searchable
 
             foreach($this->assignees as $relatedUser)
             {
-                Log::info('relatedUser:'.$relatedUser->name);
                 if (!in_array($relatedUser, $users) && $relatedUser->id != $user->id)
                     $users[] = $relatedUser->id;
             }

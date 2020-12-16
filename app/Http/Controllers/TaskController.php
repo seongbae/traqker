@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Scopes\ArchiveScope;
 use App\Http\Resources\MemberResource;
 use App\Events\TaskAssigned;
+use App\Events\SendReminderEmail;
 
 class TaskController extends Controller
 {
@@ -137,6 +138,8 @@ class TaskController extends Controller
             }
         }
 
+        event(new \App\Events\SendReminderEmail());
+
         if ($request->ajax())
             return $request->json([], 200);
 
@@ -201,7 +204,6 @@ class TaskController extends Controller
 
             foreach($tasks as $task)
             {
-                Log::info('task->id:'.$task->id.' order:'.$order);
                 $task->order = $order;
                 $task->save();
                 $order++;
@@ -238,8 +240,6 @@ class TaskController extends Controller
 
     public function updateStatus(Request $request, Task $task)
     {
-        Log::info('Updating status...');
-
         $this->authorize('update', $task);
 
         $task->status = $request->get('status');
@@ -260,6 +260,26 @@ class TaskController extends Controller
                 'project_id'=>$task->project->id
             ]));
         }
+
+        if ($request->ajax())
+            return response()->json(['success'], 200);
+
+        return redirect()->back();
+    }
+
+    public function updateList(Request $request, Task $task)
+    {
+        $this->authorize('update', $task);
+
+        $lines = explode("\n", $task->description);
+
+        if ($request->value == 'true')
+            $checkboxValue = preg_replace("/\[]/", "[*]", $lines[$request->lineno]);
+        else
+            $checkboxValue = preg_replace("/\[\*]/", "[]", $lines[$request->lineno]);
+
+        $task->description = str_replace($lines[$request->lineno], $checkboxValue, $task->description);
+        $task->save();
 
         if ($request->ajax())
             return response()->json(['success'], 200);

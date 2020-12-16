@@ -21,8 +21,8 @@
                     <div class="col-md-2 text-secondary">
                         Description
                     </div>
-                    <div class="col-md">
-                        {!! nl2br(Helper::convertURLtoLink($task->description)) !!}
+                    <div class="col-md has-list">
+                        {!! nl2br(Helper::transformText($task->description)) !!}
                     </div>
                 </div>
                 <div class="row my-3">
@@ -290,6 +290,23 @@
     });
 
     $(document).ready(function(){
+        $('.task-list-item').click(function() {
+            var checked = $(this).prop("checked");
+            var lineno = $(this).val();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    lineno: lineno,
+                    value: checked
+                },
+                type: 'PUT',
+                url: '/tasks/{{$task->id}}/updatelist'
+            });
+        });
+
 
         $('.status-list a').on('click', function() {
             $('#task-status').html($(this).html());

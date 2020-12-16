@@ -15,6 +15,7 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::put('tasks/{task}/status', 'TaskController@updateStatus');
     Route::get('tasks/{task}/archive', 'TaskController@archiveTask')->name('tasks.archive');
     Route::get('tasks/{task}/unarchive', 'TaskController@unarchiveTask')->name('tasks.unarchive');
+    Route::put('tasks/{task}/updatelist', 'TaskController@updateList');
 
     Route::get('tasks/archived', 'TaskController@indexArchived');
     Route::get('tasks/deleted', 'TaskController@indexDeleted');

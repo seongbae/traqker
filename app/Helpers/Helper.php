@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Auth;
+use Log;
 
 class Helper
 {
@@ -12,6 +13,33 @@ class Helper
         	return substr($text, 0, $size) . '...';
         else
         	return $text;
+    }
+
+    public static function transformText($text)
+    {
+        $str = Helper::convertURLtoLink($text);
+
+        $ctr = 0;
+        $content = "";
+
+        foreach(preg_split("/((\r?\n)|(\r\n?))/", $str) as $line){
+            if (strpos($line, '[]') !== false) {
+                $str = str_replace('[]', '<input type="checkbox" id="listitem" class="task-list-item" name="vehicle1" value="'.$ctr.'">', $line);
+                $content = $content . $str.'<br>';
+            } else if (strpos($line, '[*]') !== false) {
+                $str = str_replace('[*]', '<input type="checkbox" id="listitem" class="task-list-item" name="vehicle1" value="'.$ctr.'" checked>', $line);
+                $content = $content . $str.'<br>';
+            }
+            else {
+                $content = $content . $line.'<br>';
+            }
+
+            $ctr++;
+        }
+
+        //$str = str_replace('[*]', '<input type="checkbox" id="listitem" class="task-list-item" name="vehicle1" value="Bike" checked>', $str);
+
+        return $content;
     }
 
     public static function convertURLtoLink($text, $target='_blank')

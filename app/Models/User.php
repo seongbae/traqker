@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Seongbae\Discuss\Traits\HasDiscussSubscriptions;
+use Seongbae\Discuss\Traits\HasThreads;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Group;
 use App\Achievement;
@@ -32,7 +34,7 @@ use App\Notifications\InviteAcceptedNotification;
 
 class User extends Authenticatable implements Searchable
 {
-    use Notifiable, HasRoles, LogsActivity, Billable, Commenter, HasFactory, HasApiTokens;
+    use Notifiable, HasRoles, LogsActivity, Billable, Commenter, HasFactory, HasApiTokens, HasThreads, HasDiscussSubscriptions;
 
     /**
      * The attributes that are mass assignable.
@@ -205,6 +207,19 @@ class User extends Authenticatable implements Searchable
     public function pastDueTasks()
     {
         return $this->tasks()->where('status','!=','complete')->where('due_on', '<',Carbon::now())->orderBy('due_on');
+    }
+
+    public function tasksDueToday()
+    {
+        return $this->tasks()->where('due_on', date('Y-m-d'))->orderBy('created_at','asc');
+    }
+
+    public function tasksDueInWeek()
+    {
+        $begin = Carbon::today()->addDay(1);
+        $end = Carbon::today()->addDay(7);
+
+        return $this->tasks()->whereBetween('due_on', [$begin, $end])->orderBy('due_on','asc');
     }
 
     public function availabilities()

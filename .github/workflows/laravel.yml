@@ -25,6 +25,8 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - name: Set default PHP7.4
+        run: sudo update-alternatives --set php /usr/bin/php7.4
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite

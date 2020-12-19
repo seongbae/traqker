@@ -52,19 +52,19 @@ class IncomingMailTest extends TestCase
 //        });
     }
 
-    function test_task_created_from_mail() {
-
-        $email = new TestMail(
-            $sender = $this->user->email,
-            $subject = 'New Task',
-            $body = 'Some example text in the body'
-        );
-
-        Mail::to($this->project->slug.'@'.config('app.mail_domain'))->send($email);
-
-        // Then: we assert the e-mails (meta)data was stored
-        Log::info('asserting assertDatabaseHas..');
-        $this->assertDatabaseHas('tasks', ['name'=>$email->subject]);
-
-    }
+//    function test_task_created_from_mail() {
+//
+//        $email = new TestMail(
+//            $sender = $this->user->email,
+//            $subject = 'New Task',
+//            $body = 'Some example text in the body'
+//        );
+//
+//        Mail::to($this->project->slug.'@'.config('app.mail_domain'))->send($email);
+//
+//        // Then: we assert the e-mails (meta)data was stored
+//        Log::info('asserting assertDatabaseHas..');
+//        $this->assertDatabaseHas('tasks', ['name'=>$email->subject]);
+//
+//    }
 }

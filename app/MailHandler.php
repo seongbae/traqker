@@ -17,6 +17,11 @@ class MailHandler {
         $user = User::where('email', $email->from())->first();
         $project = Project::where('slug',$projectSlug)->first();
 
+        Log::info(json_encode($email));
+        Log::info('projectSlug: '.$projectSlug);
+        Log::info(json_encode($user));
+        Log::info(json_encode($project));
+
         if ($project && $user)
         {
             foreach($project->members as $member)

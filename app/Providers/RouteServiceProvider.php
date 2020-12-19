@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
+use App\Models\Team;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -42,6 +43,8 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         Route::model('project',Project::class);
+
+        Route::model('team',Team::class);
     }
 
     /**

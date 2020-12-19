@@ -8,10 +8,16 @@ import bootstrapPlugin from "@fullcalendar/bootstrap";
 import Vue from 'vue'
 import App from './views/app.vue'
 
-// const app = new Vue({
-//     el: '#app',
-//     components: { App }
-// });
+import { BootstrapVue } from 'bootstrap-vue'
+Vue.component('thread', require('./components/Thread.vue').default);
+Vue.component('reply', require('./components/Reply.vue').default);
+Vue.component('channel-subscribe', require('./components/ChannelSubscribe.vue').default);
+Vue.use(BootstrapVue)
+
+const app = new Vue({
+    el: '#app',
+    components: { App }
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');

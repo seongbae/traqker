@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3d86778ec5c23a85010f0d65eb56ff2",
+    "content-hash": "ff7ba3534eae0b31d72a707e13fd188c",
     "packages": [
         {
             "name": "appstract/laravel-options",
@@ -5204,6 +5204,72 @@
                 "source": "https://github.com/seongbae/canvas/tree/1.1.2"
             },
             "time": "2020-12-07T05:02:19+00:00"
+        },
+        {
+            "name": "seongbae/discuss",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "/home/seongbae/projects/packages/discuss",
+                "reference": "473ec9e580bd6d0f7b2289e6ca840aba5e0067b3"
+            },
+            "require": {
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^5.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Seongbae\\Discuss\\DiscussServiceProvider"
+                    ],
+                    "aliases": {
+                        "Discuss": "Seongbae\\Discuss\\DiscussFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Seongbae\\Discuss\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Seongbae\\Discuss\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "test-coverage": [
+                    "vendor/bin/phpunit --coverage-html coverage"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Seong Bae",
+                    "email": "seong@lnidigital.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel forum package",
+            "homepage": "https://github.com/seongbae/discuss",
+            "keywords": [
+                "discuss",
+                "discussion",
+                "forum",
+                "seongbae"
+            ],
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "seongbae/laravel-searchable",
@@ -12120,12 +12186,14 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "seongbae/discuss": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.2.5"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

@@ -26,6 +26,8 @@ class TeamController extends Controller
         $query = Team::query();
         $datatables = TeamDatatable::make($query);
 
+
+
         return $request->ajax()
             ? $datatables->json()
             : view('teams.index', $datatables->html());
@@ -38,7 +40,7 @@ class TeamController extends Controller
 
     public function store(TeamRequest $request)
     {
-        $team = Team::create(array_merge($request->all(),array('user_id'=>Auth::id())));
+        $team = Team::create(array_merge($request->all(),array('user_id'=>Auth::id(), 'slug'=>$this->createSlug($request->name))));
         $team->members()->attach(Auth::id(),['access'=>'owner','title'=>'Manager']);
 
         return $request->input('submit') == 'reload'
@@ -136,7 +138,18 @@ class TeamController extends Controller
     {
         $this->authorize('view', $team);
 
-        return view('teams.show', compact('team'));
+        $page = "_teams";
+
+        return view('teams.show', compact('team','page'));
+    }
+
+    public function getSettings(Team $team)
+    {
+        $this->authorize('view', $team);
+
+        $page = "_settings";
+
+        return view('teams.settings', compact('team','page'));
     }
 
     public function edit(Team $team)
@@ -152,9 +165,7 @@ class TeamController extends Controller
 
         $team->update($request->all());
 
-        return $request->input('submit') == 'reload'
-            ? redirect()->route('teams.edit', $team->id)
-            : redirect()->route('teams.show', ['team'=>$team]);
+        return redirect()->back();
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
@@ -165,5 +176,32 @@ class TeamController extends Controller
         $team->delete();
 
         return redirect()->route('teams.index');
+    }
+
+    public function createSlug($title, $id = 0)
+    {
+        $slug = str_slug($title);
+        $allSlugs = $this->getRelatedSlugs($slug, $id);
+        if (! $allSlugs->contains('slug', $slug)){
+            return $slug;
+        }
+
+        $i = 1;
+        $is_contain = true;
+        do {
+            $newSlug = $slug . '-' . $i;
+            if (!$allSlugs->contains('slug', $newSlug)) {
+                $is_contain = false;
+                return $newSlug;
+            }
+            $i++;
+        } while ($is_contain);
+    }
+
+    protected function getRelatedSlugs($slug, $id = 0)
+    {
+        return Team::select('slug')->where('slug', 'like', $slug.'%')
+            ->where('id', '<>', $id)
+            ->get();
     }
 }

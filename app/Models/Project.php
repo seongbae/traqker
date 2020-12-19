@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Client;
 use App\Scopes\CompletedScope;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Seongbae\Canvas\Traits\FillsColumns;
 use Seongbae\Canvas\Traits\SerializesDates;
@@ -19,7 +20,7 @@ use Spatie\Searchable\SearchResult;
 
 class Project extends Model implements Searchable
 {
-    use FillsColumns, SerializesDates, SoftDeletes;
+    use FillsColumns, SerializesDates, SoftDeletes, HasFactory;
 
     protected $fillable = [
         'name',

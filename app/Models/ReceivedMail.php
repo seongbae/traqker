@@ -10,4 +10,6 @@ class ReceivedMail extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $table = 'mailbox_inbound_emails';
 }

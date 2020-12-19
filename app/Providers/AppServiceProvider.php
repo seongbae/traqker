@@ -36,10 +36,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //Task::observe(TaskObserver::class);
-        //Attachment::observe(AttachmentObserver::class);
-        //Hour::observe(HourObserver::class);
-
         CalendarResource::withoutWrapping();
 
         Mailbox::to('{projectname}@'.config('app.mail_domain'), MailHandler::class);

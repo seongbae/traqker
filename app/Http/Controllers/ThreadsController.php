@@ -1,6 +1,6 @@
 <?php
 
-namespace Seongbae\Discuss\Http\Controllers;
+namespace App\Http\Controllers;
 
 use Seongbae\Discuss\Models\Thread;
 use Illuminate\Http\Request;
@@ -8,6 +8,7 @@ use Seongbae\Discuss\Models\Channel;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Support\Facades\Log;
+use App\Models\Team;
 
 class ThreadsController extends Controller
 {
@@ -27,10 +28,12 @@ class ThreadsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($slug=null)
+    public function index($slug)
     {
+        $page = '_discuss';
         $subscribed = false;
         $channel = null;
+        $team = null;
 
         if ($slug)
         {
@@ -42,19 +45,16 @@ class ThreadsController extends Controller
 
             if (Auth::check() && Auth::user()->channelSubscriptions->contains($channel))
                 $subscribed = true;
+
+            $team = Team::where('slug', $channel->slug)->first();
         }
         else
         {
-            if (request()->get('user'))
-            {
-                $user = Auth::user();
-                $threads = Thread::where('user_id',$user->id)->latest()->paginate(config('discuss.page_count'));
-            }
-            else
-                $threads = Thread::latest()->paginate(config('discuss.page_count'));
+            $user = Auth::user();
+            $threads = Thread::where('user_id',$user->id)->latest()->paginate(config('discuss.page_count'));
         }
 
-        return view('discuss::threads.index', compact('threads', 'channel','subscribed'));
+        return view('discuss::threads.index', compact('threads', 'channel','subscribed','page','team'));
     }
 
     /**
@@ -96,7 +96,7 @@ class ThreadsController extends Controller
 
         $thread->updateSubscription($user);
 
-        return redirect()->route('discuss.index')->with('success','Successfully created');
+        return redirect()->route('discuss.index',['slug'=>$thread->channel->slug])->with('success','Successfully created');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -10,18 +11,24 @@ use App\Models\ReceivedMail;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Log;
 
 class IncomingMailTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user;
+    protected $project;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        //config(['mail.driver' => 'log']);
+        config(['mail.driver' => 'log']);
 
-        User::factory()->make();
+        $this->user = User::factory()->make();
+        $this->project = Project::factory()->make();
+        $this->project->members()->attach($this->user->id);
     }
 
     function test_incoming_mail_is_saved_to_the_mails_table() {
@@ -33,7 +40,7 @@ class IncomingMailTest extends TestCase
         );
 
         // When: we receive that e-mail
-        Mail::to('test@traqker.test')->send($email);
+        Mail::to('test@'.config('app.mail_domain'))->send($email);
 
         // Then: we assert the e-mails (meta)data was stored
         $this->assertCount(1, ReceivedMail::all());
@@ -43,5 +50,21 @@ class IncomingMailTest extends TestCase
 //            $this->assertEquals($subject, $mail->subject);
 //            $this->assertContains($body, $mail->body);
 //        });
+    }
+
+    function test_task_created_from_mail() {
+
+        $email = new TestMail(
+            $sender = $this->user->email,
+            $subject = 'New Task',
+            $body = 'Some example text in the body'
+        );
+
+        Mail::to($this->project->slug.'@'.config('app.mail_domain'))->send($email);
+
+        // Then: we assert the e-mails (meta)data was stored
+        Log::info('asserting assertDatabaseHas..');
+        $this->assertDatabaseHas('tasks', ['name'=>$email->subject]);
+
     }
 }

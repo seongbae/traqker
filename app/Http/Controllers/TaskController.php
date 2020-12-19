@@ -32,9 +32,10 @@ class TaskController extends Controller
 
         $datatables = TaskDatatable::make($query);
 
-        return $request->ajax()
-            ? $datatables->json()
-            : view('tasks.index', $datatables->html());
+        if( $request->is('api/*') || $request->ajax())
+            return $datatables->json();
+        else
+            return view('tasks.index', $datatables->html());
     }
 
     public function indexArchived(Request $request)
@@ -119,7 +120,7 @@ class TaskController extends Controller
         else
             $priority = "medium";
 
-        $task = Task::create(array_merge($request->all(),['user_id'=>Auth::id(),'status'=>'created','priority'=>$priority]));
+        $task = Task::create(array_merge($request->all(),['user_id'=>1,'status'=>'created','priority'=>$priority]));
 
         if ($request->project_id && $request->assignees)
         {
@@ -138,8 +139,8 @@ class TaskController extends Controller
             }
         }
 
-        if ($request->ajax())
-            return $request->json([], 200);
+        if( $request->is('api/*') || $request->ajax())
+            return $request->json($task, 200);
 
         if ($request->redirect_to == 'project')
             $redirectTo = route('projects.show', ['project'=>$task->project]);
@@ -151,11 +152,14 @@ class TaskController extends Controller
             : redirect()->to($redirectTo);
     }
 
-    public function show(Task $task)
+    public function show(Request $request, Task $task)
     {
         $this->authorize('view', $task);
 
-        return view('tasks.show', compact('task'));
+        if( $request->is('api/*') || $request->ajax())
+            return $request->json($task, 200);
+        else
+            return view('tasks.show', compact('task'));
     }
 
     public function edit(Task $task)
@@ -215,8 +219,8 @@ class TaskController extends Controller
             }
         }
 
-        if ($request->ajax())
-            return $request->json([], 200);
+        if( $request->is('api/*') || $request->ajax())
+            return $request->json(['task'=>$task], 200);
 
         return $request->input('submit') == 'reload'
             ? redirect()->route('tasks.edit', $task->id)

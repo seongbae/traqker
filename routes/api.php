@@ -36,7 +36,9 @@ Route::middleware(['auth:sanctum','notifications'])->get('/user', function (Requ
     return $request->user();
 });
 
-Route::group(['middleware' => ['auth:sanctum','notifications']], function () {
-    Route::get('task/{task}', 'TaskController@show')->name('tasks.show');
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('tasks/{task}', 'TaskController@show')->name('tasks.show');
+    Route::put('tasks/{task}', 'TaskController@update')->name('tasks.update');
+    Route::post('tasks', 'TaskController@store')->name('tasks.store');
     Route::get('tasks', 'TaskController@index')->name('tasks.index');
 });

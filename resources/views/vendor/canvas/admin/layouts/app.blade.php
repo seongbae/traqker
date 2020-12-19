@@ -30,7 +30,7 @@
     <script src="{{ asset('canvas/js/datatables.min.js') }}"></script>
     <script src="{{ asset('canvas/js/buttons.server-side.js') }}"></script>
     <script src="{{ asset('canvas/js/tagsinput.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed  @if (Cookie::get('toggleState') === 'closed') {{ 'sidebar-collapse' }} @endif skin-blue">
 <div class="wrapper">
@@ -228,6 +228,7 @@
   </aside>
 </div>
 
+<script src="{{ asset('js/app.js') }}"></script>
 
 <script>
 

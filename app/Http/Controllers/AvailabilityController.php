@@ -28,10 +28,9 @@ class AvailabilityController extends Controller
         return response()->json(['data'=>$availability]);
     }
 
-    public function getTeamAvailability($id)
+    public function getTeamAvailability(Request $request, Team $team)
     {
-        $team = Team::find($id);
-
+        $page = '_availability';
         $availability = array();
 
         foreach($team->members as $member)
@@ -39,7 +38,11 @@ class AvailabilityController extends Controller
             $availability[] = array('name'=>$member->name, 'availability'=>$member->getAvailability(Auth::user()->timezone));
         }
 
-        return response()->json(['data'=>$availability]);
+        if ($request->ajax())
+            return response()->json(['data'=>$availability]);
+        else
+            return view('teams.availability', compact('page','team'));
+
     }
 
     /**

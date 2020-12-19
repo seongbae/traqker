@@ -111,7 +111,7 @@
                         <div id="attachments">
 
                         </div>
-                        <div id="dropzone" style="width:200px;"">
+                        <div id="dropzone" style="width:200px;">
                             <form class="dropzone needsclick" id="demo-upload" action="/attachments" enctype="multipart/form-data">
                                 @csrf
                                 <div class="dz-message needsclick">

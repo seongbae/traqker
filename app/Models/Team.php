@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Seongbae\Canvas\Traits\FillsColumns;
 use Seongbae\Canvas\Traits\SerializesDates;
 use Illuminate\Support\Facades\Log;
+use Seongbae\Discuss\Models\Channel;
 
 class Team extends Model
 {
@@ -43,6 +44,11 @@ class Team extends Model
         return $this->belongsToMany(Project::class, 'team_projects');
     }
 
+    public function channel()
+    {
+        return $this->hasOne(Channel::class);
+    }
+
     public function firstAvailableManagerExcept($user=null)
     {
         foreach($this->members as $member)
@@ -58,6 +64,10 @@ class Team extends Model
         return null;
     }
 
+    public function getRouteKeyName(){
+        return 'slug';
+    }
+
     public function contains(User $user)
     {
         foreach($this->members as $member)
@@ -65,6 +75,25 @@ class Team extends Model
                 return true;
 
         return false;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($query) {
+            $channel = Channel::create(['name'=>$query->name, 'slug'=>$query->slug]);
+            $query->channel_id = $channel->id;
+        });
+
+        static::deleting(function ($query) {
+            foreach($query->projects as $project)
+                $project->delete();
+
+            $channel = Channel::where('slug', $query->slug);
+            $channel->delete();
+        });
+
     }
 
 }

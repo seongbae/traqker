@@ -374,6 +374,7 @@ class ProjectController extends Controller
             $i++;
         } while ($is_contain);
     }
+
     protected function getRelatedSlugs($slug, $id = 0)
     {
         return Project::select('slug')->where('slug', 'like', $slug.'%')

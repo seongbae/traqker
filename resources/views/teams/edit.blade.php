@@ -4,7 +4,7 @@
 @section('content')
     <div class="container">
 
-        <form method="post" action="{{ route('teams.update', $team->id) }}">
+        <form method="post" action="{{ route('teams.update', ['team'=>$team]) }}">
             @csrf
             @method('patch')
 

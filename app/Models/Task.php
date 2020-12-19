@@ -151,12 +151,12 @@ class Task extends Model implements Searchable
 
     public function getCreatedAtAttribute($input)
     {
-        return Timezone::convertFromUTC($input, auth()->user()->timezone, 'Y-m-d H:i:s');
+        //return Timezone::convertFromUTC($input, auth()->user()->timezone, 'Y-m-d H:i:s');
     }
 
     public function getUpdatedAtAttribute($input)
     {
-        return Timezone::convertFromUTC($input, auth()->user()->timezone, 'Y-m-d H:i:s');
+        //return Timezone::convertFromUTC($input, auth()->user()->timezone, 'Y-m-d H:i:s');
     }
 
     protected static function boot()

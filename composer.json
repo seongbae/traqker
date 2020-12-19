@@ -22,6 +22,7 @@
         "paypal/rest-api-sdk-php": "^1.14",
         "sentry/sentry-laravel": "^1.7",
         "seongbae/canvas": "^1.1",
+        "seongbae/discuss": "@dev",
         "seongbae/laravel-searchable": "^1.8"
     },
     "require-dev": {
@@ -33,6 +34,12 @@
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.0"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/home/seongbae/projects/packages/discuss"
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

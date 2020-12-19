@@ -9,8 +9,8 @@ Auth::routes();
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('home', [HomeController::class, 'index']);
 
-Route::group(['middleware' => ['web','auth','notifications']], function () {
-    Route::get('dashboard', 'HomeController@showHome')->name('dashboard')->middleware('notifications');
+Route::group(['middleware' => ['web','auth']], function () {
+    Route::get('dashboard', 'HomeController@showHome')->name('dashboard');
 
     Route::put('tasks/{task}/status', 'TaskController@updateStatus');
     Route::get('tasks/{task}/archive', 'TaskController@archiveTask')->name('tasks.archive');
@@ -45,8 +45,9 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::post('calendar/{project}/create', 'CalendarController@store');
 
 
-    Route::resource('teams', 'TeamController')->middleware('notifications');
-    Route::get('/team/{id}/availability', 'AvailabilityController@getTeamAvailability');
+    Route::resource('teams', 'TeamController');
+    Route::get('teams/{team}/availability', 'AvailabilityController@getTeamAvailability')->name('teams.availability');
+    Route::get('teams/{team}/settings', 'TeamController@getSettings')->name('teams.settings');
     Route::post('/team/{team}/add', 'TeamController@addMember');
     Route::delete('/team/{team}/remove/{user}', 'TeamController@removeMember')->name('team.remove');
     Route::delete('/invitations/{invitation}', 'InvitationController@destroy')->name('invitation.remove');
@@ -75,15 +76,23 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::get('my-account', 'HomeController@showAccount');
     Route::put('user/{user}/settings', 'SettingsController@saveUserSettings');
 
+    // Discuss
+    Route::get('teams/{slug}/discuss', 'ThreadsController@index')->name('discuss.index');
+    Route::get('discuss/new', 'ThreadsController@create');
+    Route::post('discuss', 'ThreadsController@store');
+    Route::get('discuss/{channel}/{thread}', 'ThreadsController@show')->name('discuss.show');
+    Route::patch('discuss/{channel}/{thread}', 'ThreadsController@update');
+    Route::delete('discuss/{channel}/{thread}', 'ThreadsController@destroy');
+
 });
 
-Route::group(['middleware' => ['web','auth','notifications']], function () {
-    Route::resource('/payment', 'PaymentController');
-    Route::resource('/account/paymentmethods', 'PaymentmethodController');
-    Route::post('/account/payment', 'PaymentmethodController@updatePaymentSettings');
-    Route::post('/sendtestpayment', 'PaymentController@sendTestPayment');
-    Route::post('/sendpayment', 'PaymentController@sendPayment');
-});
+//Route::group(['middleware' => ['web','auth','notifications']], function () {
+//    Route::resource('/payment', 'PaymentController');
+//    Route::resource('/account/paymentmethods', 'PaymentmethodController');
+//    Route::post('/account/payment', 'PaymentmethodController@updatePaymentSettings');
+//    Route::post('/sendtestpayment', 'PaymentController@sendTestPayment');
+//    Route::post('/sendpayment', 'PaymentController@sendPayment');
+//});
 
 Route::group(['namespace'=>'\Seongbae\Canvas\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['web','auth','notifications']], function () {
 
@@ -111,5 +120,14 @@ Route::group(['namespace'=>'\Seongbae\Canvas\Http\Controllers\Admin', 'prefix' =
     // Log management
     Route::get('logs/system', 'LogViewerController@index')->name('admin.logs.system');
     Route::get('logs/activity', 'AdminController@showActivityLogs')->name('admin.logs.activity');
+
+});
+
+Route::group(['namespace' => '\Seongbae\Discuss\Http\Controllers', 'middleware' => ['web','auth']], function () {
+
+    Route::post('discuss/{channel}/{thread}/replies', 'RepliesController@store');
+    Route::patch('replies/{reply}', 'RepliesController@update');
+    Route::delete('replies/{reply}', 'RepliesController@destroy');
+    Route::post('discuss/subscribe/{type}/{id}', 'SubscriptionController@update')->name('subscription.update');
 
 });

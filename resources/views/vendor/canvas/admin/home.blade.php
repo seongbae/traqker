@@ -43,7 +43,7 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header border-transparent">
-                    <h3 class="card-title">Taks Due in a Week</h3>
+                    <h3 class="card-title">Tasks Due Soon</h3>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">

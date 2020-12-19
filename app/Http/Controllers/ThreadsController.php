@@ -160,7 +160,7 @@ class ThreadsController extends Controller
     {
         $thread->delete();
 
-        return redirect()->route('discuss.index')->with('success','Successfully deleted');
+        return redirect()->route('discuss.index', ['slug'=>$thread->channel->slug])->with('success','Successfully deleted');
     }
 
     private function slugify($string){

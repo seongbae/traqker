@@ -96,14 +96,14 @@
                     <div class="table-responsive">
                         <table class="table m-0">
                             <tbody>
-                            @foreach(Auth::user()->pastDueTasks()->limit(10)->get() as $task)
+                            @foreach(Auth::user()->pastDueTasks()->limit(5)->get() as $task)
                                 <tr>
                                     <td><a href="{{ route('tasks.show', ['task'=>$task])}}">{{$task->name}}</a>
                                         @if ($task->project_id)
                                             <div class="text-muted small">in <a href="{{route('projects.show',['project'=>$task->project])}}" class="text-muted">{{$task->project->name}}</a></div>
                                         @endif
                                     </td>
-                                    <td class="text-right text-muted small">{{ \Carbon\Carbon::parse($task->due_on)->diffForHumans()}}</td>
+                                    <td class="text-right text-muted small">{{ \Carbon\Carbon::parse($task->due_on)->addDay(1)->diffForHumans()}}</td>
                                 </tr>
                             @endforeach
                             </tbody>

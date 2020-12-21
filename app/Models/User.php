@@ -206,7 +206,7 @@ class User extends Authenticatable implements Searchable
 
     public function pastDueTasks()
     {
-        return $this->tasks()->where('status','!=','complete')->where('due_on', '<',Carbon::now())->orderBy('due_on');
+        return $this->tasks()->where('status','!=','complete')->where('due_on', '<',Carbon::now()->subDays(1))->orderBy('due_on');
     }
 
     public function tasksDueToday()

@@ -88,7 +88,7 @@ class Project extends Model implements Searchable
 
     public function noSectionTasks()
     {
-        return $this->hasMany(Task::class)->where('section_id', null)->orderBy('order','asc');
+        return $this->hasMany(Task::class)->where('section_id', null)->orderBy('order','asc')->orderBy('created_at', 'desc');
     }
 
     public function sections()

@@ -143,13 +143,20 @@ class TaskController extends Controller
             return $request->json($task, 200);
 
         if ($request->redirect_to == 'project')
-            $redirectTo = route('projects.show', ['project'=>$task->project]);
+        {
+            $redirectToProject = route('projects.show', ['project'=>$task->project]);
+            $redirectToCreate = route('tasks.create').'?project='.$request->project_id.'&redirect_to=project';
+        }
+
         else
-            $redirectTo = route('tasks.index');
+        {
+            $redirectToProject = route('tasks.index');
+            $redirectToCreate = route('tasks.create');
+        }
 
         return $request->input('submit') == 'reload'
-            ? redirect()->route('tasks.create')
-            : redirect()->to($redirectTo);
+            ? redirect()->to($redirectToCreate)
+            : redirect()->to($redirectToProject);
     }
 
     public function show(Request $request, Task $task)

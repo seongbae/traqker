@@ -41,8 +41,8 @@ class AppServiceProvider extends ServiceProvider
 
         Mailbox::to('{projectname}@'.config('app.mail_domain'), MailHandler::class);
 
-        view()->composer('teams.menus', function ($view) {
-            $view->with('team', Team::first())->with('page', '_page');
-        });
+//        view()->composer('teams.menus', function ($view) {
+//            $view->with('team', Team::first())->with('page', '_page');
+//        });
     }
 }

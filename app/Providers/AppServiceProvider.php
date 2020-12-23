@@ -12,6 +12,7 @@ use App\Observers\HourObserver;
 use App\Models\Hour;
 use BeyondCode\Mailbox\Facades\Mailbox;
 use App\MailHandler;
+use App\Models\Team;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -39,5 +40,9 @@ class AppServiceProvider extends ServiceProvider
         CalendarResource::withoutWrapping();
 
         Mailbox::to('{projectname}@'.config('app.mail_domain'), MailHandler::class);
+
+        view()->composer('teams.menus', function ($view) {
+            $view->with('team', Team::first())->with('page', '_page');
+        });
     }
 }

@@ -1,17 +1,30 @@
-<form method="POST" action="/discuss">
-    {{ csrf_field() }}
-
-    <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" class="form-control" id="title" name="title" value="{{old('title')}}" required>
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <input type="text" name="title" placeholder="Title" class="form-control" id="title" value="{{ $thread ? $thread->title : "" }}" focus/>
     </div>
+</div>
+{{--<div class="row mb-2">--}}
+{{--    <div class="col-sm-12">--}}
+{{--        <select name="channel_id" id="channel_id" class="form-control" required>--}}
+{{--            <option value="">Choose Category</option>--}}
 
-    <div class="form-group">
-        <label for="body">Body:</label>
-        <textarea name="body" id="body" class="form-control" rows="8" value="{{old('body')}}" required></textarea>
+{{--            @foreach (\Seongbae\Discuss\Models\Channel::all() as $channel)--}}
+{{--                <option value="{{ $channel->id }}" {{ $thread && $thread->channel->id == $channel->id ? 'selected' : '' }}>--}}
+{{--                    {{ $channel->name }}--}}
+{{--                </option>--}}
+{{--            @endforeach--}}
+{{--        </select>--}}
+{{--    </div>--}}
+{{--</div>--}}
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <textarea name="body" id="body" rows="8"  required="required" class="form-control" placeholder="Message...">{{ $thread ? $thread->body : "" }}</textarea>
     </div>
-
-    <input type="hidden" name="channel_id" value="{{ (\Seongbae\Discuss\Models\Channel::where('slug', app('request')->input('team')))->value('id') }}">
-    <button type="submit" class="btn btn-primary">Publish</button>
-    <a href="{{ URL::previous() }}" class="btn btn-outline-secondary">Cancel</a>
-</form>
+</div>
+<div class="row mb-2">
+    <div class="col-sm-12 text-right">
+        <input type="hidden" name="channel_id" value="{{$team->channel_id}}">
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+    </div>
+</div>

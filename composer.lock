@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21b27e70fcd82ef5af11490ff8d3a96f",
+    "content-hash": "ff7ba3534eae0b31d72a707e13fd188c",
     "packages": [
         {
             "name": "appstract/laravel-options",
@@ -5207,17 +5207,11 @@
         },
         {
             "name": "seongbae/discuss",
-            "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/seongbae/discuss.git",
-                "reference": "c952f4584d705416f5b24ae87cef084003302912"
-            },
+            "version": "dev-master",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/seongbae/discuss/zipball/c952f4584d705416f5b24ae87cef084003302912",
-                "reference": "c952f4584d705416f5b24ae87cef084003302912",
-                "shasum": ""
+                "type": "path",
+                "url": "/home/seongbae/projects/packages/discuss",
+                "reference": "af39393446e42d63ae2422aff41420b4505332c8"
             },
             "require": {
                 "php": "^7.3"
@@ -5242,7 +5236,19 @@
                     "Seongbae\\Discuss\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Seongbae\\Discuss\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "test-coverage": [
+                    "vendor/bin/phpunit --coverage-html coverage"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -5261,11 +5267,9 @@
                 "forum",
                 "seongbae"
             ],
-            "support": {
-                "issues": "https://github.com/seongbae/discuss/issues",
-                "source": "https://github.com/seongbae/discuss/tree/1.1.1"
-            },
-            "time": "2020-12-17T21:20:42+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "seongbae/laravel-searchable",
@@ -12182,7 +12186,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "seongbae/discuss": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

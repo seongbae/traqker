@@ -105,10 +105,8 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show($channelId, Thread $thread)
+    public function show(Channel $channel, Thread $thread)
     {
-        $channels = Channel::all();
-
         $thread->view_count += 1;
         $thread->save();
 
@@ -116,9 +114,9 @@ class ThreadsController extends Controller
         if (Auth::check() && Auth::user()->threadSubscriptions->contains($thread))
             $subscribed = 1;
 
-        $user = Auth::user();
+        $team = Team::where('slug', $channel->slug)->first();
 
-        return view('discuss::threads.show', compact(['thread', 'channels','user','subscribed']));
+        return view('discuss::threads.show', compact(['thread', 'subscribed','team']));
     }
 
     /**

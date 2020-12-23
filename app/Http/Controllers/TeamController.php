@@ -48,6 +48,49 @@ class TeamController extends Controller
             : redirect()->route('teams.show',['team'=>$team]);
     }
 
+    public function show(Team $team)
+    {
+        $this->authorize('view', $team);
+
+        $page = "_teams";
+
+        return view('teams.show', compact('team','page'));
+    }
+
+    public function getSettings(Team $team)
+    {
+        $this->authorize('view', $team);
+
+        $page = "_settings";
+
+        return view('teams.settings', compact('team','page'));
+    }
+
+    public function edit(Team $team)
+    {
+        $this->authorize('update', $team);
+
+        return view('teams.edit', compact('team'));
+    }
+
+    public function update(TeamRequest $request, Team $team)
+    {
+        $this->authorize('update', $team);
+
+        $team->update($request->all());
+
+        return redirect()->back();
+    }
+
+    public function destroy(Team $team)
+    {
+        $this->authorize('delete', $team);
+
+        $team->delete();
+
+        return redirect()->route('teams.index');
+    }
+
     public function addMember(Request $request, Team $team)
     {
         $this->authorize('update', $team);
@@ -132,50 +175,6 @@ class TeamController extends Controller
         }
 
         return redirect()->back();
-    }
-
-    public function show(Team $team)
-    {
-        $this->authorize('view', $team);
-
-        $page = "_teams";
-
-        return view('teams.show', compact('team','page'));
-    }
-
-    public function getSettings(Team $team)
-    {
-        $this->authorize('view', $team);
-
-        $page = "_settings";
-
-        return view('teams.settings', compact('team','page'));
-    }
-
-    public function edit(Team $team)
-    {
-        $this->authorize('update', $team);
-
-        return view('teams.edit', compact('team'));
-    }
-
-    public function update(TeamRequest $request, Team $team)
-    {
-        $this->authorize('update', $team);
-
-        $team->update($request->all());
-
-        return redirect()->back();
-    }
-
-    /** @noinspection PhpUnhandledExceptionInspection */
-    public function destroy(Team $team)
-    {
-        $this->authorize('delete', $team);
-
-        $team->delete();
-
-        return redirect()->route('teams.index');
     }
 
     public function createSlug($title, $id = 0)

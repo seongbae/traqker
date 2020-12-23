@@ -20,7 +20,7 @@ return [
         'announcement' => 'btn btn-info btn-sm'
     ],
 
-    'page_count' => 5,
+    'page_count' => 20,
 
-    'view_mode'=>'public' // public = anyone can view. private = user must be logged in.
+    'view_mode'=>'private' // public = anyone can view. private = user must be logged in.
 ];

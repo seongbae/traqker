@@ -17,7 +17,7 @@
                             <div class="mb-4">
                                 <div class="float-left">
                                     <img src="{{getUserImage($thread->user, config('discuss.user_image_field'), config('discuss.user_image_path'), config('discuss.default_image'))}}" class="rounded-circle mr-2" width="40px" title="{{$thread->user->name}}">
-                                    <a href="#" title="{{$thread->user->name}}">{{ $thread->user->name }}</a> posted {{ $thread->created_at_human_readable }} in <a href="#">{{ $thread->channel->name}}</a>
+                                    <a href="#" title="{{$thread->user->name}}">{{ $thread->user->name }}</a> posted {{ $thread->created_at_human_readable }}</a>
                                 </div>
                                 @if (Auth::id() == $thread->user->id)
                                     <div class="float-right">

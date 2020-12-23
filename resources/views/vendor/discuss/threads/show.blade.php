@@ -16,7 +16,7 @@
                         <div class="card-body">
                             <div class="mb-4">
                                 <div class="float-left">
-                                    <img src="{{getUserImage($thread->user, config('discuss.user_image_field'), config('discuss.user_image_path'), config('discuss.default_image'))}}" class="rounded-circle mr-2" width="40px" title="{{$thread->user->name}}">
+                                    <img src="/storage/{{$thread->user->photo}}" class="rounded-circle mr-2" width="40px" title="{{$thread->user->name}}">
                                     <a href="#" title="{{$thread->user->name}}">{{ $thread->user->name }}</a> posted {{ $thread->created_at_human_readable }}</a>
                                 </div>
                                 @if (Auth::id() == $thread->user->id)

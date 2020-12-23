@@ -8,7 +8,7 @@ return [
 
     'user_image_field' => 'photo',
 
-    'user_image_path' => '/storage/users/',
+    'user_image_path' => '/storage/',
 
     'default_image' => '/vendor/discuss/default-avatar.png',
 

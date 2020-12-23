@@ -115,8 +115,9 @@ class ThreadsController extends Controller
             $subscribed = 1;
 
         $team = Team::where('slug', $channel->slug)->first();
+        $page = '_discuss';
 
-        return view('discuss::threads.show', compact(['thread', 'subscribed','team']));
+        return view('discuss::threads.show', compact(['thread', 'subscribed','team','page']));
     }
 
     /**

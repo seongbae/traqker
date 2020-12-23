@@ -11,7 +11,7 @@
                     <a class="btn btn-outline-primary  btn-sm w-100 mb-2" href="{{route('discuss.index', ['slug'=>$thread->channel->slug])}}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to discussion</a>
                     <hr>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="mb-4">
@@ -48,7 +48,7 @@
             </div>
             @if (count($thread->replies)>0)
                 <div class="row">
-                    <div class="col-md-8 offset-md-2">
+                    <div class="col-lg-6 offset-lg-2">
                         @foreach ($thread->replies as $reply)
                             @include ('discuss::threads.reply')
                         @endforeach
@@ -58,7 +58,7 @@
 
             @if (auth()->check())
                 <div class="row mt-4">
-                    <div class="col-md-8 offset-md-2">
+                    <div class="col-lg-6 offset-lg-2">
                         <form method="POST" action="{{ $thread->path() . '/replies' }}">
                             {{ csrf_field() }}
 

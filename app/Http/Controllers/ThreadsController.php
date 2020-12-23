@@ -155,11 +155,11 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy($channelId, Thread $thread)
+    public function destroy(Channel $channel, Thread $thread)
     {
         $thread->delete();
 
-        return redirect()->route('discuss.index', ['slug'=>$thread->channel->slug])->with('success','Successfully deleted');
+        return redirect()->route('discuss.index', ['slug'=>$channel->slug])->with('success','Successfully deleted');
     }
 
     private function slugify($string){

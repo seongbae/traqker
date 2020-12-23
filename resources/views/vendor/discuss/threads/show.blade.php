@@ -27,7 +27,7 @@
                                             </a>
                                             <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                                 <a class="dropdown-item" id="threadEditBtn" href="#" data-target="#editThread" data-toggle="modal">Edit</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Delete This Thread?') }}')) $('#deleteForm').submit();">Delete</a>
                                             </div>
                                         </div>
                                     </div>

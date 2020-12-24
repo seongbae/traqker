@@ -120,7 +120,7 @@ class TaskController extends Controller
         else
             $priority = "medium";
 
-        $task = Task::create(array_merge($request->all(),['user_id'=>1,'status'=>'created','priority'=>$priority]));
+        $task = Task::create(array_merge($request->all(),['user_id'=>Auth::id(),'status'=>'created','priority'=>$priority]));
 
         if ($request->project_id && $request->assignees)
         {

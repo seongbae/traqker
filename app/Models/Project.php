@@ -96,6 +96,11 @@ class Project extends Model implements Searchable
         return $this->hasMany(Section::class)->orderBy('order','asc');
     }
 
+    public function wikipages()
+    {
+        return $this->morphMany(WikiPage::class, 'wikiable');
+    }
+
     public function contains(User $user)
     {
         foreach($this->members as $member)

@@ -83,6 +83,15 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::patch('discuss/{channel}/{thread}', 'ThreadsController@update')->name('discuss.update');
     Route::delete('discuss/{channel}/{thread}', 'ThreadsController@destroy')->name('discuss.destroy');
 
+    // Wiki
+    Route::get('{type}/{slug}/wiki', 'WikiPageController@index')->name('wikipages.index')->middleware(['team']);
+    Route::get('{type}/{slug}/wiki/new', 'WikiPageController@create')->name('wikipages.create')->middleware(['team']);
+    Route::get('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@show')->name('wikipages.show')->middleware(['team']);
+    Route::get('{type}/{slug}/wiki/{wikiPage}/edit', 'WikiPageController@edit')->name('wikipages.edit')->middleware(['team']);
+    Route::patch('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@update')->name('wikipages.update')->middleware(['team']);
+    Route::post('{type}/{slug}/wiki', 'WikiPageController@store')->name('wikipages.store');
+    Route::delete('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@destroy')->name('wikipages.destroy');
+
 });
 
 //Route::group(['middleware' => ['web','auth','notifications']], function () {

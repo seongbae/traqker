@@ -232,7 +232,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Helper' => App\Helpers\Helper::class,
         'Sentry' => Sentry\Laravel\Facade::class,
-        'Debugbar'=>Barryvdh\Debugbar\LumenServiceProvider::class
+        'Debugbar'=>Barryvdh\Debugbar\LumenServiceProvider::class,
+        'Markdown'=>GrahamCampbell\Markdown\Facades\Markdown::class
     ],
 
 ];

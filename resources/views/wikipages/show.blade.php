@@ -4,23 +4,27 @@
 @section('content')
     @include('teams.menus')
 
-            <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <div>
+            <div class="card pt-2">
+                <div class="container">
+                <div class="card-header">
+                    <div class="float-left">
                     <h1>{{ $wikipage->title }}</h1>
-                        <div class="text-muted text-sm">Last edited by {{$wikipage->lastUpdatedBy->name}} {{(new \Carbon\Carbon($wikipage->updated_at))->diffForHumans()}}</div>
+                        <div class="text-muted text-sm">Last edited by {{$wikipage->lastUpdatedBy->name}}
+                            {{(new \Carbon\Carbon($wikipage->updated_at))->diffForHumans()}} &middot;
+                            {{ count($wikipage->revisions) }} revisions
+                        </div>
                     </div>
-                    <div>
+                    <div class="float-right">
                     <a href="{{ route('wikipages.edit',['type'=>$type,'slug'=>$team->slug,'wikiPage'=>$wikipage]) }}" class="btn btn-secondary btn-sm">Edit</a>
                     <a href="{{ route('wikipages.create',['type'=>$type,'slug'=>$team->slug]) }}" class="btn btn-primary btn-sm">New</a>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-9">
                             @markdown($wikipage->content)
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <div class="card">
                                 <div class="card-header">
                                     Pages
@@ -38,6 +42,7 @@
 
                 <div class="card-footer text-md-right border-top-0">
 
+                </div>
                 </div>
             </div>
 @endsection

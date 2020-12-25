@@ -18,6 +18,7 @@ class CreateWikiPageHistoriesTable extends Migration
             $table->integer('wiki_page_id');
             $table->text('content');
             $table->unsignedBigInteger('user_id');
+            $table->string('change_description')->nullable();
             $table->timestamps();
         });
     }

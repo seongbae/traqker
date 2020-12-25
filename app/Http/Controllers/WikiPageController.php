@@ -109,10 +109,9 @@ class WikiPageController extends Controller
      * @param  \App\Models\WikiPage  $wikiPage
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $type, $slug, WikiPage $wikiPage)
+    public function update($type, $slug, WikiPage $wikiPage, Request $request)
     {
-        $wikiPage = $wikiPage->update($request->all());
-
+        $wikiPage->update($request->all());
 
         return $request->input('submit') == 'reload'
             ? redirect()->back()

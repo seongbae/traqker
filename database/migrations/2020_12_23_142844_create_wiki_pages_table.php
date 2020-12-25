@@ -21,7 +21,8 @@ class CreateWikiPagesTable extends Migration
             $table->unsignedBigInteger('updated_user_id');
             $table->string('wikiable_id'); // project or team id
             $table->string('wikiable_type'); // project or team
-            $table->boolean('initial_page')->default(0); // project or team
+            $table->boolean('initial_page')->default(0);
+            $table->string('change_description')->nullable(); // project or team
             $table->timestamps();
         });
     }

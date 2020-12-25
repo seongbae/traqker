@@ -26,7 +26,14 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="list-group-item py-3">
+                    <div class="row">
+                        <label for="name" class="col-form-label col-md-2">Change Description</label>
+                        <div class="col-md">
+                            <input type="text" name="change_description" id="change_description" class="form-control" placeholder="Optional">
+                        </div>
+                    </div>
+                </div>
                 <div class="card-footer text-md-right border-top-0">
                     <input type="hidden" name="initial_page" value="{{$initial_page}}">
                     <button type="submit" name="submit" value="reload" class="btn btn-primary">{{ __('Update & Continue Edit') }}</button>

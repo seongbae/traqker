@@ -92,6 +92,9 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('{type}/{slug}/wiki', 'WikiPageController@store')->name('wikipages.store');
     Route::delete('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@destroy')->name('wikipages.destroy');
 
+    Route::get('{type}/{slug}/wiki/{wikiPage}/revisions', 'WikiPageHistoryController@index')->name('revisions.index')->middleware(['team']);
+
+
 });
 
 //Route::group(['middleware' => ['web','auth','notifications']], function () {

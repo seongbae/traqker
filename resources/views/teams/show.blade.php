@@ -41,6 +41,7 @@
                             @foreach($team->members as $member)
                                 <div class="col-md-2">
                                     <div class="card user-card">
+                                        @if (Auth::user()->canManageTeam($team))
                                         <div class="d-flex justify-content-between m-2">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline btn-sm text-muted" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,11 +60,10 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                @if (Auth::user()->canManageTeam($team))
-                                                    <span class="text-muted text-sm">{{$member->pivot->access}}</span>
-                                                @endif
+                                                <span class="text-muted text-sm">{{$member->pivot->access}}</span>
                                             </div>
                                         </div>
+                                        @endif
                                         <div class="card-block">
                                             <div class="user-image">
                                                 <img src="/storage/{{$member->photo}}" class="img-radius" alt="User-Profile-Image">

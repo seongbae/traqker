@@ -30,6 +30,11 @@ class WikiPage extends Model
         return $this->belongsTo(User::class, 'updated_user_id');
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_user_id');
+    }
+
     public function revisions()
     {
         return $this->hasMany(WikiPageHistory::class, 'wiki_page_id');

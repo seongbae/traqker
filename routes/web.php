@@ -9,7 +9,7 @@ Auth::routes();
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('home', [HomeController::class, 'index']);
 
-Route::group(['middleware' => ['web','auth']], function () {
+Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::get('dashboard', 'HomeController@showHome')->name('dashboard');
 
     Route::put('tasks/{task}/status', 'TaskController@updateStatus');
@@ -48,7 +48,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::resource('teams', 'TeamController');
     Route::get('teams/{team}/availability', 'AvailabilityController@getTeamAvailability')->name('teams.availability');
     Route::get('teams/{team}/settings', 'TeamController@getSettings')->name('teams.settings');
-    Route::post('/team/{team}/add', 'TeamController@addMember');
+    Route::post('/team/{team}/add', 'TeamController@addMember')->name('teams.addMember');
     Route::delete('/team/{team}/remove/{user}', 'TeamController@removeMember')->name('team.remove');
     Route::delete('/invitations/{invitation}', 'InvitationController@destroy')->name('invitation.remove');
 
@@ -84,26 +84,18 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::delete('discuss/{channel}/{thread}', 'ThreadsController@destroy')->name('discuss.destroy');
 
     // Wiki
-    Route::get('{type}/{slug}/wiki', 'WikiPageController@index')->name('wikipages.index')->middleware(['team']);
-    Route::get('{type}/{slug}/wiki/new', 'WikiPageController@create')->name('wikipages.create')->middleware(['team']);
-    Route::get('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@show')->name('wikipages.show')->middleware(['team']);
-    Route::get('{type}/{slug}/wiki/{wikiPage}/edit', 'WikiPageController@edit')->name('wikipages.edit')->middleware(['team']);
-    Route::patch('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@update')->name('wikipages.update')->middleware(['team']);
-    Route::post('{type}/{slug}/wiki', 'WikiPageController@store')->name('wikipages.store');
-    Route::delete('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@destroy')->name('wikipages.destroy');
+    Route::get('{type}/{slug}/wiki', 'WikiPageController@index')->name('wikipages.index')->middleware(['auth','team']);
+    Route::get('{type}/{slug}/wiki/new', 'WikiPageController@create')->name('wikipages.create')->middleware(['auth','team']);
+    Route::get('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@show')->name('wikipages.show')->middleware(['auth','team']);
+    Route::get('{type}/{slug}/wiki/{wikiPage}/edit', 'WikiPageController@edit')->name('wikipages.edit')->middleware(['auth','team']);
+    Route::patch('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@update')->name('wikipages.update')->middleware(['auth','team']);
+    Route::post('{type}/{slug}/wiki', 'WikiPageController@store')->name('wikipages.store')->middleware(['auth','team']);
+    Route::delete('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@destroy')->name('wikipages.destroy')->middleware(['auth','team']);
 
-    Route::get('{type}/{slug}/wiki/{wikiPage}/revisions', 'WikiPageHistoryController@index')->name('revisions.index')->middleware(['team']);
+    Route::get('{type}/{slug}/wiki/{wikiPage}/revisions', 'WikiPageHistoryController@index')->name('revisions.index')->middleware(['auth','team']);
 
 
 });
-
-//Route::group(['middleware' => ['web','auth','notifications']], function () {
-//    Route::resource('/payment', 'PaymentController');
-//    Route::resource('/account/paymentmethods', 'PaymentmethodController');
-//    Route::post('/account/payment', 'PaymentmethodController@updatePaymentSettings');
-//    Route::post('/sendtestpayment', 'PaymentController@sendTestPayment');
-//    Route::post('/sendpayment', 'PaymentController@sendPayment');
-//});
 
 Route::group(['namespace'=>'\Seongbae\Canvas\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['web','auth','notifications']], function () {
 
@@ -142,5 +134,13 @@ Route::group(['namespace' => '\Seongbae\Discuss\Http\Controllers', 'middleware' 
     Route::delete('replies/{reply}', 'RepliesController@destroy')->name('reply.destroy');
 
     Route::post('discuss/subscribe/{type}/{id}', 'SubscriptionController@update')->name('subscription.update');
-
 });
+
+
+//Route::group(['middleware' => ['web','auth','notifications']], function () {
+//    Route::resource('/payment', 'PaymentController');
+//    Route::resource('/account/paymentmethods', 'PaymentmethodController');
+//    Route::post('/account/payment', 'PaymentmethodController@updatePaymentSettings');
+//    Route::post('/sendtestpayment', 'PaymentController@sendTestPayment');
+//    Route::post('/sendpayment', 'PaymentController@sendPayment');
+//});

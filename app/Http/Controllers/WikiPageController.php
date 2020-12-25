@@ -14,6 +14,11 @@ class WikiPageController extends Controller
 {
     protected $page = '_wiki';
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,15 +29,17 @@ class WikiPageController extends Controller
         if ($type == 'teams')
         {
             $wikiableType = Team::class;
-            $wikiableId = Team::where('slug', $slug)->first()->id;
+            $wikiable = Team::where('slug', $slug)->first();
         }
         elseif ($type == 'projects')
         {
             $wikiableType = Project::class;
-            $wikiableId = Project::where('slug', $slug)->first()->id;
+            $wikiable = Project::where('slug', $slug)->first();
         }
 
-        $initialPage = WikiPage::where('wikiable_type', $wikiableType)->where('wikiable_id', $wikiableId)->where('initial_page', 1)->first();
+        $this->authorize('viewAny', [ WikiPage::class, $wikiable]);
+
+        $initialPage = WikiPage::where('wikiable_type', $wikiableType)->where('wikiable_id', $wikiable->id)->where('initial_page', 1)->first();
 
         if ($initialPage)
             return view('wikipages.show', compact('type'))->with('wikipage', $initialPage)->with('page', $this->page);
@@ -47,6 +54,19 @@ class WikiPageController extends Controller
      */
     public function create($type, $slug)
     {
+        if ($type == 'teams')
+        {
+            $wikiableType = Team::class;
+            $wikiable = Team::where('slug', $slug)->first();
+        }
+        elseif ($type == 'projects')
+        {
+            $wikiableType = Project::class;
+            $wikiable = Project::where('slug', $slug)->first();
+        }
+
+        $this->authorize('viewAny', $wikiable);
+
         return view('wikipages.create',compact('type','slug'))->with('page',$this->page)->with('initial_page', 0);
     }
 
@@ -61,15 +81,17 @@ class WikiPageController extends Controller
         if ($type == 'teams')
         {
             $wikiableType = Team::class;
-            $wikiableId = Team::where('slug', $slug)->first()->id;
+            $wikiable = Team::where('slug', $slug)->first()->id;
         }
         elseif ($type == 'projects')
         {
             $wikiableType = Project::class;
-            $wikiableId = Project::where('slug', $slug)->first()->id;
+            $wikiable = Project::where('slug', $slug)->first()->id;
         }
 
-        $wikipage = WikiPage::create(array_merge($request->all(), ['wikiable_id'=>$wikiableId, 'wikiable_type'=>$wikiableType]));
+        $this->authorize('create', $wikiable);
+
+        $wikipage = WikiPage::create(array_merge($request->all(), ['wikiable_id'=>$wikiable->id, 'wikiable_type'=>$wikiableType]));
 
         return $request->input('submit') == 'reload'
             ? redirect()->route('wikipages.edit')
@@ -84,9 +106,7 @@ class WikiPageController extends Controller
      */
     public function show($type, $slug, WikiPage $wikiPage)
     {
-        Log::info('wikiPage:'.json_encode($wikiPage));
-
-        //$wikiPage = WikiPage::first();
+        $this->authorize('view', $wikiPage);
 
         return view('wikipages.show',compact('type', 'slug'))->with('wikipage', $wikiPage)->with('page', $this->page);
     }
@@ -99,6 +119,8 @@ class WikiPageController extends Controller
      */
     public function edit($type, $slug, WikiPage $wikiPage)
     {
+        $this->authorize('update', $wikiPage);
+
         return view('wikipages.edit', compact('wikiPage','type','slug'))->with('page', $this->page);
     }
 
@@ -111,6 +133,8 @@ class WikiPageController extends Controller
      */
     public function update($type, $slug, WikiPage $wikiPage, Request $request)
     {
+        $this->authorize('update', $wikiPage);
+
         $wikiPage->update($request->all());
 
         return $request->input('submit') == 'reload'
@@ -126,6 +150,8 @@ class WikiPageController extends Controller
      */
     public function destroy($type, $slug, WikiPage $wikiPage)
     {
+        $this->authorize('delete', $wikiPage);
+
         $wikiPage->delete();
 
         return redirect()->route('wikipages.index',['type'=>$type,'slug'=>$slug]);

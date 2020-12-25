@@ -38,7 +38,7 @@ class Project extends Model implements Searchable
 
     public function members()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('access');
     }
 
     public function user()

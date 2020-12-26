@@ -77,8 +77,10 @@
 
         var dependencies = @json($dependencies);
 
-        for (var i = 0; i < dependencies.length; i++){
-            $('#dependencies').tagsinput('add', { "value": dependencies[i].value , "text": dependencies[i].text    });
+        if (dependencies.length > 0) {
+            for (var i = 0; i < dependencies.length; i++){
+                $('#dependencies').tagsinput('add', { "value": dependencies[i].value , "text": dependencies[i].text    });
+            }
         }
     </script>
 @endpush

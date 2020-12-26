@@ -83,6 +83,7 @@ class TaskController extends Controller
         $users = [];
         $assignees = [];
         $tasks = [];
+        $dependencies = [];
 
         if (app('request')->input('project'))
         {
@@ -115,6 +116,7 @@ class TaskController extends Controller
                 ->with('priority', $priority)
                 ->with('milestone', $milestone)
                 ->with('tasks', $tasks)
+                ->with('dependencies', $dependencies)
                 ->with('assignees', $assignees);
     }
 
@@ -136,6 +138,14 @@ class TaskController extends Controller
         }
         else
             $task->users()->attach(Auth::id());
+
+        if ($request->has('dependencies')) {
+            if ($request->dependencies == null)
+                $task->tasks()->detach();
+            else {
+                $task->tasks()->sync(explode(',', $request->dependencies));
+            }
+        }
 
         if ($request->file('files')) {
             $files = $request->file('files');

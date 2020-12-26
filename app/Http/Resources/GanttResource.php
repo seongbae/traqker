@@ -22,7 +22,7 @@ class GanttResource extends JsonResource
             'progress' => $this->status == 'complete' ? 100 : $this->progress,
             'custom_class'=> 'gantt-bar',
             'description'=>$this->description,
-            'dependencies'=> strval(implode(',', $this->dependencies->pluck('dependency_id')->toArray()))
+            'dependencies'=> strval(implode(',', $this->tasks->pluck('dependency_id')->toArray()))
         ];
 
 //        id: 'Task 1',

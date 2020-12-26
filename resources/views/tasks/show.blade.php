@@ -6,12 +6,10 @@
     <div class="container" id="task-detail">
         <div class="card">
             <div class="card-header">
-                <div class="float-left">{{ $task->name }}</div>
+                <div class="float-left">
+                    {{ $task->name }}
+                </div>
                 <div class="float-right text-muted small">
-                    Created by {{ $task->owner->name }}
-                    @if ($task->project_id)
-                        in <a href="{{route('projects.show', ['project'=>$task->project])}}">{{$task->project->name}}</a>
-                    @endif
 
                     @include('tasks.menus')
                 </div>
@@ -152,6 +150,17 @@
                         </div>
                     </div>
                     @endif
+            </div>
+            <div class="card-footer px-3">
+                <div class="text-sm text-muted">Created by {{ $task->owner->name }}
+                    @if ($task->project_id)
+                        in <a href="{{route('projects.show', ['project'=>$task->project])}}">{{$task->project->name}}</a>
+                    @endif
+                    {{\Carbon\Carbon::parse($task->created_at)->diffForHumans() }}.
+                    @if ($task->created_at != $task->updated_at)
+                        Last updated {{\Carbon\Carbon::parse($task->updated_at)->diffForHumans() }}.
+                    @endif
+                </div>
             </div>
         </div>
 

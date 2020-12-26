@@ -44,13 +44,11 @@
     <script>
     $(document).ready(function(){
         $("#newTaskForm").submit(function(event){
-            alert('test');
             submitForm();
             return false;
         });
 
         function submitForm(){
-            alert('test');
             $.ajax({
                 type: "POST",
                 url: "saveContact.php",

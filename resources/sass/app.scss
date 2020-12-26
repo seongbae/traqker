@@ -364,3 +364,13 @@ form .list-group-item {
 .gantt-container .gantt-bar {
     background-color: #3788d8;
 }
+
+.gantt .bar-progress, .gantt .bar-wrapper.active .bar-progress, .gantt .bar-wrapper:hover .bar-progress {
+    fill: #3788d8;
+}
+
+//.gantt-container .details-container {
+//    background: #fff;
+//    display: inline-block;
+//    padding: 12px;
+//}

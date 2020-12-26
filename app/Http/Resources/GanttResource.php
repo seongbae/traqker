@@ -19,8 +19,10 @@ class GanttResource extends JsonResource
             'name' => $this->name,
             'start' => $this->start_on == null ? $this->due_on : $this->start_on,
             'end' => $this->due_on,
-            'progress' => 100,
-            'custom_class'=> 'gantt-bar'
+            'progress' => $this->status == 'complete' ? 100 : $this->progress,
+            'custom_class'=> 'gantt-bar',
+            'description'=>$this->description,
+            'dependencies'=> strval(implode(',', $this->dependencies->pluck('dependency_id')->toArray()))
         ];
 
 //        id: 'Task 1',

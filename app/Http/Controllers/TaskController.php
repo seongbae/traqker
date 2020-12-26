@@ -163,6 +163,8 @@ class TaskController extends Controller
     {
         $this->authorize('view', $task);
 
+        Log::info('dependencies for '.$task->id.':'.implode(',', $task->dependencies->pluck('dependency_id')->toArray()));
+
         if( $request->is('api/*') || $request->ajax())
             return $request->json($task, 200);
         else
@@ -227,7 +229,7 @@ class TaskController extends Controller
         }
 
         if( $request->is('api/*') || $request->ajax())
-            return $request->json(['task'=>$task], 200);
+            return $request->json([], 200);
 
         return $request->input('submit') == 'reload'
             ? redirect()->route('tasks.edit', $task->id)

@@ -36,6 +36,7 @@ class Task extends Model implements Searchable
 
     protected $appends = ['status_badge'];
 
+    protected $with = ['dependencies'];
 
     protected $dates = [
     ];
@@ -59,6 +60,11 @@ class Task extends Model implements Searchable
     public function assignees()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function dependencies()
+    {
+        return $this->hasMany(TaskDependency::class);
     }
 
     public function getAssigneesNameAttribute()

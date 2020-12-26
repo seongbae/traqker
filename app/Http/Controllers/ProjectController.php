@@ -10,6 +10,7 @@ use App\Http\Datatables\ProjectDatatable;
 use App\Http\Datatables\AttachmentDatatable;
 use App\Http\Requests\ProjectRequest;
 use App\Scopes\ArchiveScope;
+use App\Scopes\CompletedScope;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use Auth;
@@ -139,7 +140,7 @@ class ProjectController extends Controller
     {
         $page = "_timeline";
 
-        $tasks = GanttResource::collection($project->tasks()->where(function ($query) {
+        $tasks = GanttResource::collection($project->tasks()->withoutGlobalScope(CompletedScope::class)->orderBy('start_on')->where(function ($query) {
                 $query->orWhereNotNull('start_on');
                 $query->orWhereNotNull('due_on');
             })->get());

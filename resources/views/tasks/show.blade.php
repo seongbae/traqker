@@ -17,6 +17,7 @@
                 </div>
             </div>
             <div class="card-body">
+                @if ($task->description)
                 <div class="row my-3">
                     <div class="col-md-2 text-secondary">
                         Description
@@ -25,6 +26,19 @@
                         {!! nl2br(Helper::transformText($task->description)) !!}
                     </div>
                 </div>
+                @endif
+                @if (count($task->tasks)>0)
+                <div class="row my-3">
+                    <div class="col-md-2 text-secondary">
+                        Dependencies
+                    </div>
+                    <div class="col-md">
+                        @foreach($task->tasks as $dependingTask)
+                            - <a href="{{ route('tasks.show', ['task'=>$dependingTask]) }}">{{ $dependingTask->name }}</a><br>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
                 <div class="row my-3">
                     <div class="col-md-2 text-secondary">
                         Priority

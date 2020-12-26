@@ -2,7 +2,7 @@
     <script type="text/javascript">
 
         var data = @json($users);
-        console.log(data);
+
         var users = new Bloodhound({
             datumTokenizer:  Bloodhound.tokenizers.obj.whitespace('text'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -41,6 +41,44 @@
         function validateSelection() {
             if(data.indexOf($(this).val()) === -1)
                 alert('Error : element not in list!');
+        }
+
+        var taskData = @json($tasks);
+
+        var tasks = new Bloodhound({
+            datumTokenizer:  Bloodhound.tokenizers.obj.whitespace('text'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            //identify: function(obj) { return obj.id; },
+            local: $.map(taskData, function (item) {
+                return {
+                    value: item.value,
+                    text: item.text
+                };
+            })
+        });
+        tasks.initialize();
+
+        $('#dependencies').tagsinput({
+            itemValue: 'value',
+            itemText: 'text',
+            allowDuplicates: false,
+            typeaheadjs: [{
+                minLength: 2,
+                highlight: true
+            },
+                {
+                    name: 'dependencies',
+                    displayKey: 'text',
+                    valueKey: 'value',
+                    source: tasks.ttAdapter()
+                }
+            ]
+        });
+
+        var dependencies = @json($dependencies);
+
+        for (var i = 0; i < dependencies.length; i++){
+            $('#dependencies').tagsinput('add', { "value": dependencies[i].value , "text": dependencies[i].text    });
         }
     </script>
 @endpush

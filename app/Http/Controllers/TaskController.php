@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TaskIDNameResource;
 use App\Models\Task;
 use App\Http\Datatables\TaskDatatable;
 use App\Http\Requests\TaskRequest;
@@ -81,6 +82,7 @@ class TaskController extends Controller
     {
         $users = [];
         $assignees = [];
+        $tasks = [];
 
         if (app('request')->input('project'))
         {
@@ -88,6 +90,8 @@ class TaskController extends Controller
 
             if ($project)
                 $users = MemberResource::collection($project->members);
+
+            $tasks = TaskIDNameResource::collection($project->tasks);
         }
         else
         {
@@ -110,6 +114,7 @@ class TaskController extends Controller
                 ->with('task', null)
                 ->with('priority', $priority)
                 ->with('milestone', $milestone)
+                ->with('tasks', $tasks)
                 ->with('assignees', $assignees);
     }
 
@@ -163,8 +168,6 @@ class TaskController extends Controller
     {
         $this->authorize('view', $task);
 
-        Log::info('dependencies for '.$task->id.':'.implode(',', $task->dependencies->pluck('dependency_id')->toArray()));
-
         if( $request->is('api/*') || $request->ajax())
             return $request->json($task, 200);
         else
@@ -185,9 +188,14 @@ class TaskController extends Controller
         else
             $users[] = array('value'=>Auth::id(), 'text'=>Auth::user()->name);
 
-        $assignees = MemberResource::collection($task->users);
+        $tasks = [];
+        if ($task->project_id)
+            $tasks = TaskIDNameResource::collection($task->project->tasks);
 
-        return view('tasks.edit', compact('task', 'projects', 'users', 'priority', 'assignees'));
+        $assignees = MemberResource::collection($task->users);
+        $dependencies = TaskIDNameResource::collection($task->tasks);
+
+        return view('tasks.edit', compact('task', 'projects', 'users', 'priority', 'assignees','tasks', 'dependencies'));
     }
 
     public function update(TaskRequest $request, Task $task)
@@ -204,6 +212,14 @@ class TaskController extends Controller
 
                 if (count($changes['attached'])>0)
                     event(new TaskAssigned(User::find($changes['attached']), $task));
+            }
+        }
+
+        if ($request->has('dependencies')) {
+            if ($request->dependencies == null)
+                $task->tasks()->detach();
+            else {
+                $task->tasks()->sync(explode(',', $request->dependencies));
             }
         }
 

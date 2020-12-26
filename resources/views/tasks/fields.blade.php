@@ -2,6 +2,14 @@
     <div class="col-lg-12">
         <x-canvas-input name="name" :value="old('name', $task->name ?? '')" :autofocus="true"/>
         <x-canvas-textarea name="description" :value="old('description', $task->description ?? '')" />
+        <div class="list-group-item py-3">
+            <div class="row">
+                <label for="description" class="col-form-label col-md-2">Dependencies</label>
+                <div class="col-md tagsinput">
+                    <input type="text" name="dependencies" class="form-control" id="dependencies">
+                </div>
+            </div>
+        </div>
         <x-canvas-select name="priority" :options="$priority" :value="old('priority', $task->priority ?? '')" />
 
         @if (app('request')->input('project'))
@@ -23,7 +31,7 @@
         <x-canvas-input name="start_on" type="date" :value="old('start_on', $task->start_on ?? '')" />
         <x-canvas-input name="due_on" type="date" :value="old('due_on', $task->due_on ?? '')" />
         <x-canvas-input name="estimate_hour" type="number" :value="old('estimate_hour', $task->estimate_hour ?? '')" />
-        <x-canvas-input name="progress" type="number" :value="old('progress', $task->progress ?? '')" />
+        <x-canvas-input name="progress" type="number" :value="old('progress', $task->progress ?? '')"/>
 
         <x-canvas-file name="files[]" :label="__('Files')" :file-label="__('Choose Files')" id="files" :multiple="true" />
     </div>

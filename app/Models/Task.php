@@ -36,7 +36,7 @@ class Task extends Model implements Searchable
 
     protected $appends = ['status_badge'];
 
-    protected $with = ['dependencies'];
+    protected $with = ['tasks'];
 
     protected $dates = [
     ];
@@ -62,9 +62,9 @@ class Task extends Model implements Searchable
         return $this->belongsToMany(User::class);
     }
 
-    public function dependencies()
+    public function tasks()
     {
-        return $this->hasMany(TaskDependency::class);
+        return $this->belongsToMany(Task::class, 'task_dependencies','task_id', 'dependency_id');
     }
 
     public function getAssigneesNameAttribute()
@@ -171,6 +171,10 @@ class Task extends Model implements Searchable
 
         static::addGlobalScope(new ArchiveScope);
         static::addGlobalScope(new CompletedScope);
+
+        static::creating(function ($task) {
+            $task->progress = 0;
+        });
 
         static::created(function ($task) {
             if (count($task->users)>0)

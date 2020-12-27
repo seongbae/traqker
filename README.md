@@ -52,11 +52,14 @@
 Traqker is a simple project and task management tool for small to medium-sized teams. 
 
 Features:
-* Manage multiple projects
-* Manage project tasks
-* Track task status
-* Manage teams
-* Kanban board and calendar
+* Track tasks, progress, and completion
+* Projects
+* Teams
+* Discussion board
+* Kanban board
+* Gantt chart  
+* Calendar
+* Wiki
 * Share files with teams
 * E-mail & web notifications
 * Archive tasks & projects
@@ -113,9 +116,6 @@ Coming soon
 <!-- ROADMAP -->
 ## Roadmap
 
-* Gantt Chart
-* Discussion board integration
-* Additional details on tasks - progress, dependencies, sub-tasks
 * Project templates
 * Translation
 * Reporting

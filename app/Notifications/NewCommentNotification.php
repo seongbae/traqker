@@ -88,8 +88,8 @@ class NewCommentNotification extends Notification
             //->icon('/approved-icon.png')
             ->body($this->comment->commenter->name . ": ".$this->comment->comment)
             ->action('Go to Task', 'view_task')
-            ->options(['TTL' => 1000]);
-        //    ->data(['url' => url(route('tasks.show', $this->comment->commentable))]);
+            ->options(['TTL' => 1000])
+            ->data(['url' => url(route('tasks.show', $this->comment->commentable))]);
         // ->badge()
         // ->dir()
         // ->image()

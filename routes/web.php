@@ -128,7 +128,7 @@ Route::group(['namespace'=>'\Seongbae\Canvas\Http\Controllers\Admin', 'prefix' =
 
 });
 
-Route::group(['namespace' => '\Seongbae\Discuss\Http\Controllers', 'middleware' => ['web']], function () {
+Route::group(['namespace' => '\Seongbae\Discuss\Http\Controllers', 'middleware' => ['web','auth','notifications']], function () {
 
     // Discussion
     Route::post('discuss/{channel}/{thread}/replies', 'RepliesController@store')->name('reply.store');

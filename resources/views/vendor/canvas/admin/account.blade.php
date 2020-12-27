@@ -177,6 +177,12 @@ if (isset($_GET['code'])) { // Redirect w/ code
                                     <label class="custom-control-label" for="dailyReminderEmail">Receive daily task reminder emails</label>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="browser_notification" name="browser_notification" value="1" {{ Auth::user()->setting('browser_notification') == 1 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="browser_notification">Receive browser notification</label>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary btn-sm mr-2">Save</button>
 
                         </form>
@@ -398,7 +404,136 @@ if (isset($_GET['code'])) { // Redirect w/ code
         newUrl += "/";
         history.replaceState(null, null, newUrl);
       });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(function(reg) {
+                console.log('Service Worker Registered!', reg);
+
+                reg.pushManager.getSubscription().then(function(subscription) {
+                    if (subscription === null) {
+                        // Update UI to ask user to register for Push
+                        console.log('Not subscribed to push service!');
+                    } else {
+                        // We have a subscription, update the database
+                        // console.log('Subscription object: ', subscription);
+
+                        const key = subscription.getKey('p256dh')
+                        const token = subscription.getKey('auth')
+                        const contentEncoding = (PushManager.supportedContentEncodings || ['aesgcm'])[0]
+
+                        const data = {
+                            endpoint: subscription.endpoint,
+                            publicKey: key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : null,
+                            authToken: token ? btoa(String.fromCharCode.apply(null, new Uint8Array(token))) : null,
+                            contentEncoding
+                        }
+
+                        $.ajax({
+                            type:'POST',
+                            url:'/subscriptions',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: data,
+
+                            success:function(data) {
+                                //alert('success');
+                            }
+                        });
+                    }
+                });
+            })
+                .catch(function(err) {
+                    console.log('Service Worker registration failed: ', err);
+                });
+        }
+
+        function subscribeUser() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.ready.then(function(reg) {
+                    const options = { userVisibleOnly: true }
+                    const vapidPublicKey = window.Laravel.vapidPublicKey
+
+                    if (vapidPublicKey) {
+                        options.applicationServerKey = this.urlBase64ToUint8Array(vapidPublicKey)
+                    }
+
+                    reg.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: vapidPublicKey
+                    }).then(function(sub) {
+                        // console.log('Endpoint URL: ', sub.endpoint);
+                    }).catch(function(e) {
+                        if (Notification.permission === 'denied') {
+                            console.warn('Permission for notifications was denied');
+                        } else {
+                            console.error('Unable to subscribe to push', e);
+                        }
+                    });
+                })
+            } else {
+                console.log('serviceWorker not in navigator');
+            }
+        }
+
+        function unsubscribeUser() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.ready.then(function(reg) {
+                    reg.pushManager.getSubscription().then(subscription => {
+                        if (!subscription) {
+                            return
+                        }
+
+                        subscription.unsubscribe().then(() => {
+                            $.ajax({
+                                type:'POST',
+                                url:'/subscriptions/delete',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                data: {
+                                    endpoint: subscription.endpoint
+                                },
+                                success:function(data) {
+                                    //alert('success');
+                                }
+                            });
+                        }).catch(e => {
+                            console.log('Unsubscription error: ', e)
+                        })
+                    }).catch(e => {
+                        console.log('Error thrown while unsubscribing.', e)
+                    })
+                })
+            } else {
+                console.log('serviceWorker not in navigator');
+            }
+        }
+
+        $('#browser_notification').change(function() {
+            if(this.checked) {
+                subscribeUser();
+            } else {
+                unsubscribeUser();
+            }
+        });
     });
+
+    function urlBase64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4)
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/')
+
+        const rawData = window.atob(base64)
+        const outputArray = new Uint8Array(rawData.length)
+
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i)
+        }
+
+        return outputArray
+    }
 </script>
 <script type="text/javascript">
 

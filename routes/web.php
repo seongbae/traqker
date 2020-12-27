@@ -94,7 +94,9 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
 
     Route::get('{type}/{slug}/wiki/{wikiPage}/revisions', 'WikiPageHistoryController@index')->name('revisions.index')->middleware(['auth','team']);
 
-
+    // Push Subscriptions
+    Route::post('subscriptions', 'PushSubscriptionController@update');
+    Route::post('subscriptions/delete', 'PushSubscriptionController@destroy');
 });
 
 Route::group(['namespace'=>'\Seongbae\Canvas\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['web','auth','notifications']], function () {

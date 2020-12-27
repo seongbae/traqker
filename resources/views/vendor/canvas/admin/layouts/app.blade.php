@@ -24,6 +24,18 @@
   <!-- Load styles from child views -->
   @stack('styles')
 
+    <script>
+        window.Laravel = {!! json_encode([
+            'user' => Auth::user(),
+            'csrfToken' => csrf_token(),
+            'vapidPublicKey' => config('webpush.vapid.public_key'),
+            'pusher' => [
+                'key' => config('broadcasting.connections.pusher.key'),
+                'cluster' => config('broadcasting.connections.pusher.options.cluster'),
+            ],
+        ]) !!};
+    </script>
+
     <script src="{{ asset('canvas/js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/vendor.js') }}"></script>
     <script src="{{ asset('canvas/js/adminlte.min.js') }}"></script>

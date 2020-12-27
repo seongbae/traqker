@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 use Seongbae\Discuss\Traits\HasThreads;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Group;
@@ -33,7 +34,7 @@ use App\Notifications\InviteAcceptedNotification;
 
 class User extends Authenticatable implements Searchable
 {
-    use Notifiable, HasRoles, LogsActivity, Billable, Commenter, HasFactory, HasApiTokens, HasThreads;
+    use Notifiable, HasRoles, LogsActivity, Billable, Commenter, HasFactory, HasApiTokens, HasThreads, HasPushSubscriptions;
 
     /**
      * The attributes that are mass assignable.

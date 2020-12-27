@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 use App\Mail\TeamMemberAdded;
 use Helper;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class NewCommentNotification extends Notification
 {
@@ -38,7 +40,7 @@ class NewCommentNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', WebPushChannel::class];
     }
 
     /**
@@ -49,7 +51,7 @@ class NewCommentNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = "";
+        $url = "/";
 
         if ($this->comment->commentable instanceof Task) {
             //$msg = "<strong>".$event->comment->commenter->name . "</strong>: \"".$event->comment->comment."\"";
@@ -59,7 +61,7 @@ class NewCommentNotification extends Notification
         return (new MailMessage)
                     ->subject("New comment by ".$this->comment->commenter->name.": ".Helper::limitText($this->comment->comment, 40))
                     ->markdown('emails.comments.newcomment',['url'=>$url,'comment'=>$this->comment,'task'=>$this->comment->commentable]);
-                    
+
     }
 
     /**
@@ -77,5 +79,24 @@ class NewCommentNotification extends Notification
             'link'=>route('tasks.show', $this->comment->commentable),
             'image'=>'/storage/'.$this->user->photo
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('New Comment')
+            //->icon('/approved-icon.png')
+            ->body($this->comment->commenter->name . ": ".$this->comment->comment)
+            ->action('Go to Task', 'view_task')
+            ->options(['TTL' => 1000])
+            ->data(['url' => url(route('tasks.show', $this->comment->commentable))]);
+        // ->badge()
+        // ->dir()
+        // ->image()
+        // ->lang()
+        // ->renotify()
+        // ->requireInteraction()
+        // ->tag()
+        // ->vibrate()
     }
 }

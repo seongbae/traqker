@@ -244,6 +244,51 @@
 
 <script>
 
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(function(reg) {
+            // console.log('Service Worker Registered!', reg);
+
+            reg.pushManager.getSubscription().then(function(subscription) {
+                if (subscription === null) {
+                    // Update UI to ask user to register for Push
+                    console.log('Not subscribed to push service!');
+                } else {
+                    // We have a subscription, update the database
+                    // console.log('Subscription object: ', subscription);
+
+                    const key = subscription.getKey('p256dh')
+                    const token = subscription.getKey('auth')
+                    const contentEncoding = (PushManager.supportedContentEncodings || ['aesgcm'])[0]
+
+                    const data = {
+                        endpoint: subscription.endpoint,
+                        publicKey: key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : null,
+                        authToken: token ? btoa(String.fromCharCode.apply(null, new Uint8Array(token))) : null,
+                        contentEncoding
+                    }
+
+                    $.ajax({
+                        type:'POST',
+                        url:'/subscriptions',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: data,
+
+                        success:function(data) {
+                            //alert('success');
+                        }
+                    });
+                }
+            });
+        })
+            .catch(function(err) {
+                console.log('Service Worker registration failed: ', err);
+            });
+    } else {
+        console.log('serviceWorker not in navigator')
+    }
+
     function sendMarkRequest(id = null) {
         _token = "{{ csrf_token() }}";
 
@@ -323,6 +368,8 @@
             newUrl += "/";
             history.replaceState(null, null, newUrl);
         });
+
+
     });
 </script>
 

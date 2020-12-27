@@ -14,6 +14,8 @@ class SettingsController extends Controller
 
         $user->settings(["browser_notification"=>$this->getCheckboxValue($request->browser_notification)]);
 
+        $user->settings(["email_notification"=>$this->getCheckboxValue($request->email_notification)]);
+
         return redirect()->back();
     }
 

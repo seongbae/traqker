@@ -68,7 +68,7 @@ class User extends Authenticatable implements Searchable
 
     protected $attributes = [
         'settings' => '{
-            "daily_reminder_email": 1
+            "daily_reminder_email": 1, "browser_notification": 1, "email_notification": 1
         }'
     ];
 

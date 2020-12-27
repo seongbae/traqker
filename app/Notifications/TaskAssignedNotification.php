@@ -38,7 +38,15 @@ class TaskAssignedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database', WebPushChannel::class];
+        $channels = ['database'];
+
+        if ($this->user->setting('browser_notification'))
+            $channels[] = WebPushChannel::class;
+
+        if ($this->user->setting('email_notification'))
+            $channels[] = 'mail';
+
+        return $channels;
     }
 
     /**

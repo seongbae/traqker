@@ -272,7 +272,7 @@
     pushVal: function() {
       var self = this,
           val = $.map(self.items(), function(item) {
-              console.log(self.options);
+              //console.log(self.options);
             return self.options.itemValue(item).toString();
           });
 

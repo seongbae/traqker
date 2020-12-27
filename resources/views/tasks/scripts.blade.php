@@ -19,6 +19,7 @@
         $('#assignees').tagsinput({
             itemValue: 'value',
             itemText: 'text',
+            allowDuplicates: false,
             typeaheadjs: [{
                 minLength: 2,
                 highlight: true

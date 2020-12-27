@@ -31,7 +31,7 @@
     <script type="text/javascript">
 
         var data = @json($availableUsers);
-        console.log(data);
+        //console.log(data);
 
         var users = new Bloodhound({
             datumTokenizer:  Bloodhound.tokenizers.obj.whitespace('text'),
@@ -49,6 +49,7 @@
         $('#users').tagsinput({
             itemValue: 'value',
             itemText: 'text',
+            allowDuplicates: false,
             typeaheadjs: [{
                 minLength: 2,
                 highlight: true
@@ -62,15 +63,15 @@
             ]
         });
 
-        {{--var projectUsers = @json($projectUsers);--}}
+        var projectUsers = @json($projectUsers);
 
-        {{--for (var i = 0; i < projectUsers.length; i++){--}}
-        {{--    $('#users').tagsinput('add', { "value": projectUsers[i].value , "text": projectUsers[i].text    });--}}
-        {{--}--}}
+        for (var i = 0; i < projectUsers.length; i++){
+            $('#users').tagsinput('add', { "value": projectUsers[i].value , "text": projectUsers[i].text    });
+        }
 
-        {{--function validateSelection() {--}}
-        {{--    if(data.indexOf($(this).val()) === -1)--}}
-        {{--        alert('Error : element not in list!');--}}
-        //}
+        function validateSelection() {
+            if(data.indexOf($(this).val()) === -1)
+                alert('Error : element not in list!');
+        }
     </script>
 @endpush

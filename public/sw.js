@@ -36,9 +36,9 @@
      * @param {NotificationEvent} event
      */
     notificationClick (event) {
-      console.log(event.notification)
+      // console.log(event.notification)
 
-      if (event.action === 'view_task') {
+        if (event.action === 'view_task') {
           self.clients.openWindow(event.notification.data.url)
       } else {
         self.clients.openWindow('/')

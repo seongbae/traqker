@@ -97,6 +97,8 @@ Route::group(['middleware' => ['web','auth','notifications','team']], function (
     // Push Subscriptions
     Route::post('subscriptions', 'PushSubscriptionController@update');
     Route::post('subscriptions/delete', 'PushSubscriptionController@destroy');
+
+    Route::resource('comments', 'CommentController');
 });
 
 Route::group(['namespace'=>'\Seongbae\Canvas\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['web','auth','notifications']], function () {

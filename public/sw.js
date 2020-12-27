@@ -41,7 +41,7 @@
       if (event.action === 'view_task') {
           self.clients.openWindow(event.data.url)
       } else {
-        self.clients.openWindow('https://www.google.com')
+        self.clients.openWindow('/')
       }
     },
 

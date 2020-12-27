@@ -9,7 +9,7 @@ Auth::routes();
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('home', [HomeController::class, 'index']);
 
-Route::group(['middleware' => ['web','auth','notifications']], function () {
+Route::group(['middleware' => ['web','auth','notifications','team']], function () {
     Route::get('dashboard', 'HomeController@showHome')->name('dashboard');
 
     Route::put('tasks/{task}/status', 'TaskController@updateStatus');
@@ -84,15 +84,15 @@ Route::group(['middleware' => ['web','auth','notifications']], function () {
     Route::delete('discuss/{channel}/{thread}', 'ThreadsController@destroy')->name('discuss.destroy');
 
     // Wiki
-    Route::get('{type}/{slug}/wiki', 'WikiPageController@index')->name('wikipages.index')->middleware(['auth','team']);
-    Route::get('{type}/{slug}/wiki/new', 'WikiPageController@create')->name('wikipages.create')->middleware(['auth','team']);
-    Route::get('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@show')->name('wikipages.show')->middleware(['auth','team']);
-    Route::get('{type}/{slug}/wiki/{wikiPage}/edit', 'WikiPageController@edit')->name('wikipages.edit')->middleware(['auth','team']);
-    Route::patch('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@update')->name('wikipages.update')->middleware(['auth','team']);
-    Route::post('{type}/{slug}/wiki', 'WikiPageController@store')->name('wikipages.store')->middleware(['auth','team']);
-    Route::delete('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@destroy')->name('wikipages.destroy')->middleware(['auth','team']);
+    Route::get('{type}/{slug}/wiki', 'WikiPageController@index')->name('wikipages.index');
+    Route::get('{type}/{slug}/wiki/new', 'WikiPageController@create')->name('wikipages.create');
+    Route::get('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@show')->name('wikipages.show');
+    Route::get('{type}/{slug}/wiki/{wikiPage}/edit', 'WikiPageController@edit')->name('wikipages.edit');
+    Route::patch('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@update')->name('wikipages.update');
+    Route::post('{type}/{slug}/wiki', 'WikiPageController@store')->name('wikipages.store');
+    Route::delete('{type}/{slug}/wiki/{wikiPage}', 'WikiPageController@destroy')->name('wikipages.destroy');
 
-    Route::get('{type}/{slug}/wiki/{wikiPage}/revisions', 'WikiPageHistoryController@index')->name('revisions.index')->middleware(['auth','team']);
+    Route::get('{type}/{slug}/wiki/{wikiPage}/revisions', 'WikiPageHistoryController@index')->name('revisions.index');
 
     // Push Subscriptions
     Route::post('subscriptions', 'PushSubscriptionController@update');
@@ -128,7 +128,7 @@ Route::group(['namespace'=>'\Seongbae\Canvas\Http\Controllers\Admin', 'prefix' =
 
 });
 
-Route::group(['namespace' => '\Seongbae\Discuss\Http\Controllers', 'middleware' => ['web','auth','notifications']], function () {
+Route::group(['namespace' => '\Seongbae\Discuss\Http\Controllers', 'middleware' => ['web','auth','notifications','team']], function () {
 
     // Discussion
     Route::post('discuss/{channel}/{thread}/replies', 'RepliesController@store')->name('reply.store');

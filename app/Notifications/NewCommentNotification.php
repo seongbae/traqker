@@ -40,7 +40,7 @@ class NewCommentNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database', WebPushChannel::class];
+        return ['mail', 'database'];
     }
 
     /**

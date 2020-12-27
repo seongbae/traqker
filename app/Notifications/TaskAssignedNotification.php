@@ -7,6 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class TaskAssignedNotification extends Notification
 {
@@ -36,7 +38,7 @@ class TaskAssignedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', WebPushChannel::class];
     }
 
     /**
@@ -67,5 +69,24 @@ class TaskAssignedNotification extends Notification
             'link'=>route('tasks.show', $this->task),
             'image'=>'/storage/'.$this->user->photo
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('New Task')
+            //->icon('/approved-icon.png')
+            ->body('New task assigned: '.$this->task->name)
+            ->action('Go to Task', 'view_task')
+            ->options(['TTL' => 1000])
+            ->data(['url' => url(route('tasks.show', $this->task))]);
+        // ->badge()
+        // ->dir()
+        // ->image()
+        // ->lang()
+        // ->renotify()
+        // ->requireInteraction()
+        // ->tag()
+        // ->vibrate()
     }
 }

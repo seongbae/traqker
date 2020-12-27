@@ -7,6 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class TaskCompleteNotification extends Notification
 {
@@ -36,7 +38,7 @@ class TaskCompleteNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail','database', WebPushChannel::class];
     }
 
     /**
@@ -67,5 +69,24 @@ class TaskCompleteNotification extends Notification
             'link'=>route('tasks.show', $this->task),
             'image'=>'/storage/'.$this->user->photo
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Task Complete')
+            //->icon('/approved-icon.png')
+            ->body('Task complete: '.$this->task->name)
+            ->action('Go to Task', 'view_task')
+            ->options(['TTL' => 1000])
+            ->data(['url' => url(route('tasks.show', $this->task))]);
+        // ->badge()
+        // ->dir()
+        // ->image()
+        // ->lang()
+        // ->renotify()
+        // ->requireInteraction()
+        // ->tag()
+        // ->vibrate()
     }
 }

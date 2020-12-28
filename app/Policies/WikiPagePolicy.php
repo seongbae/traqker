@@ -7,6 +7,7 @@ use App\Models\WikiPage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Model;
+use Log;
 
 class WikiPagePolicy
 {
@@ -18,9 +19,9 @@ class WikiPagePolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function viewAny(User $user, Model $wikiable)
+    public function viewAny(User $user)
     {
-        return $wikiable->contains($user);
+        return true;
     }
 
     /**
@@ -55,6 +56,9 @@ class WikiPagePolicy
      */
     public function update(User $user, WikiPage $wikiPage)
     {
+        Log::info('wikiPage: '.json_encode($wikiPage));
+        Log::info('user: '.json_encode($user));
+
         return $wikiPage->wikiable()->contains($user);
     }
 

@@ -21,15 +21,10 @@
                                         @include('partials.project', ['project'=>$project])
                                     @endforeach
 
-                                    <div class="text-center my-auto mr-2">
-                                        <div class="card card-block d-flex" style="height:120px;width:120px;">
-                                            <div class="card-body align-items-center d-flex justify-content-center">
-                                                <a href="{{ route('projects.create')."?team=".$team->id}}"><i class="fas fa-plus"></i> New</a>
-                                            </div>
-                                        </div>
-                                    </div>
+
 
                                 </div>
+                                <a href="{{ route('projects.create')."?team=".$team->id}}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New Project</a>
                             </div>
                         </div>
                     </div>
@@ -76,14 +71,9 @@
                                     </div>
                                 </div>
                             @endforeach
-                            <div class="text-center my-auto mr-2">
-                                <div class="card card-block d-flex" style="height:120px;width:120px;">
-                                    <div class="card-body align-items-center d-flex justify-content-center">
-                                        <a href="#" data-target="#updateMember" data-toggle="modal" ><i class="fas fa-plus"></i> New</a>
-                                    </div>
-                                </div>
+                            <div>
+                            <a href="#" data-target="#updateMember" data-toggle="modal" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New Member</a>
                             </div>
-
                         </div>
                         @if (count($team->pendingInvitations) > 0)
                             <div class="row ">
@@ -210,14 +200,23 @@
         $(document).on("click", "#editMember", function () {
           $('#updateMember #user_id').val($(this).data('id'));
           $('#updateMember #email').val($(this).data('email'));
+          $('#updateMember #email').attr('readonly', 'true'); // mark it as read only
+          $('#updateMember #email').css('background-color' , '#DEDEDE'); // change the background color
           $('#updateMember #access').val($(this).data('access'));
           $('#updateMember #title').val($(this).data('title'));
           $('#modalLabel').text('Edit Member');
           $('#updateMember').modal('show');
         });
 
-        $('#updateMember').on('hidden.bs.modal', function () {
+        $(document).on("click", "#updateMember", function () {
+            $('#updateMember #user_id').val("");
+            $('#updateMember #email').val("");
+            $('#updateMember #email').attr('readonly', 'false'); // mark it as read only
+            $('#updateMember #email').css('background-color' , '#FFFFFF'); // change the background color
+            $('#updateMember #access').val("");
+            $('#updateMember #title').val("");
             $('#modalLabel').text('Add Member');
+            $('#updateMember').modal('show');
         });
     });
 </script>

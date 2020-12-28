@@ -65,7 +65,7 @@ class WikiPageController extends Controller
             $wikiable = Project::where('slug', $slug)->first();
         }
 
-        $this->authorize('viewAny', $wikiable);
+        $this->authorize('create', [WikiPage::class, $wikiable]);
 
         return view('wikipages.create',compact('type','slug'))->with('page',$this->page)->with('initial_page', 0);
     }
@@ -81,15 +81,15 @@ class WikiPageController extends Controller
         if ($type == 'teams')
         {
             $wikiableType = Team::class;
-            $wikiable = Team::where('slug', $slug)->first()->id;
+            $wikiable = Team::where('slug', $slug)->first();
         }
         elseif ($type == 'projects')
         {
             $wikiableType = Project::class;
-            $wikiable = Project::where('slug', $slug)->first()->id;
+            $wikiable = Project::where('slug', $slug)->first();
         }
 
-        $this->authorize('create', $wikiable);
+        $this->authorize('create', [WikiPage::class, $wikiable]);
 
         $wikipage = WikiPage::create(array_merge($request->all(), ['wikiable_id'=>$wikiable->id, 'wikiable_type'=>$wikiableType]));
 

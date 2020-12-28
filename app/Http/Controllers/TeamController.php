@@ -59,7 +59,7 @@ class TeamController extends Controller
 
     public function getSettings(Team $team)
     {
-        $this->authorize('view', $team);
+        $this->authorize('edit', $team);
 
         $page = "_settings";
 

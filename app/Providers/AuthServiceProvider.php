@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Policies\WikiPagePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
         Project::class => ProjectPolicy::class,
         Task::class => TaskPolicy::class,
         Team::class => TeamPolicy::class,
+        WikiPage::class=>WikiPagePolicy::class
     ];
 
     /**

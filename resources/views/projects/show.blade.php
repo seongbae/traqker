@@ -130,9 +130,8 @@
 
                                     <form method="post" action="{{ route('quicklinks.store') }}" id="quicklink_project_{{ $project->id }}_form" class="d-none">
                                         @csrf
-                                        <input type="hidden" name="title" value="{{$project->name}}">
-                                        <input type="hidden" name="model_id" value="{{$project->id}}">
-                                        <input type="hidden" name="url" value="{{route('projects.show',['project'=>$project])}}">
+                                        <input type="hidden" name="linkable_id" value="{{$project->id}}">
+                                        <input type="hidden" name="linkable_type" value="{{get_class($project)}}">
                                     </form>
                                 @endif
                             </div>

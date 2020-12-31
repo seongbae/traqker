@@ -68,7 +68,7 @@ class Project extends Model implements Searchable
 
     public function quicklink()
     {
-        return $this->hasOne(Quicklink::class, 'model_id');
+        return $this->hasOne(Quicklink::class, 'linkable_id');
     }
 
     public function tasks()

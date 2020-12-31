@@ -24,6 +24,11 @@ class Team extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function quicklink()
+    {
+        return $this->hasOne(Quicklink::class, 'linkable_id');
+    }
+
     public function invitations()
     {
         return $this->hasMany(Invitation::class);

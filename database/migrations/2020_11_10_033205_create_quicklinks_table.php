@@ -15,10 +15,9 @@ class CreateQuicklinksTable extends Migration
     {
         Schema::create('quicklinks', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('url');
             $table->integer('user_id');
-            $table->integer('model_id');
+            $table->integer('linkable_id');
+            $table->string('linkable_type');
             $table->integer('order')->default(1);
             $table->timestamps();
         });

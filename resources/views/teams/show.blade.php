@@ -6,7 +6,7 @@
     @include('teams.menus')
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-lg-9">
         <div class="card">
             <div class="card-body">
                 <div class="list-group list-group-flush">
@@ -117,6 +117,66 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card  no-gutters" id="team-info">
+            <div class="card-header">
+                <div class="float-left">
+                    {{ $team->name }}
+                </div>
+                <div class="float-right">
+                    <div class="dropdown ">
+                        <button class="btn btn-outline btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            @if ($team->quicklink)
+                                <a class="dropdown-item" href="#" onclick="$('#quicklink_team_{{ $team->id }}_form').submit();">Remove Quicklink</a>
+
+                                <form method="post" action="{{ route('quicklinks.destroy', ['quicklink'=>$team->quicklink]) }}" id="quicklink_team_{{ $team->id }}_form" class="d-none">
+                                    @csrf
+                                    @method('delete')
+                                </form>
+                            @else
+                                <a class="dropdown-item" href="#" onclick="$('#quicklink_team_{{ $team->id }}_form').submit();">Add to Quicklink</a>
+
+                                <form method="post" action="{{ route('quicklinks.store') }}" id="quicklink_team_{{ $team->id }}_form" class="d-none">
+                                    @csrf
+                                    <input type="hidden" name="linkable_id" value="{{$team->id}}">
+                                    <input type="hidden" name="linkable_type" value="{{get_class($team)}}">
+                                </form>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" style="padding:0;">
+
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        {{ Helper::limitText($project->description, 200) }}
+                    </div>
+                    <div class="list-group-item">
+                        Created by {{ $project->user->name }} on {{ $project->created_at->format('Y-m-d') }}
+                    </div>
+                    @if ($project->parent_id )
+                        <div class="list-group-item">
+                            In <a href="{{ route('projects.show',['project'=>$project->parent]) }}">{{ $project->parent->name }}</a>
+                        </div>
+                    @endif
+                    <div class="list-group-item">
+                        Members<br>
+                        <div class="my-2">
+                            @foreach($project->members as $member)
+                                <img src="/storage/{{ $member->photo }}" alt="{{ $member->name }}" title="{{ $member->name }}" class="rounded-circle profile-small mr-1" >
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </div>

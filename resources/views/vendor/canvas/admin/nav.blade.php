@@ -14,31 +14,14 @@
               <a class="nav-link {{ (request()->is('projects')) ? 'active' : '' }}" href="{{ route('projects.index') }}"><i class="fas fa-project-diagram mr-2"></i> <p>{{ __('Projects') }}</p></a>
           </li>
             <li class="nav-item has-treeview {{ (request()->is('teams/*')) ? 'menu-open' : '' }}">
-                <a class="nav-link {{ (request()->is('teams*')) ? 'active' : '' }}" href="{{ route('teams.index') }}"><i class="fas fa-users mr-2"></i> <p>{{ __('Teams') }} <i class="right fas fa-angle-left"></i></p></a>
-
-                <ul class="nav nav-treeview ml-2">
-                    @foreach(Auth::user()->teams as $team)
-                    <li class="nav-item">
-                        <a href="{{route('teams.show', ['team'=>$team])}}" class="nav-link {{ (request()->is('teams/'.$team->slug)) ? 'active' : '' }}">
-                            <i class="far fa-smile nav-icon"></i>
-                            <p>{{$team->name}}</p>
-                        </a>
-                    </li>
-                    @endforeach
-                    <li class="nav-item">
-                        <a href="/teams/create" class="nav-link {{ (request()->is('teams/create')) ? 'active' : '' }}">
-                            <i class="fas fa-plus nav-icon"></i>
-                            <p>Add New</p>
-                        </a>
-                    </li>
-                </ul>
+                <a class="nav-link {{ (request()->is('teams')) ? 'active' : '' }}" href="{{ route('teams.index') }}"><i class="fas fa-users mr-2"></i> <p>{{ __('Teams') }}</p></a>
             </li>
             @if (count(Auth::user()->quicklinks)>0)
             <li class="nav-header">Quicklinks</li>
 
             @foreach(Auth::user()->quicklinks as $quicklink)
             <li class="nav-item">
-                <a class="nav-link {{ (request()->is($quicklink->path.'*')) ? 'active' : '' }}" href="{{$quicklink->url}}"><i class="fas fa-project-diagram mr-2"></i> <p>{{ $quicklink->title }}</p></a>
+                <a class="nav-link {{ (request()->is($quicklink->path.'*')) ? 'active' : '' }}" href="{{$quicklink->url}}"><i class="fas fa-{{ $quicklink->fa_icon }} mr-2"></i> <p>{{ $quicklink->linkable->name }}</p></a>
             </li>
             @endforeach
             @endif

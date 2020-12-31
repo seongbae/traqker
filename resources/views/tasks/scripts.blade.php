@@ -1,6 +1,10 @@
 @push('scripts')
     <script type="text/javascript">
 
+        $(function() {
+            $("#name").focus();
+        });
+
         var data = @json($users);
 
         var users = new Bloodhound({

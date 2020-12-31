@@ -31,92 +31,18 @@ class TaskTest extends TestCase
      *
      * @return void
      */
-    public function test_task_list_can_be_retrieved_from_api()
+    public function test_task_can_be_created()
     {
-
-        Sanctum::actingAs(
-            $this->user,
-            ['view-tasks']
-        );
-
-        $response = $this->get('/api/tasks');
-
-        $response->assertOk();
-    }
-
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_task_detail_can_be_retrieved_from_api()
-    {
-
-        Sanctum::actingAs(
-            $this->user,
-            ['*']
-        );
-
-        $task = Task::factory()->make();
-
-        $response = $this->get('/api/tasks/'.$task->id);
-
-        $response->assertOk();
-    }
-
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_task_can_be_created_from_api()
-    {
-        Sanctum::actingAs(
-            $this->user,
-            ['*']
-        );
-
         $data =
             [
                 'name'=>$this->faker->sentence,
-                'status'=>'complete',
-                'user_id'=>$this->user->id,
                 'description'=>$this->faker->paragraph
             ];
 
-        $this->post('/api/tasks/', $data)
-            ->assertStatus(200);
-    }
+        $this->actingAs($this->user)
+            ->post('/tasks', $data);
+            //->assertStatus(200)
 
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_task_can_be_updated_from_api()
-    {
-
-        Sanctum::actingAs(
-            $this->user,
-            ['*']
-        );
-
-        $task = Task::factory()->make(
-            [
-                'name'=>'test task 1',
-                'status'=>'active',
-                'description'=>'test description 1'
-            ]
-        );
-
-        $data = [
-            'name'=>$this->faker->sentence,
-            'status'=>'complete',
-            'description'=>$this->faker->paragraph
-        ];
-
-        $this->post('/api/tasks/'.$task->id, $data)
-            ->assertStatus(200);
-
+        $this->assertCount(1, Task::all());;
     }
 }

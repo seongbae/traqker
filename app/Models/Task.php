@@ -34,6 +34,23 @@ class Task extends Model implements Searchable
 {
     use FillsColumns, SerializesDates, Commentable, UploadTrait, softDeletes, HasFactory, HasAttachments;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'start_on',
+        'due_on',
+        'completed_on',
+        'estimate_hour',
+        'status',
+        'project_id',
+        'parent_id',
+        'section_id',
+        'is_milestone',
+        'order',
+        'user_id',
+        'progress'
+    ];
+
     protected $appends = ['status_badge'];
 
     protected $with = ['tasks'];
@@ -155,6 +172,15 @@ class Task extends Model implements Searchable
         return User::whereIn('id', $users)->get();
     }
 
+    public function attachFiles($task, $files)
+    {
+        if ($files) {
+            foreach ($files as $file) {
+                $task->addFile($file);
+            }
+        }
+    }
+
 //    public function getCreatedAtAttribute($input)
 //    {
 //        return Timezone::convertFromUTC($input, auth()->user()->timezone, 'Y-m-d H:i:s');
@@ -173,7 +199,7 @@ class Task extends Model implements Searchable
         static::addGlobalScope(new CompletedScope);
 
         static::creating(function ($task) {
-            $task->progress = 0;
+            $task->user_id = Auth::id();
         });
 
         static::created(function ($task) {

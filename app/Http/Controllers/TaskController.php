@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Http\Datatables\TaskDatatable;
 use App\Http\Requests\TaskRequest;
 use App\Scopes\CompletedScope;
+use App\Services\TaskService;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Auth;
@@ -120,39 +121,21 @@ class TaskController extends Controller
                 ->with('assignees', $assignees);
     }
 
-    public function store(TaskRequest $request)
+    public function store(TaskRequest $request, TaskService $taskService)
     {
-        if ($request->priority)
-            $priority = $request->priority;
-        else
-            $priority = "medium";
-
-        $task = Task::create(array_merge($request->all(),['user_id'=>Auth::id(),'status'=>'created','priority'=>$priority]));
-
-        if ($request->project_id && $request->assignees)
-        {
-            $changes = $task->users()->sync(explode(",", $request->assignees));
-
-            if (count($changes['attached'])>0)
-                event(new TaskAssigned(User::find($changes['attached']), $task));
-        }
-        else
-            $task->users()->attach(Auth::id());
-
-        if ($request->has('dependencies')) {
-            if ($request->dependencies == null)
-                $task->tasks()->detach();
-            else {
-                $task->tasks()->sync(explode(',', $request->dependencies));
-            }
-        }
-
-        if ($request->file('files')) {
-            $files = $request->file('files');
-            foreach ($files as $file) {
-                $task->addFile($file);
-            }
-        }
+        $task = $taskService->createTask(
+            $request->name,
+            $request->description,
+            $request->dependencies,
+            $request->priority,
+            $request->project,
+            $request->assignees,
+            $request->start_on,
+            $request->due_on,
+            $request->estimate,
+            $request->progress,
+            $request->file('files')
+        );
 
         if( $request->is('api/*') || $request->ajax())
             return $request->json($task, 200);
@@ -162,7 +145,6 @@ class TaskController extends Controller
             $redirectToProject = route('projects.show', ['project'=>$task->project]);
             $redirectToCreate = route('tasks.create').'?project='.$request->project_id.'&redirect_to=project';
         }
-
         else
         {
             $redirectToProject = route('tasks.index');
@@ -208,51 +190,26 @@ class TaskController extends Controller
         return view('tasks.edit', compact('task', 'projects', 'users', 'priority', 'assignees','tasks', 'dependencies'));
     }
 
-    public function update(TaskRequest $request, Task $task)
+    public function update(TaskRequest $request, Task $task, TaskService $taskService)
     {
         $this->authorize('update', $task);
 
-        $task->update($request->all());
+        $task = $taskService->updateTask(
+            $task,
+            $request->name,
+            $request->description,
+            $request->priority,
+            $request->project_id,
+            $request->start_on,
+            $request->due_on,
+            $request->estimate,
+            $request->progress,
+            $request->assigness,
+            $request->dependencies
+        );
 
-        if ($request->has('assignees')) {
-            if ($request->assignees == null)
-                $task->users()->detach();
-            else {
-                $changes = $task->users()->sync(explode(",", $request->assignees));
-
-                if (count($changes['attached'])>0)
-                    event(new TaskAssigned(User::find($changes['attached']), $task));
-            }
-        }
-
-        if ($request->has('dependencies')) {
-            if ($request->dependencies == null)
-                $task->tasks()->detach();
-            else {
-                $task->tasks()->sync(explode(',', $request->dependencies));
-            }
-        }
-
-        if ($request->orders)
-        {
-            $order = 1;
-            $placeholders = implode(',',array_fill(0, count($request->orders), '?'));
-            $tasks = Task::whereIn('id', $request->orders)->orderByRaw("field(id,{$placeholders})", $request->orders)->get();
-
-            foreach($tasks as $task)
-            {
-                $task->order = $order;
-                $task->save();
-                $order++;
-            }
-        }
-
-        if ($request->file('files')) {
-            $files = $request->file('files');
-            foreach ($files as $file) {
-                $task->addFile($file);
-            }
-        }
+        if ($request->has('files'))
+            $task->attachFiles($request->has('files'));
 
         if( $request->is('api/*') || $request->ajax())
             return $request->json([], 200);
@@ -275,28 +232,23 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    public function updateStatus(Request $request, Task $task)
+    public function updateOrders(Request $request, Task $task, TaskService $taskService)
     {
         $this->authorize('update', $task);
 
-        $task->status = $request->get('status');
+        $task = $taskService->updateOrders($request->orders);
 
-        if ($task->status == 'complete')
-        {
-            $task->completed_on = Carbon::now()->toDateTimeString();
-        }
+        if( $request->is('api/*') || $request->ajax())
+            return $request->json([], 200);
+        else
+            return redirect()->back();
+    }
 
-        $task->save();
+    public function updateStatus(Request $request, Task $task, TaskService $taskService)
+    {
+        $this->authorize('update', $task);
 
-        if ($request->get('hours'))
-        {
-            Hour::create(array_merge($request->all(), [
-                'description'=>$task->name,
-                'worked_on'=>Carbon::now()->toDateTimeString(),
-                'task_id'=>$task->id,
-                'project_id'=>$task->project->id
-            ]));
-        }
+        $task = $taskService->updateStatus($task, $request->status, $request->hours);
 
         if ($request->ajax())
             return response()->json(['success'], 200);

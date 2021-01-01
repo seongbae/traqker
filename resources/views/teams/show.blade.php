@@ -155,20 +155,14 @@
 
                 <div class="list-group list-group-flush">
                     <div class="list-group-item">
-                        {{ Helper::limitText($project->description, 200) }}
                     </div>
                     <div class="list-group-item">
-                        Created by {{ $project->user->name }} on {{ $project->created_at->format('Y-m-d') }}
+                        Created by {{ $team->user->name }} on {{ $team->created_at->format('Y-m-d') }}
                     </div>
-                    @if ($project->parent_id )
-                        <div class="list-group-item">
-                            In <a href="{{ route('projects.show',['project'=>$project->parent]) }}">{{ $project->parent->name }}</a>
-                        </div>
-                    @endif
                     <div class="list-group-item">
                         Members<br>
                         <div class="my-2">
-                            @foreach($project->members as $member)
+                            @foreach($team->members as $member)
                                 <img src="/storage/{{ $member->photo }}" alt="{{ $member->name }}" title="{{ $member->name }}" class="rounded-circle profile-small mr-1" >
                             @endforeach
                         </div>

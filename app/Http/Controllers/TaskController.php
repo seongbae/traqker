@@ -128,7 +128,7 @@ class TaskController extends Controller
             $request->description,
             $request->dependencies,
             $request->priority,
-            $request->project,
+            $request->project_id,
             $request->assignees,
             $request->start_on,
             $request->due_on,
@@ -138,7 +138,7 @@ class TaskController extends Controller
         );
 
         if( $request->is('api/*') || $request->ajax())
-            return $request->json($task, 200);
+            return $request->json([], 200);
 
         if ($request->redirect_to == 'project')
         {

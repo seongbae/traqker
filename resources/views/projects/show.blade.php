@@ -146,6 +146,9 @@
                         </div>
                         <div class="list-group-item">
                             Created by {{ $project->user->name }} on {{ $project->created_at->format('Y-m-d') }}
+                            @if ($project->team)
+                                in <a href="{{route('teams.show',['team'=>$project->team])}}">{{$project->team->name}}</a>
+                                @endif
                         </div>
                         @if ($project->parent_id )
                             <div class="list-group-item">

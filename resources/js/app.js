@@ -36,49 +36,25 @@ document.addEventListener('DOMContentLoaded', function() {
             events: eventListingURL,
             displayEventTime: false,
             editable: true,
-            //height: 650,
-            // dayClick: function(date, jsEvent, view) {
-            //     $("#myModal").modal("show");
-            // },
-            // eventClick:  function(event, jsEvent, view) {
-            //     $('#modalTitle').html(event.title);
-            //     $('#modalBody').html(event.description);
-            //     $('#eventUrl').attr('href',event.url);
-            //     $('#calendarModal').modal();
-            // },
-            // eventContent: function (info) {
-            //
-            // },
             selectable: true,
-            selectHelper: true,
+            // selectHelper: true,
             select: function (selectionInfo) {
-                //$("#myModal").modal("show");
-                var start = moment(selectionInfo.start).format('YYYY-MM-DD HH:mm:ss');
-                var end = moment(selectionInfo.end).subtract(1, "minute").format('YYYY-MM-DD HH:mm:ss');
-                var csrf = $('meta[name="csrf-token"]'). attr('content');
-                var title = prompt('Title:');
+                var start = moment(selectionInfo.start).format('YYYY-MM-DD');
+                var end = moment(selectionInfo.end).subtract(1, "minute").format('YYYY-MM-DD');
 
-                if (title) {
-                    $.ajax({
-                        url: "/tasks",
-                        data: {
-                            _token: csrf,
-                            project_id: projectId,
-                            name: title,
-                            start_on: start,
-                            due_on: end
-                        },
-                        type: "POST",
-                        success: function (data) {
-                            calendar.addEvent({
-                                title: title,
-                                start: selectionInfo.start,
-                                end: selectionInfo.end,
-                                allDay: selectionInfo.allDay
-                            });
-                        }
+                $('#calendarModal #start_on').val(start);
+                $('#calendarModal #due_on').val(end);
+                $('#calendarModal').modal("show");
+
+                $('#submitButton').click( function() {
+                    var title = $('#calendarModal #name').val();
+                    calendar.addEvent({
+                        title: title,
+                        start: start,
+                        end: selectionInfo.end,
+                        allDay: true
                     });
-                }
+                });
             },
             eventDrop: function (eventDropInfo, delta) {
                 var start = moment(eventDropInfo.event.start).format("YYYY-MM-DD HH:mm:ss");
@@ -109,31 +85,5 @@ document.addEventListener('DOMContentLoaded', function() {
         } else
             calendar.render();
 
-        $(document).ready(function(){
-            $("#newTaskForm").submit(function(event){
-                alert('test');
-                submitForm();
-                return false;
-            });
-
-
-        });
-
-        // function submitForm(){
-        //     alert('test');
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "saveContact.php",
-        //         cache:false,
-        //         data: $('form#contactForm').serialize(),
-        //         success: function(response){
-        //             $("#contact").html(response)
-        //             $("#contact-modal").modal('hide');
-        //         },
-        //         error: function(){
-        //             alert("Error");
-        //         }
-        //     });
-        // }
     }
 });

@@ -1,8 +1,4 @@
 <div class="text-nowrap text-md-right">
-    <a href="{{ route('teams.show', ['team'=>$team]) }}" class="btn {{ !request()->ajax() ? 'btn-primary' : 'btn-link text-secondary p-1' }}" title="{{ __('Show') }}">
-        <i class="far fa-eye {{ !request()->ajax() ? 'fa-fw' : '' }}"></i>
-    </a>
-
     <a href="{{ route('teams.edit', ['team'=>$team]) }}" class="btn {{ !request()->ajax() ? 'btn-primary' : 'btn-link text-secondary p-1' }}" title="{{ __('Edit') }}">
         <i class="far fa-edit {{ !request()->ajax() ? 'fa-fw' : '' }}"></i>
     </a>

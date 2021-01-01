@@ -23,10 +23,9 @@ class TeamController extends Controller
 
     public function index(Request $request)
     {
-        $query = Team::query();
+        $query = Auth::user()->teams;
+
         $datatables = TeamDatatable::make($query);
-
-
 
         return $request->ajax()
             ? $datatables->json()

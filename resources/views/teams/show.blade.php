@@ -72,7 +72,7 @@
                                 </div>
                             @endforeach
                             <div>
-                            <a href="#" data-target="#updateMember" data-toggle="modal" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New Member</a>
+                            <a href="#" id="addNewMember" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New Member</a>
                             </div>
                         </div>
                         @if (count($team->pendingInvitations) > 0)
@@ -207,7 +207,7 @@
                       <select name="access" id="access" class="form-control">
                           <option value="owner">owner</option>
                           <option value="manager">manager</option>
-                          <option value="member">member</option>
+                          <option value="member" selected>member</option>
                       </select>
                       <span class="text-muted small">Access: Owner can manage members and projects. Manager can manage projects.</span>
                   </div>
@@ -260,7 +260,7 @@
         $(document).on("click", "#editMember", function () {
           $('#updateMember #user_id').val($(this).data('id'));
           $('#updateMember #email').val($(this).data('email'));
-          $('#updateMember #email').attr('readonly', 'true'); // mark it as read only
+          $('#updateMember #email').attr('readonly', true); // mark it as read only
           $('#updateMember #email').css('background-color' , '#DEDEDE'); // change the background color
           $('#updateMember #access').val($(this).data('access'));
           $('#updateMember #title').val($(this).data('title'));
@@ -268,12 +268,12 @@
           $('#updateMember').modal('show');
         });
 
-        $(document).on("click", "#updateMember", function () {
+        $(document).on("click", "#addNewMember", function () {
             $('#updateMember #user_id').val("");
             $('#updateMember #email').val("");
-            $('#updateMember #email').attr('readonly', 'false'); // mark it as read only
+            $('#updateMember #email').attr('readonly', false); // mark it as read only
             $('#updateMember #email').css('background-color' , '#FFFFFF'); // change the background color
-            $('#updateMember #access').val("");
+            $('#updateMember #access').find('option[value="member"]').attr("selected",true);
             $('#updateMember #title').val("");
             $('#modalLabel').text('Add Member');
             $('#updateMember').modal('show');

@@ -2,6 +2,7 @@
 
 @section('title', __('Teams'))
 @section('content')
+    <div class="container">
 <div class="card">
     <div class="card-header">
         <div class="float-left">Teams</div>
@@ -14,4 +15,5 @@
         {!! $html->scripts() !!}
     </div>
 </div>
+    </div>
 @endsection

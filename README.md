@@ -18,8 +18,6 @@
 <!-- PROJECT LOGO -->
 <p align="center">
   <img src="public/img/traqker-logo.png" alt="Logo" height="80">
-  <h3 align="center">Traqker</h3>
-
   <p align="center">
     Traqker is an open source project and task management tool.
   </p>

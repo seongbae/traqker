@@ -1,8 +1,8 @@
 @extends('canvas::frontend.layouts.app')
 
 @section('content')
-<div class="full-height">
-<div class="container h-100">
+<div class="min-height">
+    <div class="container h-100">
     <div class="row justify-content-center h-100">
         <div class="col-md-8 my-auto mx-auto">
             <div class="card">
@@ -63,5 +63,5 @@
         </div>
     </div>
 </div>
-</section>
+</div>
 @endsection

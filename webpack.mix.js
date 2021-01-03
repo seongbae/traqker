@@ -13,7 +13,6 @@ const mix = require('laravel-mix');
 
 mix.combine([
     "node_modules/moment/min/moment.min.js",
-    //"node_modules/jquery-ui/ui/widgets/draggable.js",
     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
     "node_modules/typeahead.js/dist/typeahead.bundle.js",
     "node_modules/raven-js/dist/raven.min.js",
@@ -22,9 +21,13 @@ mix.combine([
 ], "public/js/vendor.js");
 
 mix.styles([
+    'node_modules/adminlte/dist/AdminLTE.css',
     'node_modules/jkanban/dist/jkanban.min.css',
     'node_modules/frappe-gantt/dist/frappe-gantt.css'
 ], 'public/css/vendor.css');
 
 mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/admin.scss', 'public/css')
     .sass('resources/sass/app.scss', 'public/css');
+
+

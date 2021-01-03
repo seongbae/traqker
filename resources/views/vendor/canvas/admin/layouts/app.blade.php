@@ -10,18 +10,15 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" type="image/png" href="{{ asset('/img/traqker-icon.svg') }}">
+  <link rel="icon" type="image/png" href="{{ asset('/img/traqker-icon.png') }}">
 
   <link href="{{ asset('canvas/css/all.min.css') }}" rel="stylesheet" >
-  <link href="{{ asset('canvas/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('canvas/css/adminlte.min.css') }}" rel="stylesheet">
   <link href="{{ asset('canvas/css/datatables.min.css') }}" rel="stylesheet" >
-  <link href="{{ asset('css/vendor.css') }}" rel="stylesheet" >
-  <link href="{{ asset('css/skin-blue.min.css') }}" rel="stylesheet">
   <link href="{{ asset('canvas/css/canvas.css') }}" rel="stylesheet" >
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-  <!-- Load styles from child views -->
+  <link href="{{ asset('css/vendor.css') }}" rel="stylesheet" >
+    <link href="{{ asset('canvas/css/adminlte.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    <!-- Load styles from child views -->
   @stack('styles')
 
     <script>
@@ -156,7 +153,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/dashboard" class="brand-link site-logo ml-2">
-      <img class="logo-icon-admin mr-1 ml-2" src="/img/traqker-icon.svg" alt="logo">
+      <img class="logo-icon-admin mr-1 ml-2" src="/img/traqker-icon.png" alt="{{config('app.name')}}" title="{{config('app.name')}}">
 
      <span class="brand-text font-weight-light">{{ config('app.name')}}</span>
     </a>

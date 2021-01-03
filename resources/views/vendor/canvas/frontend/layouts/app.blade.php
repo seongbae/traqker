@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{ option('site_name')}} - Online Project Management Tool</title>
+    <title>traqker - Online Project Management Tool</title>
 
     <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ option('site_description')}}">
-    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">
-    <link rel="shortcut icon" href="favicon.ico">
+    <meta name="author" content="Seong Bae">
+    <link rel="icon" type="image/png" href="{{ asset('/img/traqker-icon.png') }}">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700|Nunito:400,600,700" rel="stylesheet">
 
     <!-- FontAwesome JS-->
-  <script defer src="/assets/fontawesome/js/all.min.js"></script>
+    <script defer src="/assets/fontawesome/js/all.min.js"></script>
 
-    <!-- Plugins CSS -->
-    <link rel="stylesheet" href="/assets/plugins/jquery-flipster/dist/jquery.flipster.min.css">
-
-
-    <!-- Theme CSS -->
-    <link id="theme-style" rel="stylesheet" href="/assets/css/theme.css">
-
+    <link href="{{ asset('canvas/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body>
+
+
 
 
     <header class="header">
@@ -34,16 +31,21 @@
         <div class="branding">
 
             <div class="container position-relative">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="/"><img src="/img/traqker-logo.png" alt="logo" style="width:140px;"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-        <nav class="navbar navbar-expand-lg" >
-                    <h1 class="site-logo"><a class="navbar-brand" href="/"><img class="logo-icon" src="/img/traqker-icon.svg" alt="logo"> <span class="logo-text">traqker</span></a></h1>
-        </nav>
+                    <div class="collapse navbar-collapse" id="navbar">
+                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                            <li class="nav-item active">
+                                <a class="nav-link " href="/login">Login</a>
+                            </li>
+                        </ul>
 
-        <!-- // Free Version ONLY -->
-        <ul class="social-list list-inline mb-0 position-absolute">
-                <li class="list-inline-item"><a class="btn btn-outline-primary" href="/login">Login</a></li>
-              </ul><!--//social-list-->
-
+                    </div>
+                </nav>
             </div><!--//container-->
 
         </div><!--//branding-->
@@ -65,19 +67,12 @@
     </footer> -->
     <section class="copyright">
     <div class="container">
-    <div class="row">
+    <div class="row my-3">
     <div class="col-md-6 col-sm-7">
-        <strong><a href="https://github.com/seongbae/traqker" target="_blank">traqker</a></strong> - Open source project management tool</a>
+        <strong><a href="https://github.com/seongbae/traqker" target="_blank">traqker</a></strong> - Open source project management tool
     </div>
-    <div class="col-md-6 col-sm-5">
-    <ul>
-    <li><a href="#" title="facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-    <li class="ml-3"><a href="#" title="twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-    <li class="ml-3"><a href="#" title="google plus"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-    <li class="ml-3"><a href="#" title="linked in"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-    <li class="ml-3"><a href="#" title="tumblr"><i class="fa fa-tumblr" aria-hidden="true"></i></a></li>
-    <li class="ml-3"><a href="#" title="youtube"><i class="fa fa-youtube"></i></a></li>
-    </ul>
+    <div class="col-md-6 col-sm-5 text-right">
+        v0.1
     </div>
     </div>
     </div>

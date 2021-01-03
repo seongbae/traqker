@@ -1,14 +1,14 @@
 @extends('canvas::frontend.layouts.app')
 
 @section('content')
-<div class="full-height">
+<div class="min-height align-middle">
     <div class="container h-100">
         <div class="row align-items-center h-100">
             <div class="col-md-8 my-auto mx-auto">
                 <div class="card">
                     <div class="card-header">{{ __('Login') }}</div>
 
-                    <div class="card-body">
+                    <div class="cfullard-body">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 

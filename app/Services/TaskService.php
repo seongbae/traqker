@@ -67,6 +67,8 @@ class TaskService
         else
             $task->tasks()->detach();
 
+        return $task;
+
     }
 
     public function updateTask($task,

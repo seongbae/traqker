@@ -15,10 +15,10 @@
         </a>
         @endif
 
-        <a href="{{ route('tasks.archive', $task) }}" class="dropdown-item" title="{{ __('Archive') }}"
-           onclick="return confirm('{{ __('Archive This Task?') }}')">
-            Archive
-        </a>
+{{--        <a href="{{ route('tasks.archive', $task) }}" class="dropdown-item" title="{{ __('Archive') }}"--}}
+{{--           onclick="return confirm('{{ __('Archive This Task?') }}')">--}}
+{{--            Archive--}}
+{{--        </a>--}}
 
         <form method="post" action="{{ route('tasks.destroy', $task->id) }}" id="delete_task_{{ $task->id }}_form" class="d-none">
             @csrf

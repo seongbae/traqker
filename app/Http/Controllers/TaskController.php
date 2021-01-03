@@ -224,12 +224,17 @@ class TaskController extends Controller
     {
         $this->authorize('delete', $task);
 
+        if ($task->project)
+            $redirectTo = route('projects.show', ['project'=>$task->project]);
+        else
+            $redirectTo = route('tasks.index');
+
         $task->delete();
 
         if (\Illuminate\Support\Facades\Request::ajax())
             return response()->json(['success'], 200);
 
-        return redirect()->route('tasks.index');
+        return redirect()->to($redirectTo);
     }
 
     public function updateOrders(Request $request, Task $task, TaskService $taskService)

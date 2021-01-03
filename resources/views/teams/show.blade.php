@@ -94,11 +94,9 @@
                                         <tbody>
                                         @foreach($team->pendingInvitations as $invitation)
                                             <tr>
-                                                <td>{{$invitation->email}} (invited)</td>
-                                                <td></td>
-                                                <td class="text-center">
-
-                                                </td>
+                                                <td>{{$invitation->email}}</td>
+                                                <td>{{$invitation->title}}</td>
+                                                <td>{{$invitation->access}}</td>
                                                 <td>
                                                     <form action="{{ route('invitation.remove', ['invitation'=>$invitation])}}" method="POST" class="d-inline"  onSubmit="if(!confirm('Are you sure?')){return false;}">
                                                         @csrf

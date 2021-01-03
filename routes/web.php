@@ -9,6 +9,9 @@ Auth::routes();
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('home', [HomeController::class, 'index']);
 
+
+
+
 Route::group(['middleware' => ['web','auth','notifications','team']], function () {
     Route::get('dashboard', 'HomeController@showHome')->name('dashboard');
 
@@ -132,12 +135,15 @@ Route::group(['namespace'=>'\Seongbae\Canvas\Http\Controllers\Admin', 'prefix' =
 
 Route::group(['namespace' => '\Seongbae\Discuss\Http\Controllers', 'middleware' => ['web','auth','notifications','team']], function () {
 
+    Route::post('subscriptions/{user}', 'SubscriptionController@store')->name('subscription.store');
+    Route::delete('subscriptions/{user}', 'SubscriptionController@destroy')->name('subscription.destroy');
+
     // Discussion
     Route::post('discuss/{channel}/{thread}/replies', 'RepliesController@store')->name('reply.store');
     Route::patch('replies/{reply}', 'RepliesController@update')->name('reply.update');
     Route::delete('replies/{reply}', 'RepliesController@destroy')->name('reply.destroy');
 
-    Route::post('discuss/subscribe/{type}/{id}', 'SubscriptionController@update')->name('subscription.update');
+
 });
 
 

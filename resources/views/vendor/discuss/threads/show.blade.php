@@ -3,15 +3,26 @@
 @section('content')
 
     @include('teams.menus')
-
     <div class="card">
+        <div class="container">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-2">
-                    <a class="btn btn-outline-primary  btn-sm w-100 mb-2" href="{{route('discuss.index', ['slug'=>$thread->channel->slug])}}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to discussion</a>
+                    <a class="btn btn-outline-secondary  btn-sm w-100 mb-3" href="{{route('discuss.index', ['slug'=>$thread->channel->slug])}}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to discussion</a>
+                    <a class="btn btn-outline-info btn-sm {{Auth::user()->subscribedTo($thread) ? "" : "d-none" }}" href="#" id="unsubscribe"><i class="fas fa-bell"></i> Following</a>
+                    <a class="btn btn-outline-info btn-sm {{Auth::user()->subscribedTo($thread) ? "d-none" : ""}}" href="#" id="subscribe"><i class="far fa-bell"></i> Follow Discussion</a>
                     <hr>
+                    <small class="text-muted">Participants</small>
+                    <div class="my-2">
+
+                    @foreach($thread->subscribers as $subscriber)
+                        <img src="/storage/{{ $subscriber->photo }}" alt="{{ $subscriber->name }}" title="{{ $subscriber->name }}" class="rounded-circle profile-small mr-1" >
+                    @endforeach
+                    </div>
+
+
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <div class="card">
                         <div class="card-body">
                             <div class="mb-4">
@@ -48,7 +59,7 @@
             </div>
             @if (count($thread->replies)>0)
                 <div class="row">
-                    <div class="col-lg-6 offset-lg-2">
+                    <div class="col-lg-8 offset-lg-2">
                         @foreach ($thread->replies as $reply)
                             @include ('discuss::threads.reply')
                         @endforeach
@@ -58,7 +69,7 @@
 
             @if (auth()->check())
                 <div class="row mt-4">
-                    <div class="col-lg-6 offset-lg-2">
+                    <div class="col-lg-8 offset-lg-2">
                         <form method="POST" action="{{ $thread->path() . '/replies' }}">
                             {{ csrf_field() }}
 
@@ -81,6 +92,7 @@
                 <p class="text-center">Please <a href="{{ route('login') }}">sign in</a> to participate in this
                     discussion.</p>
             @endif
+        </div>
         </div>
     </div>
 
@@ -153,6 +165,34 @@
             $('#editReply').on('shown.bs.modal', function(e) {
                 $('#editReply #body').trigger('focus');
             });
+
+            $("#subscribe").click(function (){
+                axios.post('{{route('subscription.store', ['subscribable'=>$thread, 'user'=>Auth::user()])}}', {
+                    type: 'thread',
+                    id: '{{$thread->id}}'
+                }).then(res => {
+                    $("#subscribe").addClass("d-none");
+                    $("#unsubscribe").removeClass("d-none");
+                }).catch(e => {
+                    console.log(e);
+                });
+            })
+
+            $("#unsubscribe").click(function (){
+                axios.delete('{{route('subscription.destroy', ['user'=>Auth::user()])}}', {
+                    data: {
+                        type: 'thread',
+                        id: '{{$thread->id}}'
+                    }
+                }).then(res => {
+                    $("#subscribe").removeClass("d-none");
+                    $("#unsubscribe").addClass("d-none");
+                }).catch(e => {
+                    console.log(e);
+                });
+            })
+
+
         });
     </script>
 @endpush

@@ -24,7 +24,7 @@
         "paypal/rest-api-sdk-php": "^1.14",
         "sentry/sentry-laravel": "^1.7",
         "seongbae/canvas": "^1.1",
-        "seongbae/discuss": "^1.1",
+        "seongbae/discuss": "^1.2",
         "seongbae/laravel-searchable": "^1.8"
     },
     "require-dev": {

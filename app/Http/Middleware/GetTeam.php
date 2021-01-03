@@ -27,6 +27,20 @@ class GetTeam
             \View::share('team', $team);
         }
 
+        if (Request::segment(3) == 'discuss')
+        {
+            \View::share('page', '_discuss');
+        }
+
+        if (Request::segment(1) == 'discuss')
+        {
+            \View::share('page', '_discuss');
+
+            $team = Team::where('slug', Request::segment(2))->first();
+
+            \View::share('team', $team);
+        }
+
         return $next($request);
     }
 }

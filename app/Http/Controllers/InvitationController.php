@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Invitation;
 use App\Events\InviteAccepted;
 use App\Events\InviteDeclined;
+use Seongbae\Discuss\Models\Channel;
 
 class InvitationController extends Controller
 {
@@ -23,6 +24,11 @@ class InvitationController extends Controller
             $invite->save();
 
             $invite->team->members()->syncWithoutDetaching($invite->to_user_id, ['access'=>$invite->access,'title'=>$invite->title]);
+
+            $channel = Channel::where('slug',$invite->team->slug)->first();
+
+            if ($channel)
+                $channel->subscribe($invite->toUser);
 
             event(new InviteAccepted($invite));
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3cafe4f6fe43e3b0d3b5392f5e376650",
+    "content-hash": "dc4d7e02dabf16460d631fabaa606f65",
     "packages": [
         {
             "name": "appstract/laravel-options",
@@ -5482,16 +5482,16 @@
         },
         {
             "name": "seongbae/discuss",
-            "version": "1.1.2",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seongbae/discuss.git",
-                "reference": "78819dee1fee8a0654b8fb5e3e52db599f69cc53"
+                "reference": "32bab29c0f3e5caae9cd5088f4cbfce61d0557a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seongbae/discuss/zipball/78819dee1fee8a0654b8fb5e3e52db599f69cc53",
-                "reference": "78819dee1fee8a0654b8fb5e3e52db599f69cc53",
+                "url": "https://api.github.com/repos/seongbae/discuss/zipball/32bab29c0f3e5caae9cd5088f4cbfce61d0557a4",
+                "reference": "32bab29c0f3e5caae9cd5088f4cbfce61d0557a4",
                 "shasum": ""
             },
             "require": {
@@ -5538,9 +5538,9 @@
             ],
             "support": {
                 "issues": "https://github.com/seongbae/discuss/issues",
-                "source": "https://github.com/seongbae/discuss/tree/1.1.2"
+                "source": "https://github.com/seongbae/discuss/tree/1.2"
             },
-            "time": "2020-12-23T01:59:36+00:00"
+            "time": "2021-01-03T01:12:34+00:00"
         },
         {
             "name": "seongbae/laravel-searchable",

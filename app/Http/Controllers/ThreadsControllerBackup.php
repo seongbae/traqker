@@ -8,8 +8,9 @@ use Seongbae\Discuss\Models\Channel;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Support\Facades\Log;
+use App\Models\Team;
 
-class ThreadsController extends Controller
+class ThreadsControllerBackup extends Controller
 {
     /**
      * ThreadsController constructor.
@@ -27,10 +28,12 @@ class ThreadsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($slug=null)
+    public function index($slug)
     {
+        $page = '_discuss';
         $subscribed = false;
         $channel = null;
+        $team = null;
 
         if ($slug)
         {
@@ -40,20 +43,18 @@ class ThreadsController extends Controller
 
             $channel = Channel::where('slug', $slug)->first();
 
-            $subscribed = Auth::user()->subscribedTo($channel);
+            if (Auth::check() && Auth::user()->channelSubscriptions->contains($channel))
+                $subscribed = true;
+
+            $team = Team::where('slug', $channel->slug)->first();
         }
         else
         {
-            if (request()->get('user'))
-            {
-                $user = Auth::user();
-                $threads = Thread::where('user_id',$user->id)->latest()->paginate(config('discuss.page_count'));
-            }
-            else
-                $threads = Thread::latest()->paginate(config('discuss.page_count'));
+            $user = Auth::user();
+            $threads = Thread::where('user_id',$user->id)->latest()->paginate(config('discuss.page_count'));
         }
 
-        return view('discuss::threads.index', compact('threads', 'channel','subscribed'));
+        return view('discuss::threads.index', compact('threads', 'channel','subscribed','page','team'));
     }
 
     /**
@@ -86,19 +87,16 @@ class ThreadsController extends Controller
         $user = Auth::user();
 
         $thread = $user->threads()->create([
-            'user_id' => $user->id,
+            'user_id' => auth()->id(),
             'title' => request('title'),
             'slug' => $this->slugify(request('title')),
             'channel_id' => request('channel_id'),
             'body'  => request('body')
         ]);
 
-        $thread->attachSubscriber($user);
+        $thread->updateSubscription($user);
 
-        if ($request->ajax())
-            return $request->json([$thread], 200);
-        else
-            return redirect()->route('discuss.index',['slug'=>$thread->channel->slug])->with('success','Successfully created');
+        return redirect()->route('discuss.index',['slug'=>$thread->channel->slug])->with('success','Successfully created');
     }
 
     /**
@@ -107,16 +105,19 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show($channelId, Thread $thread)
+    public function show(Channel $channel, Thread $thread)
     {
-        $channels = Channel::all();
-
         $thread->view_count += 1;
         $thread->save();
 
-        $user = Auth::user();
+        $subscribed = 0;
+        if (Auth::check() && Auth::user()->threadSubscriptions->contains($thread))
+            $subscribed = 1;
 
-        return view('discuss::threads.show', compact(['thread', 'channels','user']));
+        $team = Team::where('slug', $channel->slug)->first();
+        $page = '_discuss';
+
+        return view('discuss::threads.show', compact(['thread', 'subscribed','team','page']));
     }
 
     /**
@@ -137,7 +138,7 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function update(Channel $channel, Thread $thread, Request $request)
+    public function update($channel, Thread $thread)
     {
         $this->validate(request(), [
             'title'=>'required',
@@ -146,11 +147,6 @@ class ThreadsController extends Controller
         ]);
 
         $thread->update(request(['title','body','channel_id']));
-
-        if ($request->ajax())
-            return $request->json([$thread], 200);
-        else
-            return redirect()->back();
     }
 
     /**
@@ -159,14 +155,11 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Channel $channel, Thread $thread)
+    public function destroy(Channel $channel, Thread $thread)
     {
         $thread->delete();
 
-        if ($request->ajax())
-            return $request->json([], 200);
-        else
-            return redirect()->route('discuss.index', ['slug'=>$channel->slug])->with('success','Successfully deleted');
+        return redirect()->route('discuss.index', ['slug'=>$channel->slug])->with('success','Successfully deleted');
     }
 
     private function slugify($string){

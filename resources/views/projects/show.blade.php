@@ -18,10 +18,10 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="/tasks/create?project={{$project->id}}&redirect_to=project">Add task</a>
                             <a class="dropdown-item" href="/tasks/create?type=milestone">Add milestone</a>
-                            <a class="dropdown-item" href="/sections/create/{{$project->id}}">Add section</a>
+                            <a class="dropdown-item" href="{{ route('sections.create', ['project'=>$project]) }}">Add section</a>
                         </div>
                     </div>
-                    @if (count($project->tasks)>0)
+                    @if (count($project->tasks)>0 || count($project->sections)>0)
                         <table class="table" id="project-tasks">
                             <thead>
                             <tr>

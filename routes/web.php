@@ -28,9 +28,9 @@ Route::group(['middleware' => ['web','auth','notifications','team']], function (
 
     Route::resource('tasks', 'TaskController');
 
-    Route::get('sections/create/{id}', 'SectionController@create');
+    Route::get('sections/create/{project}', 'SectionController@create')->name('sections.create');
     Route::post('sections/orders', 'SectionController@updateOrders');
-    Route::resource('sections', 'SectionController');
+    Route::resource('sections', 'SectionController', ['only' => ['store','edit','update','destroy']]);
 
     Route::get('projects/archived', 'ProjectController@indexArchived');
     Route::post('projects/tasks/reposition', 'ProjectController@repositionTasks');

@@ -49,11 +49,6 @@ class Team extends Model
         return $this->belongsToMany(Project::class, 'team_projects');
     }
 
-    public function channel()
-    {
-        return $this->hasOne(Channel::class);
-    }
-
     public function firstAvailableManagerExcept($user=null)
     {
         foreach($this->members as $member)
@@ -85,6 +80,36 @@ class Team extends Model
                 return true;
 
         return false;
+    }
+
+    public function removeUser($user)
+    {
+        foreach($this->projects as $project)
+        {
+            foreach($project->tasks as $task)
+            {
+                if ($task->assigned_to === $user->id)
+                {
+                    $task->assigned_to = null;
+                    $task->save();
+                }
+
+                if ($task->user_id === $user->id)
+                {
+                    $task->user_id = $this->firstAvailableManagerExcept()->id;
+                    $task->save();
+                }
+            }
+
+            $project->members()->detach($user);
+        }
+
+        // Remove from discuss channel notification
+        $channel = Channel::where('slug', $this->slug)->first();
+        if ($channel)
+            $channel->detachSubscriber($user);
+
+        $this->members()->detach($user);
     }
 
     protected static function boot()

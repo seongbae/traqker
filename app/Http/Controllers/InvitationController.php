@@ -28,7 +28,7 @@ class InvitationController extends Controller
             $channel = Channel::where('slug',$invite->team->slug)->first();
 
             if ($channel)
-                $channel->subscribe($invite->toUser);
+                $channel->attachSubscriber($invite->toUser);
 
             event(new InviteAccepted($invite));
 

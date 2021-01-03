@@ -144,34 +144,12 @@ class TeamController extends Controller
     {
         $this->authorize('update', $team);
 
-        if ($team->firstAvailableManagerExcept($user) == null)
-            return redirect()->back();
+        // replace with team-based access control
+//        if ($team->firstAvailableManagerExcept($user) == null)
+//            return redirect()->back();
 
         if ($team && $user)
-        {
-            foreach($team->projects as $project)
-            {
-                foreach($project->tasks as $task)
-                {
-                    if ($task->assigned_to === $user->id)
-                    {
-                        $task->assigned_to = null;
-                        $task->save();
-                    }
-
-                    if ($task->user_id === $user->id)
-                    {
-                        $task->user_id = $team->firstAvailableManagerExcept()->id;
-                        $task->save();
-                    }
-                }
-
-                $project->members()->detach($user);
-            }
-
-
-            $team->members()->detach($user);
-        }
+            $team->removeUser($user);
 
         return redirect()->back();
     }

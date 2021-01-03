@@ -89,6 +89,11 @@ class TaskService
             $task->completed_on = Carbon::now()->toDateTimeString();
         }
 
+        if ($task->status = 'complete')
+            $task->progress = 100;
+        else
+            $task->progress = $progress;
+
         $task->name = $name;
         $task->description = $description;
         $task->priority = $priority;
@@ -96,7 +101,6 @@ class TaskService
         $task->start_on = $startOn;
         $task->due_on = $dueOn;
         $task->estimate_hour = $estimate;
-        $task->progress = $progress;
         $task->save();
 
         if ($assignees)

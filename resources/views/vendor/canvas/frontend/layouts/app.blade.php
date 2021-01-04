@@ -19,39 +19,30 @@
 
     <link href="{{ asset('canvas/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+
+    <!-- Javascript -->
+    <script src="{{ asset('canvas/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('canvas/js/bootstrap.min.js') }}"></script>
 </head>
 
 <body>
 
-
-
-
-    <header class="header">
-
-        <div class="branding">
-
-            <div class="container position-relative">
-                <nav class="navbar navbar-expand-lg navbar-light">
-                    <a class="navbar-brand" href="/"><img src="/img/traqker-logo.png" alt="logo" style="width:140px;"></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbar">
-                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                            <li class="nav-item active">
-                                <a class="nav-link " href="/login">Login</a>
-                            </li>
-                        </ul>
-
-                    </div>
-                </nav>
-            </div><!--//container-->
-
-        </div><!--//branding-->
-
-
-    </header><!--//header-->
+<nav class="navbar navbar-expand-lg navbar-light static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/"><img src="/img/traqker-logo.png" alt="logo" style="width:140px;"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link " href="/login">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 
     @yield('content')
@@ -79,14 +70,7 @@
     </section>
 
 
-    <!-- Javascript -->
-    <script type="text/javascript" src="/assets/plugins/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="/assets/plugins/popper.min.js"></script>
-    <script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Page Specific JS -->
-    <script type="text/javascript" src="/assets/plugins/jquery-flipster/dist/jquery.flipster.min.js"></script>
-    <script type="text/javascript" src="/assets/js/flipster-custom.js"></script>
 
 
 </body>

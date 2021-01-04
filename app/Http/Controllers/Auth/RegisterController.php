@@ -72,6 +72,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'timezone' => $data['timezone']
         ]);
 
         if ($data['invitation_token'])

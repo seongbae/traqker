@@ -53,7 +53,6 @@ div .notification .dropdown-item, div .notification .dropdown-footer {
     -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
     box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
     border: none;
-    margin-bottom: 30px;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
@@ -80,7 +79,6 @@ div .notification .dropdown-item, div .notification .dropdown-footer {
 
 .user-card .card-block {
     text-align: center;
-    min-height:255px;
 }
 
 .card .card-block {
@@ -381,3 +379,43 @@ form .list-group-item {
 //    display: inline-block;
 //    padding: 12px;
 //}
+.flex-container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    -ms-box-orient: horizontal;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.nowrap  {
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+}
+
+.wrap    {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.wrap li {
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+}
+
+.wrap-reverse         {
+    -webkit-flex-wrap: wrap-reverse;
+    flex-wrap: wrap-reverse;
+}
+.wrap-reverse li {
+    background: deepskyblue;
+}
+
+.flex-item {
+    width: 200px;
+    margin-right: 8px;
+    text-align: center;
+}

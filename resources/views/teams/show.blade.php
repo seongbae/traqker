@@ -16,14 +16,6 @@
                                 Projects:
                             </div>
                             <div class="col-md">
-                                <div class="row">
-                                    @foreach($team->projects()->orderBy('name')->get() as $project)
-                                        @include('partials.project', ['project'=>$project])
-                                    @endforeach
-
-
-
-                                </div>
                                 <a href="{{ route('projects.create')."?team=".$team->id}}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New Project</a>
                             </div>
                         </div>
@@ -33,45 +25,47 @@
                             <div class="col-md-2 text-secondary">
                                 Members
                             </div>
-                            @foreach($team->members as $member)
-                                <div class="col-md-2">
-                                    <div class="card user-card">
-                                        @if (Auth::user()->canManageTeam($team))
-                                        <div class="d-flex justify-content-between m-2">
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline btn-sm text-muted" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#updateMember" class="btn btn-link text-secondary p-1" title="Edit" id="editMember" data-id="{{$member->id}}" data-name="{{$member->name}}"  data-email="{{$member->email}}" data-access="{{$member->pivot->access}}" data-title="{{$member->pivot->title}}"  >
-                                                        Edit
-                                                    </a>
-                                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Remove member?') }}')) $('#remove_member_{{ $member->id }}_form').submit();">Remove</a>
+                            <div class="col-md">
 
-                                                    <form action="{{ route('team.remove', ['team'=>$team, 'user'=>$member])}}" id="remove_member_{{$member->id}}_form" method="POST" class="d-inline">
-                                                        @csrf
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                    </form>
+                                <ul class="flex-container wrap mb-4">
+                            @foreach($team->members as $member)
+                                <li class="flex-item">
+                                    <div class="user-card">
+                                        @if (Auth::user()->canManageTeam($team))
+                                            <div class="d-flex justify-content-between m-2">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline btn-sm text-muted" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-h"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#updateMember" class="btn btn-link text-secondary p-1" title="Edit" id="editMember" data-id="{{$member->id}}" data-name="{{$member->name}}"  data-email="{{$member->email}}" data-access="{{$member->pivot->access}}" data-title="{{$member->pivot->title}}"  >
+                                                            Edit
+                                                        </a>
+                                                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); if (confirm('{{ __('Remove member?') }}')) $('#remove_member_{{ $member->id }}_form').submit();">Remove</a>
+
+                                                        <form action="{{ route('team.remove', ['team'=>$team, 'user'=>$member])}}" id="remove_member_{{$member->id}}_form" method="POST" class="d-inline">
+                                                            @csrf
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span class="text-muted text-sm">{{$member->pivot->access}}</span>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <span class="text-muted text-sm">{{$member->pivot->access}}</span>
-                                            </div>
-                                        </div>
                                         @endif
                                         <div class="card-block">
                                             <div class="user-image">
                                                 <img src="/storage/{{$member->photo}}" class="img-radius" alt="User-Profile-Image">
                                             </div>
-                                            <h6 class="f-w-600 m-t-25 m-b-10">{{$member->name}}</h6>
-                                            <p class="text-muted text-sm">{{$member->pivot->title}}</p>
-
-
+                                            <h6>{{$member->name}}</h6>
+                                            <span class="text-muted text-sm">{{$member->pivot->title}}</span>
                                         </div>
                                     </div>
-                                </div>
+                                </li>
+
                             @endforeach
-                            <div>
+                            </ul>
                             <a href="#" id="addNewMember" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New Member</a>
                             </div>
                         </div>

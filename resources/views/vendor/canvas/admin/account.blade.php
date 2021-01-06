@@ -189,7 +189,7 @@ if (isset($_GET['code'])) { // Redirect w/ code
                                     <label class="custom-control-label" for="browser_notification">Receive browser notification</label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-sm mr-2">Save</button>
+                            <button type="submit" class="btn btn-primary mr-2">Save</button>
 
                         </form>
 

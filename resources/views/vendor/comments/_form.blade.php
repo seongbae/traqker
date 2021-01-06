@@ -1,5 +1,4 @@
-<div class="card">
-    <div class="card-body">
+
         @if($errors->has('commentable_type'))
             <div class="alert alert-danger" role="alert">
                 {{ $errors->get('commentable_type') }}
@@ -38,16 +37,14 @@
                 </div>
             @endif
 
-            <div class="form-group">
-                <label for="message">Enter your message here:</label>
-                <textarea class="form-control @if($errors->has('message')) is-invalid @endif" name="message" rows="3"></textarea>
-                <div class="invalid-feedback">
-                    Your message is required.
+            <div class="d-flex align-items-start">
+                <img src="/storage/{{Auth::user()->photo}}" alt="{{Auth::user()->name}}" title="{{Auth::user()->name}}" class="rounded-circle profile-small mr-3">
+                <div class="w-100">
+                    <textarea class="form-control @if($errors->has('message')) is-invalid @endif w-100" name="message" rows="2"></textarea>
+                    <div class="invalid-feedback">
+                        Your message is required.
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary text-uppercase mt-2">Submit</button>
                 </div>
-                <small class="form-text text-muted"><a target="_blank" href="https://help.github.com/articles/basic-writing-and-formatting-syntax">Markdown</a> cheatsheet.</small>
             </div>
-            <button type="submit" class="btn btn-sm btn-primary text-uppercase">Submit</button>
         </form>
-    </div>
-</div>
-<br />

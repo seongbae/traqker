@@ -13,9 +13,9 @@
                 </div>
                 @include('tasks.fields')
 
-                <div class="card-footer text-md-right border-top-0">
-                    <button type="submit" name="submit" value="reload" class="btn btn-primary">{{ __('Update & Continue Edit') }}</button>
-                    <button type="submit" name="submit" value="redirect" class="btn btn-primary">{{ __('Update') }}</button>
+                <div class="card-footer text-md-right border-top-0 p-2">
+                    <button type="submit" name="submit" value="reload" class="btn btn-primary btn-sm">{{ __('Update & Continue Edit') }}</button>
+                    <button type="submit" name="submit" value="redirect" class="btn btn-primary btn-sm">{{ __('Update') }}</button>
                 </div>
             </div>
         </form>

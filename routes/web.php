@@ -40,6 +40,8 @@ Route::group(['middleware' => ['web','auth','notifications','team']], function (
     Route::get('project/{projectid}/user/{userid}', 'ProjectController@removeMember');
     Route::get('projects/{project}/completed', 'ProjectController@index');
     Route::get('projects/{project}/timeline', 'ProjectController@showGantt');
+    Route::post('projects/{project}/archive', 'ProjectController@archive')->name('projects.archive');
+    Route::post('projects/{id}/unarchive', 'ProjectController@unarchive')->name('projects.unarchive');
     Route::resource('projects', 'ProjectController');
 
     Route::get('calendar', 'CalendarController@index')->name('calendar.index');

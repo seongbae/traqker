@@ -4,12 +4,6 @@
 @section('content')
 
     <div class="container">
-        <div class="row my-2">
-            <div class="col-md-auto mb-3 mb-md-0">
-                <a href="{{ route('tasks.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> {{ __('Create Task') }}</a>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col-md-10">
                 <div class="card">

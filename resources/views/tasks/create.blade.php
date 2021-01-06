@@ -12,10 +12,10 @@
                 </div>
                 @include('tasks.fields', ['project_id'=>app('request')->input('project')])
 
-                <div class="card-footer text-md-right border-top-0">
+                <div class="card-footer text-md-right border-top-0 p-2">
                     <input type="hidden" name="redirect_to" value="{{app('request')->input('redirect_to')}}">
-                    <button type="submit" name="submit" value="reload" class="btn btn-primary">{{ __('Create & Add Another') }}</button>
-                    <button type="submit" name="submit" value="redirect" class="btn btn-primary">{{ __('Create') }}</button>
+                    <button type="submit" name="submit" value="reload" class="btn btn-primary btn-sm">{{ __('Create & Add Another') }}</button>
+                    <button type="submit" name="submit" value="redirect" class="btn btn-primary btn-sm">{{ __('Create') }}</button>
                 </div>
             </div>
         </form>

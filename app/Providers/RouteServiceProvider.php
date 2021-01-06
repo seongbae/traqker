@@ -6,6 +6,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
 use App\Models\Team;
+use App\Models\Task;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -35,11 +36,11 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::bind('task', function($id) {
-           return \App\Models\Task::withoutGlobalScopes()->findOrFail($id);
+           return Task::withoutGlobalScopes()->findOrFail($id);
         });
 
         Route::bind('project', function($id) {
-            return \App\Models\Project::withoutGlobalScopes()->findOrFail($id);
+            return Project::withoutGlobalScopes()->findOrFail($id);
         });
 
         Route::model('project',Project::class);

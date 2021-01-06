@@ -14,7 +14,10 @@ class ProjectDatatable extends Datatable
     {
         $datatables
         ->editColumn('name', function ($query) {
-            return '<a href="'.route('projects.show',['project'=>$query]).'">'.$query->name.'</a>';
+            if ($query->archived)
+                return $query->name;
+            else
+                return '<a href="'.route('projects.show',['project'=>$query]).'">'.$query->name.'</a>';
         })
         ->editColumn('created_at', function ($query) {
             return $query->created_at ? with(new Carbon($query->created_at))->format('Y-m-d') : '';

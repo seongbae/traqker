@@ -55,14 +55,15 @@ class TaskDatatable extends Datatable
     {
         $html->stateSave(false)
             ->setTableId("tasks-table")
+            ->language(['processing'=>'<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'])
             ->serverSide(true)
+            ->pageLength(25)
             ->processing(true);
     }
 
     protected function columns()
     {
         return [
-            //Column::make('check')->title('')->width(10)->orderable(false),
             Column::make('name'),
             Column::make('assignees'),
             Column::make('project')->title('Project'),

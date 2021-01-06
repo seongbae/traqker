@@ -11,6 +11,7 @@ use App\Http\Datatables\AttachmentDatatable;
 use App\Http\Requests\ProjectRequest;
 use App\Scopes\ArchiveScope;
 use App\Scopes\CompletedScope;
+use App\Services\ProjectService;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use Auth;
@@ -43,7 +44,8 @@ class ProjectController extends Controller
 
     public function indexArchived(Request $request)
     {
-        $query = Auth::user()->projects()->withoutGlobalScope(ArchiveScope::class);
+        $query = Auth::user()->projects()->withoutGlobalScope(ArchiveScope::class)->where('archived', 1);
+
         $datatables = ProjectDatatable::make($query);
 
         return $request->ajax()
@@ -216,15 +218,28 @@ class ProjectController extends Controller
             : redirect()->route('projects.show', $project);
     }
 
-    public function archive(ProjectRequest $request, Project $project)
+    public function archive(Project $project, ProjectService $projectService)
     {
         $this->authorize('update', $project);
 
-        $project->update($request->all());
+        $projectService->archive($project);
 
-        return $request->input('submit') == 'reload'
-            ? redirect()->route('projects.edit', $project)
-            : redirect()->route('projects.index');
+        return redirect()->route('projects.index');
+    }
+
+    public function unarchive($id, ProjectService $projectService)
+    {
+        Log::info('id:'.$id);
+
+        $project = Project::withoutGlobalScope(ArchiveScope::class)->find($id);
+
+        Log::info('project:'.json_encode($project));
+
+        //$this->authorize('update', $project);
+
+        $projectService->unarchive($project);
+
+        return redirect()->route('projects.index');
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */

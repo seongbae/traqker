@@ -91,7 +91,7 @@ class TaskService
             $task->completed_on = Carbon::now()->toDateTimeString();
         }
 
-        if ($task->status = 'complete')
+        if ($task->status == 'complete')
             $task->progress = 100;
         else
             $task->progress = $progress;

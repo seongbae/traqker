@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,13 @@ Route::post('/token', function (Request $request) {
         ]);
     }
 
-    return $user->createToken($request->device_name)->plainTextToken;
+    return response()->json([
+        'name'=>$user->name,
+        'email'=>$user->email,
+        'image_url'=>url($user->photo),
+        'token'=> $user->createToken($request->device_name)->plainTextToken,
+        'message'=>'success',
+    ], 201); // Status code here
 });
 
 Route::middleware(['auth:sanctum','notifications'])->get('/user', function (Request $request) {

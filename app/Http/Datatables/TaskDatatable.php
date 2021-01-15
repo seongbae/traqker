@@ -20,7 +20,7 @@ class TaskDatatable extends Datatable
                           <label for="task_'.$query->id.'" class="custom-control-label"></label>
                         </div>';
         })
-        ->editColumn('name', function ($query) {
+        ->addColumn('name_link', function ($query) {
             return '<a href="'.route('tasks.show',['task'=>$query]).'">'.$query->name.'</a>';
         })
         ->editColumn('due_on', function ($query) {
@@ -54,7 +54,7 @@ class TaskDatatable extends Datatable
     protected function htmlMethods(Builder &$html)
     {
         $html->stateSave(false)
-            ->setTableId("tasks-table")
+            ->setTableId("referrals-table")
             ->language(['processing'=>'<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'])
             ->serverSide(true)
             ->pageLength(25)
@@ -64,7 +64,7 @@ class TaskDatatable extends Datatable
     protected function columns()
     {
         return [
-            Column::make('name'),
+            Column::make('name_link'), //->data('name'),
             Column::make('assignees'),
             Column::make('project')->title('Project'),
             Column::make('due_on')->title('Due')->width(150),

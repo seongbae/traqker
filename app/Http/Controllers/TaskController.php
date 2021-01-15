@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskIDNameResource;
 use App\Models\Task;
 use App\Http\Datatables\TaskDatatable;
@@ -34,10 +35,14 @@ class TaskController extends Controller
 
         $datatables = TaskDatatable::make($query);
 
-        if( $request->is('api/*') || $request->ajax())
+         if( $request->is('api/*')) {
+            return $query->take(10);
+        }
+        elseif ($request->ajax()) {
             return $datatables->json();
-        else
+        } else {
             return view('tasks.index', $datatables->html());
+        }
     }
 
     public function indexArchived(Request $request)
@@ -161,7 +166,7 @@ class TaskController extends Controller
         $this->authorize('view', $task);
 
         if( $request->is('api/*') || $request->ajax())
-            return $request->json($task, 200);
+            return response()->json($task, 200);
         else
             return view('tasks.show', compact('task'));
     }

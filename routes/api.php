@@ -31,9 +31,11 @@ Route::post('/token', function (Request $request) {
     }
 
     return response()->json([
+        'id'=>$user->id,
         'name'=>$user->name,
         'email'=>$user->email,
-        'image_url'=>url($user->photo),
+        'image_url'=>url('storage/'.$user->photo),
+        'projects'=>\App\Http\Resources\ProjectResource::collection($user->projects),
         'token'=> $user->createToken($request->device_name)->plainTextToken,
         'message'=>'success',
     ], 201); // Status code here
@@ -43,9 +45,16 @@ Route::middleware(['auth:sanctum','notifications'])->get('/user', function (Requ
     return $request->user();
 });
 
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('tasks/{offset}/{limit}', 'TaskController@index')->name('tasks.index');
     Route::get('tasks/{task}', 'TaskController@show')->name('tasks.show');
-    Route::put('tasks/{task}', 'TaskController@update')->name('tasks.update');
     Route::post('tasks', 'TaskController@store')->name('tasks.store');
-    Route::get('tasks', 'TaskController@index')->name('tasks.index');
+    Route::put('tasks/{task}/status', 'TaskController@updateStatus');
+    Route::put('tasks/{task}', 'TaskController@update')->name('tasks.update');
+    Route::delete('tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
+
+    Route::get('users/{offset}/{limit}', 'UsersController@index')->name('users.index');
+    Route::get('users/{user}', 'UsersController@show')->name('users.show');
 });

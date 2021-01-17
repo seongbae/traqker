@@ -164,21 +164,6 @@ class User extends Authenticatable implements Searchable
         return $this->hasMany(Hour::class);
     }
 
-//    public function assignedTasks()
-//    {
-//        return $this->hasMany(Task::class, 'assigned_to');
-//    }
-
-//    public function myTasks()
-//    {
-//        return $this->hasMany(Task::class, 'user_id');
-//    }
-
-//    public function tasks()
-//    {
-//        return $this->assignedTasks->merge($this->myTasks);
-//    }
-
     public function tasks()
     {
         return $this->belongsToMany(Task::class)->with('project')->with('users');

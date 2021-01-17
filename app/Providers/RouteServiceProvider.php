@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
@@ -37,6 +38,10 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind('task', function($id) {
            return Task::withoutGlobalScopes()->findOrFail($id);
+        });
+
+        Route::bind('user', function($id) {
+            return User::withoutGlobalScopes()->findOrFail($id);
         });
 
         Route::bind('project', function($id) {

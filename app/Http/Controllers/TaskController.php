@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskIDNameResource;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Http\Datatables\TaskDatatable;
 use App\Http\Requests\TaskRequest;
@@ -29,14 +30,14 @@ class TaskController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request)
+    public function index($offset=0, $limit=10, Request $request)
     {
-        $query = Auth::user()->tasks;
+        $query = Auth::user()->tasks; //()->orderBy('created_at');
 
         $datatables = TaskDatatable::make($query);
 
          if( $request->is('api/*')) {
-            return $query->take(10);
+            return TaskResource::collection($query->skip($offset)->take($limit));
         }
         elseif ($request->ajax()) {
             return $datatables->json();
@@ -166,7 +167,7 @@ class TaskController extends Controller
         $this->authorize('view', $task);
 
         if( $request->is('api/*') || $request->ajax())
-            return response()->json($task, 200);
+            return response()->json(new TaskResource($task), 200);
         else
             return view('tasks.show', compact('task'));
     }
@@ -207,9 +208,9 @@ class TaskController extends Controller
             $request->project_id,
             $request->start_on,
             $request->due_on,
-            $request->estimate,
+            $request->estimate_hour,
             $request->progress,
-            $request->assigness,
+            $request->has('assignees') ? $request->assignees : "", // null = detach. "" = no change.
             $request->dependencies
         );
 
@@ -217,7 +218,7 @@ class TaskController extends Controller
             $task->attachFiles($request->has('files'));
 
         if( $request->is('api/*') || $request->ajax())
-            return $request->json([], 200);
+            return response()->json(new TaskResource($task), 200);
 
         return $request->input('submit') == 'reload'
             ? redirect()->route('tasks.edit', $task->id)
@@ -225,18 +226,18 @@ class TaskController extends Controller
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    public function destroy(Task $task)
+    public function destroy(Task $task, Request $request)
     {
         $this->authorize('delete', $task);
 
-        if ($task->project)
+        if ($task->project_id)
             $redirectTo = route('projects.show', ['project'=>$task->project]);
         else
             $redirectTo = route('tasks.index');
 
         $task->delete();
 
-        if (\Illuminate\Support\Facades\Request::ajax())
+        if( $request->is('api/*') || $request->ajax())
             return response()->json(['success'], 200);
 
         return redirect()->to($redirectTo);
@@ -260,8 +261,8 @@ class TaskController extends Controller
 
         $task = $taskService->updateStatus($task, $request->status, $request->hours);
 
-        if ($request->ajax())
-            return response()->json(['success'], 200);
+        if( $request->is('api/*') || $request->ajax())
+            return response()->json(new TaskResource($task), 200);
 
         return redirect()->back();
     }

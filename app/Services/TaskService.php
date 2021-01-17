@@ -12,6 +12,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Auth;
+use Log;
 
 class TaskService
 {
@@ -84,41 +85,60 @@ class TaskService
                                $dependencies
                                )
     {
-        if ($progress > 0 && $progress < 100)
-            $task->status = 'active';
-        elseif ($progress == 100) {
-            $task->status = 'complete';
-            $task->completed_on = Carbon::now()->toDateTimeString();
+
+        if ($progress)
+        {
+            if ($progress > 0 && $progress < 100)
+                $task->status = 'active';
+            elseif ($progress == 100) {
+                $task->status = 'complete';
+                $task->completed_on = Carbon::now()->toDateTimeString();
+            }
+
+            $task->progress = $progress;
         }
 
-        if ($task->status == 'complete')
-            $task->progress = 100;
-        else
-            $task->progress = $progress;
+        if ($name)
+            $task->name = $name;
 
-        $task->name = $name;
-        $task->description = $description;
-        $task->priority = $priority;
-        $task->project_id = $projectId;
-        $task->start_on = $startOn;
-        $task->due_on = $dueOn;
-        $task->estimate_hour = $estimate;
+        if ($description)
+            $task->description = $description;
+
+        if ($priority)
+            $task->priority = $priority;
+
+        if ($projectId)
+            $task->project_id = $projectId;
+
+        if ($startOn)
+            $task->start_on = $startOn;
+
+        if ($dueOn)
+            $task->due_on = $dueOn;
+
+        if ($estimate)
+            $task->estimate_hour = $estimate;
+
         $task->save();
 
-        if ($assignees)
+        // If null, only partial update. do not make any changes.
+        if (!empty($assignees))
         {
             $changes = $task->users()->sync(explode(",", $assignees));
 
             if (count($changes['attached'])>0)
                 event(new TaskAssigned(User::find($changes['attached']), $task));
         }
-        else
+        elseif ($assignees === "") {
+            // partial update. do not detach users.
+        }
+        elseif ($assignees == null)
             $task->users()->detach();
 
-        if ($dependencies)
-            $task->tasks()->sync(explode(',', $dependencies));
-        else
+        if ($dependencies == "")
             $task->tasks()->detach();
+        elseif ($dependencies != null)
+            $task->tasks()->sync(explode(',', $dependencies));
 
         return $task;
     }
@@ -156,6 +176,8 @@ class TaskService
                 'project_id'=>$task->project->id
             ]);
         }
+
+        return $task;
     }
 
 

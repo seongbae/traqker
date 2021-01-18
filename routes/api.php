@@ -57,4 +57,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('users/{offset}/{limit}', 'UsersController@index')->name('users.index');
     Route::get('users/{user}', 'UsersController@show')->name('users.show');
+    Route::get('users/{user}', 'UsersController@show')->name('users.show');
+    Route::put('users/{user}', 'UsersController@update')->name('users.update');
+    Route::post('users/image', 'UsersController@updateImage')->name('users.updateimage');
 });

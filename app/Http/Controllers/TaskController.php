@@ -32,7 +32,7 @@ class TaskController extends Controller
 
     public function index($offset=0, $limit=10, Request $request)
     {
-        $query = Auth::user()->tasks; //()->orderBy('created_at');
+        $query = Auth::user()->tasks()->orderBy('created_at','desc')->get();
 
         $datatables = TaskDatatable::make($query);
 
@@ -144,7 +144,7 @@ class TaskController extends Controller
         );
 
         if( $request->is('api/*') || $request->ajax())
-            return $request->json([], 200);
+            return $request->json(new TaskResource($task), 200);
 
         if ($request->redirect_to == 'project')
         {

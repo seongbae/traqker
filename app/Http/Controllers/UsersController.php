@@ -111,15 +111,13 @@ class UsersController extends CanvasController
             ->with('roles', $roles);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
 
         $this->validate($request, [
             'name'=>'required',
-            'email'=>'required|unique:users,email,'.$id,
+            'email'=>'required|unique:users,email,'.$user->id,
         ]);
-
-        $user = User::find($id);
 
         if (trim($request->get('name')))
             $user->name = trim($request->get('name'));
@@ -141,9 +139,28 @@ class UsersController extends CanvasController
 
         $user->save();
 
-        flash()->success('User successfully updated', 'Success');
+        if( $request->is('api/*') || $request->ajax())
+            return new UserResource($user);
+        else
+        {
+            flash()->success('User successfully updated', 'Success');
+            return redirect()->back();
+        }
+    }
 
-        return redirect()->back();
+    public function updateImage(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        if ($request->file('file'))
+            $user->photo_url = $this->uploadOne($request->file('file'), 'users', 'public');
+
+        $user->save();
+
+        if( $request->is('api/*') || $request->ajax())
+            return new UserResource($user);
+        else
+            return redirect()->back();
     }
 
     public function destroy($id)

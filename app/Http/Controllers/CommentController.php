@@ -19,14 +19,14 @@ class CommentController extends Controller implements CommentControllerInterface
 {
     public function __construct()
     {
-        $this->middleware('web');
-
-        if (Config::get('comments.guest_commenting') == true) {
-            $this->middleware('auth')->except('store');
-            $this->middleware(ProtectAgainstSpam::class)->only('store');
-        } else {
-            $this->middleware('auth');
-        }
+        $this->middleware('auth');
+//
+//        if (Config::get('comments.guest_commenting') == true) {
+//            $this->middleware('auth')->except('store');
+//            $this->middleware(ProtectAgainstSpam::class)->only('store');
+//        } else {
+//            $this->middleware('auth');
+//        }
     }
 
     /**
@@ -46,6 +46,7 @@ class CommentController extends Controller implements CommentControllerInterface
                 'guest_email' => 'required|string|email|max:255',
             ];
         }
+
 
         // Merge guest rules, if any, with normal validation rules.
         Validator::make($request->all(), array_merge($guest_rules ?? [], [

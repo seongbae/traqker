@@ -118,7 +118,7 @@
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-          <img src="/storage/{{Auth::user()->photo}}" alt="user" class="rounded-circle" width="30">
+          <img src="{{Auth::user()->photo}}" alt="user" class="rounded-circle" width="30">
             <span class="ml-2 font-medium name">{{Auth::user()->name}}</span>
             <span class="fas fa-angle-down ml-2 carrat"></span>
         </a>
@@ -162,7 +162,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="/storage/{{Auth::user()->photo}}" class="img-circle elevation-2" alt="{{Auth::user()->name}}">
+          <img src="{{Auth::user()->photo}}" class="img-circle elevation-2" alt="{{Auth::user()->name}}">
         </div>
         <div class="info">
           <a href="/my-account" class="d-block">{{ Auth::user()->name }}</a>

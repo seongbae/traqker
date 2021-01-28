@@ -28,7 +28,8 @@ class TaskResource extends JsonResource
             'description' => $this->description,
             'assignee_names'=> implode(",", $this->assignees->pluck('name')->toArray()),
             'assignees'=> UserResource::collection($this->assignees),
-            'project'=> new ProjectResource($this->project)
+            'project'=> new ProjectResource($this->project),
+            'comments'=> CommentResource::collection($this->comments)
         ];
     }
 }

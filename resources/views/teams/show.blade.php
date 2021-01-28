@@ -64,7 +64,7 @@
                                                     @endif
                                                     <div class="card-block">
                                                         <div class="user-image">
-                                                            <img src="/storage/{{$member->photo}}" class="img-radius" alt="User-Profile-Image">
+                                                            <img src="{{$member->photo}}" class="img-radius" alt="User-Profile-Image">
                                                         </div>
                                                         <div class="user-name-title my-2">
                                                         <h6>{{$member->name}}</h6>
@@ -166,7 +166,7 @@
                             Members<br>
                             <div class="my-2">
                                 @foreach($team->members as $member)
-                                    <img src="/storage/{{ $member->photo }}" alt="{{ $member->name }}" title="{{ $member->name }}" class="rounded-circle profile-small mr-1" >
+                                    <img src="{{ $member->photo }}" alt="{{ $member->name }}" title="{{ $member->name }}" class="rounded-circle profile-small mr-1" >
                                 @endforeach
                             </div>
                         </div>

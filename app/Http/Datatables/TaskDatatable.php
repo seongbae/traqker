@@ -42,7 +42,7 @@ class TaskDatatable extends Datatable
             {
                 foreach($query->users as $member)
                 {
-                    $membersHtml .= '<img src="/storage/'.$member->photo .'" alt="{'.$member->name .'" title="'.$member->name .'" class="rounded-circle profile-small mr-1">';
+                    $membersHtml .= '<img src="'.$member->photo .'" alt="{'.$member->name .'" title="'.$member->name .'" class="rounded-circle profile-small mr-1">';
                 }
             }
 

@@ -83,9 +83,9 @@ class User extends Authenticatable implements Searchable
     public function getPhotoAttribute()
     {
         if ($this->photo_url != null)
-            return $this->photo_url;
+            return asset('storage/'.$this->photo_url);
         else
-            return '../canvas/img/default-avatar.png';
+            return asset('canvas/img/default-avatar.png');
     }
 
     public function achievements()

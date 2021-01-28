@@ -65,7 +65,7 @@ class UserInvitedNotification extends Notification
             'description' => $this->invitation->team->description,
             'notif_msg'=>$this->subject,
             'link'=>route('invites.show', $this->invitation),
-            'image'=>'/storage/'.$this->invitation->fromUser->photo
+            'image'=>$this->invitation->fromUser->photo
         ];
     }
 }

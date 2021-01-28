@@ -75,7 +75,7 @@ class TaskCompleteNotification extends Notification
             'description' => $this->task->description,
             'notif_msg'=>$this->subject,
             'link'=>route('tasks.show', $this->task),
-            'image'=>'/storage/'.$this->user->photo
+            'image'=>$this->user->photo
         ];
     }
 

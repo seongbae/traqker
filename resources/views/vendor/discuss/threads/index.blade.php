@@ -39,7 +39,7 @@
                                         @if ($thread->user != null)
                                             <article>
                                                 <div style="float:left;" class="mr-4">
-                                                    <img src="/storage/{{$thread->user->photo}}" class="rounded-circle" width="40px">
+                                                    <img src="{{$thread->user->photo}}" class="rounded-circle" width="40px">
                                                 </div>
                                                 <div style="float:left;">
                                                     <a href="{{ $thread->path() }}" style="font-size:1.2em;color:#22292f;">

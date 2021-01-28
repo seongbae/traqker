@@ -16,7 +16,7 @@
                     <div class="my-2">
 
                     @foreach($thread->subscribers as $subscriber)
-                        <img src="/storage/{{ $subscriber->photo }}" alt="{{ $subscriber->name }}" title="{{ $subscriber->name }}" class="rounded-circle profile-small mr-1" >
+                        <img src="{{ $subscriber->photo }}" alt="{{ $subscriber->name }}" title="{{ $subscriber->name }}" class="rounded-circle profile-small mr-1" >
                     @endforeach
                     </div>
 
@@ -27,7 +27,7 @@
                         <div class="card-body">
                             <div class="mb-4">
                                 <div class="float-left">
-                                    <img src="/storage/{{$thread->user->photo}}" class="rounded-circle mr-2" width="40px" title="{{$thread->user->name}}">
+                                    <img src="{{$thread->user->photo}}" class="rounded-circle mr-2" width="40px" title="{{$thread->user->name}}">
                                     <a href="#" title="{{$thread->user->name}}">{{ $thread->user->name }}</a> posted {{ $thread->created_at_human_readable }}</a>
                                 </div>
                                 @if (Auth::id() == $thread->user->id)

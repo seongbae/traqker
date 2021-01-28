@@ -65,7 +65,7 @@ class InviteDeclinedNotification extends Notification
             'description' => $this->subject,
             'notif_msg'=>$this->subject,
             'link'=>url('/dashboard'),
-            'image'=>'/storage/'.$this->invite->toUser->photo
+            'image'=>$this->invite->toUser->photo
         ];
     }
 }

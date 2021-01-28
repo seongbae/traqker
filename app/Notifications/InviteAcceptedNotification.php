@@ -65,7 +65,7 @@ class InviteAcceptedNotification extends Notification
             'description' => $this->invite->toUser->name . ' has accepted the invitation',
             'notif_msg'=>$this->subject,
             'link'=>url('/dashboard'),
-            'image'=>'/storage/'.$this->invite->toUser->photo
+            'image'=>$this->invite->toUser->photo
         ];
     }
 }

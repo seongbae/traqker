@@ -38,7 +38,7 @@
             @endif
 
             <div class="d-flex align-items-start">
-                <img src="/storage/{{Auth::user()->photo}}" alt="{{Auth::user()->name}}" title="{{Auth::user()->name}}" class="rounded-circle profile-small mr-3">
+                <img src="{{Auth::user()->photo}}" alt="{{Auth::user()->name}}" title="{{Auth::user()->name}}" class="rounded-circle profile-small mr-3">
                 <div class="w-100">
                     <textarea class="form-control @if($errors->has('message')) is-invalid @endif w-100" name="message" rows="2"></textarea>
                     <div class="invalid-feedback">

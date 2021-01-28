@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\InviteAccepted;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\Invitation;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Camroncade\Timezone\Facades\Timezone;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,7 +79,7 @@ class RegisterController extends Controller
             'timezone' => $data['timezone']
         ]);
 
-        if ($data['invitation_token'])
+        if (array_key_exists('invitation_token', $data))
         {
             $invite = Invitation::where('invitation_token', $data['invitation_token'])->whereNull('accepted_at')->whereNull('declined_at')->first();
 
@@ -112,5 +116,28 @@ class RegisterController extends Controller
         return view('canvas::auth.register')
                 ->with('email', $email)
                 ->with('timezone', $timezone);
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse(new UserResource($user), 201)
+            : redirect($this->redirectPath());
     }
 }

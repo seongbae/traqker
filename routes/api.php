@@ -25,7 +25,7 @@ Route::post('/token', function (Request $request) {
     $user = User::where('email', $request->email)->first();
 
     if (! $user || ! Hash::check($request->password, $user->password)) {
-        throw ValidationException::withMessages([
+        throw \Illuminate\Validation\ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
@@ -41,9 +41,7 @@ Route::post('/token', function (Request $request) {
     ], 201); // Status code here
 });
 
-Route::middleware(['auth:sanctum','notifications'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/register','Auth\RegisterController@register');
 
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 
@@ -60,4 +58,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('users/{user}', 'UsersController@show')->name('users.show');
     Route::put('users/{user}', 'UsersController@update')->name('users.update');
     Route::post('users/image', 'UsersController@updateImage')->name('users.updateimage');
+
+    Route::post('comments', 'CommentController@store')->name('api.comments.store');
 });

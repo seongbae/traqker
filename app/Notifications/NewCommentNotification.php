@@ -85,7 +85,7 @@ class NewCommentNotification extends Notification
             'description' => $this->comment->comment,
             'notif_msg'=>$this->msg,
             'link'=>route('tasks.show', $this->comment->commentable),
-            'image'=>'/storage/'.$this->user->photo
+            'image'=>$this->user->photo
         ];
     }
 

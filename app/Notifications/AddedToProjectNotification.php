@@ -65,7 +65,7 @@ class AddedToProjectNotification extends Notification
             'description' => $this->project->description,
             'notif_msg'=>$this->subject,
             'link'=>route('projects.show', $this->project),
-            'image'=>'/storage/'.$this->user->photo
+            'image'=>$this->user->photo
         ];
     }
 }

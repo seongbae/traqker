@@ -66,7 +66,7 @@ class EmailInviteNotification extends Notification
             'description' => $this->task->description,
             'notif_msg'=>$this->msg,
             'link'=>route('tasks.show', $this->task),
-            'image'=>'/storage/'.$this->user->photo
+            'image'=>$this->user->photo
         ];
     }
 }

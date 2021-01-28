@@ -9,7 +9,7 @@
         </div>
         <div class="card-footer bg-white text-right p-2">
             @foreach($project->members as $member)
-                <img src="/storage/{{ $member->photo }}" alt="{{ $member->name }}" title="{{ $member->name }}" class="rounded-circle profile-small mr-1" >
+                <img src="{{ $member->photo }}" alt="{{ $member->name }}" title="{{ $member->name }}" class="rounded-circle profile-small mr-1" >
             @endforeach
         </div>
     </div>

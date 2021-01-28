@@ -90,7 +90,7 @@ if (isset($_GET['code'])) { // Redirect w/ code
                                     {!! $timezone_select !!}
                                 </div>
                                 <div class="form-group">
-                                    <img src="/storage/{{Auth::user()->photo}}" style="width:80px;" class="img-circle elevation-2">
+                                    <img src="{{Auth::user()->photo}}" style="width:80px;" class="img-circle elevation-2">
                                     <input type="file" class="form-control-file" id="file" name="file">
                                 </div>
                                 <button type="submit" class="btn btn-primary mr-2">Save</button>

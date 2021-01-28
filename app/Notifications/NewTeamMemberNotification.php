@@ -53,7 +53,7 @@ class NewTeamMemberNotification extends Notification
         return (new MailMessage)
                     ->subject($this->msg)
                     ->markdown('emails.members.teamjoined',['url'=>$url,'team'=>$this->team]);
-                    
+
     }
 
     /**
@@ -69,7 +69,7 @@ class NewTeamMemberNotification extends Notification
             'description' => $this->team->name,
             'notif_msg'=>$this->msg,
             'link'=>route('teams.show', $this->team),
-            'image'=>'/storage/'.$this->causer->photo
+            'image'=>$this->causer->photo
         ];
     }
 }

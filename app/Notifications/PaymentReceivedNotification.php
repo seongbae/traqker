@@ -52,7 +52,7 @@ class PaymentReceivedNotification extends Notification
         return (new MailMessage)
                     ->subject($this->msg)
                     ->markdown('emails.payments.received',['url'=>$url,'payment'=>$this->payment]);
-                    
+
     }
     /**
      * Get the array representation of the notification.
@@ -67,7 +67,7 @@ class PaymentReceivedNotification extends Notification
             'description' => $this->msg,
             'notif_msg'=>$this->msg,
             'link'=>url('/my-account#transactions/'),
-            'image'=>'/storage/'.$this->payer->photo
+            'image'=>$this->payer->photo
         ];
     }
 }

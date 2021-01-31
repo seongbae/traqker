@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use Edujugon\PushNotification\Channels\FcmChannel;
+use Edujugon\PushNotification\Messages\PushMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -38,7 +40,7 @@ class TaskAssignedNotification extends Notification
      */
     public function via($notifiable)
     {
-        $channels = ['database'];
+        $channels = ['database', FcmChannel::class];
 
         if ($this->user->setting('browser_notification'))
             $channels[] = WebPushChannel::class;
@@ -75,7 +77,7 @@ class TaskAssignedNotification extends Notification
             'description' => $this->task->description,
             'notif_msg'=>$this->msg,
             'link'=>route('tasks.show', $this->task),
-            'image'=>'$this->user->photo
+            'image'=>$this->user->photo
         ];
     }
 
@@ -96,5 +98,21 @@ class TaskAssignedNotification extends Notification
         // ->requireInteraction()
         // ->tag()
         // ->vibrate()
+    }
+
+    public function toFcm($notifiable)
+    {
+        return (new PushMessage)
+            ->title("New Task Assigned")
+            ->body($this->task->name)
+            ->sound('default')
+            //->icon()
+            ->extra([
+//                'title'=>'hello',
+//                'body'=>'world',
+                'entity' => 'task',
+                'entity_id' => $this->task->id,
+                'android' => array('priority'=>'high')
+            ]);
     }
 }

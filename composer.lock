@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc4d7e02dabf16460d631fabaa606f65",
+    "content-hash": "074f1810e16dd8b3cad7f1f1c10a4de5",
     "packages": [
         {
             "name": "appstract/laravel-options",
@@ -854,6 +854,72 @@
                 }
             ],
             "time": "2020-10-13T01:26:01+00:00"
+        },
+        {
+            "name": "edujugon/push-notification",
+            "version": "v4.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Edujugon/PushNotification.git",
+                "reference": "27f6d0814c636a47d236fbfd8a39e2aed0333411"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Edujugon/PushNotification/zipball/27f6d0814c636a47d236fbfd8a39e2aed0333411",
+                "reference": "27f6d0814c636a47d236fbfd8a39e2aed0333411",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3 || ^7.0.1",
+                "illuminate/notifications": "~5.8 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/support": "~5.8 || ^6.0 || ^7.0 || ^8.0",
+                "php": "^7.1.3|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Edujugon\\PushNotification\\Providers\\PushNotificationServiceProvider"
+                    ],
+                    "aliases": {
+                        "PushNotification": "Edujugon\\PushNotification\\Facades\\PushNotification"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Edujugon\\PushNotification\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eduardo Marcos",
+                    "email": "edujugon@gmail.com"
+                }
+            ],
+            "description": "Laravel Package to send push notifications to Android and IOS devices. (GCM,FCM,APN)",
+            "keywords": [
+                "FCM",
+                "apn",
+                "gcm",
+                "high",
+                "laravel",
+                "notification",
+                "priority",
+                "push"
+            ],
+            "support": {
+                "issues": "https://github.com/Edujugon/PushNotification/issues",
+                "source": "https://github.com/Edujugon/PushNotification"
+            },
+            "time": "2021-01-16T13:00:14+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -5414,16 +5480,16 @@
         },
         {
             "name": "seongbae/canvas",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/seongbae/canvas.git",
-                "reference": "fbb5929f4058be8394943e4a13a48165f088de93"
+                "reference": "15dd0d3476789b006a16703a7681e3d07952f82a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/seongbae/canvas/zipball/fbb5929f4058be8394943e4a13a48165f088de93",
-                "reference": "fbb5929f4058be8394943e4a13a48165f088de93",
+                "url": "https://api.github.com/repos/seongbae/canvas/zipball/15dd0d3476789b006a16703a7681e3d07952f82a",
+                "reference": "15dd0d3476789b006a16703a7681e3d07952f82a",
                 "shasum": ""
             },
             "require": {
@@ -5476,9 +5542,9 @@
             "homepage": "https://github.com/seongbae/canvas",
             "support": {
                 "issues": "https://github.com/seongbae/canvas/issues",
-                "source": "https://github.com/seongbae/canvas/tree/1.1.2"
+                "source": "https://github.com/seongbae/canvas/tree/1.1.3"
             },
-            "time": "2020-12-07T05:02:19+00:00"
+            "time": "2021-01-30T19:09:00+00:00"
         },
         {
             "name": "seongbae/discuss",

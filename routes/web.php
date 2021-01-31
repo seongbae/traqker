@@ -156,3 +156,5 @@ Route::group(['namespace' => '\Seongbae\Discuss\Http\Controllers', 'middleware' 
 //    Route::post('/sendtestpayment', 'PaymentController@sendTestPayment');
 //    Route::post('/sendpayment', 'PaymentController@sendPayment');
 //});
+
+Route::resource('device_tokens', 'DeviceTokenController');

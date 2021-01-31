@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\DeviceToken;
 use App\Notifications\NewTeamMemberNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -83,9 +84,9 @@ class User extends Authenticatable implements Searchable
     public function getPhotoAttribute()
     {
         if ($this->photo_url != null)
-            return asset('storage/'.$this->photo_url);
+            return url('storage/'.$this->photo_url);
         else
-            return asset('canvas/img/default-avatar.png');
+            return url('canvas/img/default-avatar.png');
     }
 
     public function achievements()
@@ -96,6 +97,11 @@ class User extends Authenticatable implements Searchable
     public function groups()
     {
         return $this->belongsToMany(Group::class);
+    }
+
+    public function deviceTokens()
+    {
+        return $this->hasMany(DeviceToken::class);
     }
 
     public function paymentSent()
@@ -361,6 +367,11 @@ class User extends Authenticatable implements Searchable
                 return true;
 
         return false;
+    }
+
+    public function routeNotificationForFcm()
+    {
+        return $this->deviceTokens()->where('device_name', 'android')->pluck('device_token')->toArray();
     }
 
     public function hasManagerialAccess($group)

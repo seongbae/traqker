@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use Edujugon\PushNotification\Channels\FcmChannel;
+use Edujugon\PushNotification\Messages\PushMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -40,7 +42,7 @@ class NewCommentNotification extends Notification
      */
     public function via($notifiable)
     {
-        $channels = ['database'];
+        $channels = ['database', FcmChannel::class];
 
         if ($this->user->setting('browser_notification'))
             $channels[] = WebPushChannel::class;
@@ -106,5 +108,21 @@ class NewCommentNotification extends Notification
         // ->requireInteraction()
         // ->tag()
         // ->vibrate()
+    }
+
+    public function toFcm($notifiable)
+    {
+        return (new PushMessage)
+            ->title("New Comment")
+            ->body($this->comment->commenter->name . ": ".$this->comment->comment)
+            ->sound('default')
+            //->icon()
+            ->extra([
+//                'title'=>'hello',
+//                'body'=>'world',
+                'entity' => 'task',
+                'entity_id' => $this->comment->commentable->id,
+                'android' => array('priority'=>'high')
+            ]);
     }
 }

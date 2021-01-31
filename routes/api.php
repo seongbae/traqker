@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,37 +13,16 @@ use App\Models\User;
 |
 */
 
-Route::post('/token', function (Request $request) {
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-        'device_name' => 'required',
-    ]);
-
-    $user = User::where('email', $request->email)->first();
-
-    if (! $user || ! Hash::check($request->password, $user->password)) {
-        throw \Illuminate\Validation\ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
-    }
-
-    return response()->json([
-        'id'=>$user->id,
-        'name'=>$user->name,
-        'email'=>$user->email,
-        'image_url'=>url('storage/'.$user->photo),
-        'projects'=>\App\Http\Resources\ProjectResource::collection($user->projects),
-        'token'=> $user->createToken($request->device_name)->plainTextToken,
-        'message'=>'success',
-    ], 201); // Status code here
-});
+Route::post('/token', 'Auth\LoginController@apiLogin');
+Route::post('/login', 'Auth\LoginController@apiLogin');
 
 Route::post('/register','Auth\RegisterController@register');
 
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('device_tokens', 'DeviceTokenController@store')->name('tokens.store');
+
     Route::get('tasks/{offset}/{limit}', 'TaskController@index')->name('tasks.index');
     Route::get('tasks/{task}', 'TaskController@show')->name('tasks.show');
     Route::post('tasks', 'TaskController@store')->name('tasks.store');

@@ -107,8 +107,12 @@ class TaskService
         if ($priority)
             $task->priority = $priority;
 
-        if ($projectId)
+        if ($projectId) {
+            if ($projectId != $task->project_id)
+                $task->section_id = null;
+
             $task->project_id = $projectId;
+        }
 
         if ($startOn)
             $task->start_on = $startOn;
@@ -118,6 +122,7 @@ class TaskService
 
         if ($estimate)
             $task->estimate_hour = $estimate;
+
 
         $task->save();
 

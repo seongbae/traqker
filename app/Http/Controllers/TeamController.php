@@ -154,6 +154,17 @@ class TeamController extends Controller
         return redirect()->back();
     }
 
+    public function getProjectsJson($teamId)
+    {
+        $team = Team::find($teamId);
+
+        $projects = $team->projects->pluck('id','name')->toArray();
+
+        return response()->json(
+            $projects
+        );
+    }
+
     public function createSlug($title, $id = 0)
     {
         $slug = str_slug($title);

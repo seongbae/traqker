@@ -22,7 +22,6 @@
                 </div>
             </div>
             <div class="card-body">
-
                 <div id="dropzone" style="width:200px;">
                     <form class="dropzone needsclick" id="demo-upload" action="/attachments" enctype="multipart/form-data">
                         @csrf
@@ -31,9 +30,7 @@
                         </div>
                     </form>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>

@@ -46,7 +46,7 @@ class Team extends Model
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class, 'team_projects');
+        return $this->belongsToMany(Project::class, 'team_projects')->orderBy('name');
     }
 
     public function firstAvailableManagerExcept($user=null)

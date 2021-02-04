@@ -174,7 +174,11 @@ class ProjectController extends Controller
     {
         $this->authorize('update', $project);
 
-        $projects = Project::where('user_id', Auth::id())->where('id','!=',$project->id)->pluck('id','name')->toArray();
+        if ($project->team)
+            $projects = $project->team->projects->where('id', '!=', $project->id)->pluck('id','name')->toArray();
+        else
+            $projects = null;
+
         $teams = Team::where('user_id', Auth::id())->pluck('id','name')->toArray();
         $teamIds = Team::where('user_id', Auth::id())->pluck('id')->toArray();
         $users = User::whereHas('teams', function($q) use($teamIds) {

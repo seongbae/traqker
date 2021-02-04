@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Models\Task;
+use App\Models\Project;
+use App\Models\Team;
 
 class AttachmentController extends Controller
 {
@@ -40,7 +42,14 @@ class AttachmentController extends Controller
     {
         if($request->hasFile('file')) {
             $files = $request->file('file');
-            $model = Task::find($request->task_id);
+
+            if ($request->type == 'project')
+                $model = Project::find($request->id);
+            elseif ($request->type == 'team')
+                $model = Team::find($request->id);
+            else
+                $model = Task::find($request->id);
+
             $file = $model->addFile($files);
 
             return response()->json([

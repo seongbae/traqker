@@ -14,4 +14,14 @@ class Attachment extends Model
     {
         return $this->morphTo('attachments', 'attached_model', 'attached_model_id');;
     }
+
+    public function scopeProjects($query)
+    {
+        return $query->where('attached_model', '=', 'App\Models\Project');
+    }
+
+    public function scopeTasks($query)
+    {
+        return $query->where('attached_model', '=', 'App\Models\Task');
+    }
 }

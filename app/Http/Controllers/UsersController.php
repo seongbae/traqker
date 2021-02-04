@@ -148,6 +148,50 @@ class UsersController extends CanvasController
         }
     }
 
+    public function updatePassword(Request $request, User $user)
+    {
+        $this->validate($request, [
+            'current_password'=>'required',
+            'new_password'=>'required'
+        ]);
+
+         if (Hash::check($request->current_password, $user->password))
+        {
+            if ($request->get('new_password') && $request->get('new_password') != '')
+                $user->password = Hash::make(trim($request->get('new_password')));
+
+            $user->save();
+        }
+        else
+        {
+            if( $request->is('api/*') || $request->ajax())
+                return response()->json(['msg'=>'INCORRECT_PASSWORD'], 200);
+            else
+            {
+                flash()->success('Incorrect password', 'Success');
+                return redirect()->back();
+            }
+        }
+
+        if( $request->is('api/*') || $request->ajax())
+            return response()->json(['msg'=>'SUCCESS'], 200);
+        else
+        {
+            flash()->success('User successfully updated', 'Success');
+            return redirect()->back();
+        }
+    }
+
+    public function updateSetting(Request $request, User $user)
+    {
+        $this->validate($request, [
+            'key'=>'required',
+            'value'=>'required'
+        ]);
+
+        $user->settings([$request->key=>$request->value]);
+    }
+
     public function updateImage(Request $request)
     {
         $user = User::find($request->user_id);

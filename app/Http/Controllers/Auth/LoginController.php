@@ -79,6 +79,7 @@ class LoginController extends Controller
             'image_url'=>$user->photo,
             'projects'=>\App\Http\Resources\ProjectResource::collection($user->projects),
             'token'=> $user->createToken($request->device_name)->plainTextToken,
+            'user_settings'=>$user->settings,
             'message'=>'success',
         ], 201); // Status code here
     }

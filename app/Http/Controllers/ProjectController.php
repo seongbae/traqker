@@ -152,7 +152,16 @@ class ProjectController extends Controller
 
     public function showFiles(Request $request, Project $project)
     {
-        $query = Attachment::where('attached_model', 'App\Models\Task')->whereIn('attached_model_id', $project->tasks->pluck('id'));
+        $query = Attachment::where(function($query) use($project) {
+            return $query
+                ->where('attached_model', 'App\Models\Task')
+                ->whereIn('attached_model_id', $project->tasks->pluck('id'));
+            })->orWhere(function($query) use($project){
+            return $query
+                ->where('attached_model', 'App\Models\Project')
+                ->where('attached_model_id', '=', $project->id);
+            });;
+
         $datatables = AttachmentDatatable::make($query);
         $page = "_files";
 

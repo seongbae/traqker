@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Client;
 use App\Scopes\CompletedScope;
+use App\Traits\HasAttachments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Seongbae\Canvas\Traits\FillsColumns;
@@ -15,12 +16,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Scopes\ArchiveScope;
 
 use App\Models\Task;
+use Seongbae\Canvas\Traits\UploadTrait;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 class Project extends Model implements Searchable
 {
-    use FillsColumns, SerializesDates, SoftDeletes, HasFactory;
+    use FillsColumns, SerializesDates, SoftDeletes, HasFactory, HasAttachments, UploadTrait;
 
     protected $fillable = [
         'name',

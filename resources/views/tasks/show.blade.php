@@ -309,7 +309,7 @@
 
     myDropzone.on("sending", function(file, xhr, formData) {
         formData.append("_token", $('meta[name="csrf-token"]').attr('content'));
-        formData.append("task_id", {{$task->id}});
+        formData.append("id", {{$task->id}});
     });
 
     $(document).ready(function(){

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\MessageReceived;
 use App\Http\Resources\MessageResource;
 use App\Http\Resources\TaskResource;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
@@ -121,10 +121,10 @@ class MessagesController extends Controller
             $thread->addParticipant($input['recipients']);
         }
 
-        event(new MessageReceived(Auth::user(), $thread, $request->message));
+        event(new MessageReceived(Auth::user(), $thread, $message));
 
         if($request->is('api/*') || $request->ajax()) {
-            return 'hello';
+            return 'new thread started';
         }
         else {
             return redirect()->route('messages');
@@ -139,6 +139,11 @@ class MessagesController extends Controller
      */
     public function update($id, Request $request)
     {
+        if ($request->user_id)
+            $user = User::find($request->user_id);
+        else
+            $user = Auth::user();
+
         try {
             $thread = Thread::findOrFail($id);
         } catch (ModelNotFoundException $e) {
@@ -150,16 +155,16 @@ class MessagesController extends Controller
         $thread->activateAllParticipants();
 
         // Message
-        Message::create([
+        $message = Message::create([
             'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
+            'user_id' => $user->id,
             'body' => $request->message
         ]);
 
         // Add replier as a participant
         $participant = Participant::firstOrCreate([
             'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
+            'user_id' => $user->id
         ]);
         $participant->last_read = new Carbon;
         $participant->save();
@@ -169,10 +174,10 @@ class MessagesController extends Controller
             $thread->addParticipant($request->recipients);
         }
 
-        event(new MessageReceived(Auth::user(), $thread, $request->message));
+        event(new MessageReceived($user, $thread, $message));
 
         if($request->is('api/*') || $request->ajax()) {
-            return 'hello';
+            return 'message update';
         }
         else {
             return redirect()->route('messages.show', $id);

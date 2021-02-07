@@ -16,8 +16,8 @@ class MessageReceived implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $sender;
-    public $thread;
+    private $sender;
+    private $thread;
     public $message;
 
     /**
@@ -42,8 +42,8 @@ class MessageReceived implements ShouldBroadcastNow
         $channels = [];
 
         foreach($this->thread->users as $user)
-            if ($user != $this->sender)
-                $channels[] = new PrivateChannel('App.User.'.$user->id);
+            if ($user->id != $this->sender->id)
+                $channels[] = new Channel('App.User.'.$user->id);
 
         return $channels;
     }

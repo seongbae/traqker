@@ -10,29 +10,25 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
-class TaskAssigned implements ShouldBroadcastNow
+class TestChatMessageReceived implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $task;
-    private $users;
-    private $msg;
+    private $thread;
+    public $message;
+    public $user;
 
-    public function getTask()
+    public function getThread()
     {
-        return $this->task;
-    }
-
-    public function getUsers()
-    {
-        return $this->users;
+        return $this->thread;
     }
 
     public function getMessage()
     {
-        return $this->msg;
+        return $this->message;
     }
 
     /**
@@ -40,11 +36,10 @@ class TaskAssigned implements ShouldBroadcastNow
      *
      * @return void
      */
-    public function __construct($users, $task, $msg='New task assigned.')
+    public function __construct($user, $message)
     {
-        $this->task = $task;
-        $this->users = $users;
-        $this->msg = $msg;
+        $this->user = $user;
+        $this->message = $message;
     }
 
     /**
@@ -54,11 +49,6 @@ class TaskAssigned implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        $channels = [];
-
-        foreach($this->users as $user)
-            $channels[] = new PrivateChannel('App.User.'.$user->id);
-
-        return $channels;
+        return new PrivateChannel('chat-room.1');
     }
 }

@@ -6,10 +6,19 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interaction from "@fullcalendar/interaction";
 import bootstrapPlugin from "@fullcalendar/bootstrap";
 
-// const app = new Vue({
-//     el: '#app',
-//     components: { App }
-// });
+Echo.channel('private-App.User.'+window.Laravel.user.id)
+    .listen('MessageReceived', (e) => {
+        console.log(e.sender, e.thread, e.message);
+    });
+
+Echo.channel('private-App.User.'+window.Laravel.user.id)
+    .listen('TaskAssigned', (e) => {
+        var notifCount = parseInt($('#notif-count-badge').text(), 0);
+        notifCount = notifCount + 1;
+        $('#notif-count-badge').text(notifCount);
+        $('#notif-count-badge').show();
+        $('#notif-bell-dark').removeClass("far").addClass("fas");
+    });
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -79,3 +88,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 });
+
+
+
+// File#: _1_drawer
+// Usage: codyhouse.co/license
+(function() {
+
+
+    // button.addEventListener('click', () => {
+    //     pane.classList.toggle('open');
+    // });
+}());

@@ -21,7 +21,7 @@ class TaskDatatable extends Datatable
                         </div>';
         })
         ->addColumn('name_link', function ($query) {
-            return '<a href="'.route('tasks.show',['task'=>$query]).'">'.$query->name.'</a>';
+            return '<a href="'.route('tasks.show',['task'=>$query]).'" data-id="'.$query->id.'">'.$query->name.'</a>';
         })
         ->editColumn('due_on', function ($query) {
             return $query->due_on ? with(new Carbon($query->due_on))->format('Y-m-d') : '';
@@ -54,7 +54,7 @@ class TaskDatatable extends Datatable
     protected function htmlMethods(Builder &$html)
     {
         $html->stateSave(false)
-            ->setTableId("referrals-table")
+            ->setTableId("tasks-table")
             ->language(['processing'=>'<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'])
             ->serverSide(true)
             ->pageLength(25)

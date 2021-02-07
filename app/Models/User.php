@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\DeviceToken;
 use App\Notifications\NewTeamMemberNotification;
+use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -35,7 +36,7 @@ use App\Notifications\InviteAcceptedNotification;
 
 class User extends Authenticatable implements Searchable
 {
-    use Notifiable, HasRoles, LogsActivity, Billable, Commenter, HasFactory, HasApiTokens, HasThreads, HasPushSubscriptions;
+    use Notifiable, HasRoles, LogsActivity, Billable, Commenter, HasFactory, HasApiTokens, HasThreads, HasPushSubscriptions, Messagable;
 
     /**
      * The attributes that are mass assignable.

@@ -35,6 +35,17 @@ class UsersController extends CanvasController
         return UserResource::collection($users);
     }
 
+    public function getUserTeamMembers(User $user, $offset=0, $limit=20)
+    {
+        $users = User::with('teams')->whereHas('teams', function($query) use ($user) {
+            $query->whereIn('teams.id', $user->teams->pluck('id')->toArray());
+        })
+            ->where('users.id', '!=', $user->id)
+            ->orderBy('users.name')->get();
+
+        return UserResource::collection($users->skip($offset)->take($limit));
+    }
+
     /**
      * Show the application dashboard.
      *

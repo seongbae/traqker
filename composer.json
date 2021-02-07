@@ -10,7 +10,9 @@
     "require": {
         "php": "^7.2.5",
         "beyondcode/laravel-mailbox": "^2.1",
+        "beyondcode/laravel-websockets": "^1.9",
         "camroncade/timezone": "^0.2.0",
+        "cmgmyr/messenger": "^2.22",
         "edujugon/push-notification": "^4.5",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",

@@ -103,6 +103,11 @@ class Project extends Model implements Searchable
         return $this->morphMany(WikiPage::class, 'wikiable');
     }
 
+    public function hasTasksOrSections()
+    {
+        return count($this->tasks)>0 || count($this->sections)>0;
+    }
+
     public function contains(User $user)
     {
         foreach($this->members as $member)

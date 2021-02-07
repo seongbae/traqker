@@ -80,10 +80,11 @@
         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
           @if (count($notifications)>0)
           <i class="fas fa-bell" id="notif-bell-dark"></i>
-          <span class="badge badge-danger navbar-badge" id="notif-count-badge">{{ count($notifications) }}</span>
           @else
           <i class="far fa-bell" id="notif-bell-light"></i>
           @endif
+          <span class="badge badge-danger navbar-badge" id="notif-count-badge" style="display:none;">{{ count($notifications) }}</span>
+
         </a>
         <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
           <span class="dropdown-item dropdown-header" id="notif-count-dropdown">{{ count($notifications) }} Notifications</span>
@@ -308,6 +309,13 @@
 
     $(function() {
 
+        var notificationCount = parseInt({{count($notifications)}});
+
+        if (notificationCount == 0)
+            $('#notif-count-badge').hide();
+        else
+            $('#notif-count-badge').show();
+
         function setCookie(value) {
             let name = 'toggleState';
             let days = 365;
@@ -337,6 +345,7 @@
             request.done(() => {
                 $('div.notification').remove();
                 $('#notif-count-badge').hide();
+                $('#notif-count-badge').text("0");
                 $('#notif-bell-dark').removeClass("fas").addClass("far");
                 $('#notif-count-dropdown').text('0 Notification');
             })

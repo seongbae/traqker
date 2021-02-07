@@ -30,16 +30,24 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('device_tokens', 'DeviceTokenController@store')->name('tokens.store');
 
     // Task operations
-    Route::get('tasks/{offset}/{limit}', 'TaskController@index')->name('tasks.index');
-    Route::get('tasks/{task}', 'TaskController@show')->name('tasks.show');
-    Route::post('tasks', 'TaskController@store')->name('tasks.store');
+    Route::get('tasks/{offset}/{limit}', 'TaskController@index')->name('api.tasks.index');
+    Route::get('tasks/{task}', 'TaskController@show')->name('api.tasks.show');
+    Route::post('tasks', 'TaskController@store')->name('api.tasks.store');
     Route::put('tasks/{task}/status', 'TaskController@updateStatus');
-    Route::put('tasks/{task}', 'TaskController@update')->name('tasks.update');
-    Route::delete('tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
+    Route::put('tasks/{task}', 'TaskController@update')->name('api.tasks.update');
+    Route::delete('tasks/{task}', 'TaskController@destroy')->name('api.tasks.destroy');
 
     // Users directory
     Route::get('users/{offset}/{limit}', 'UsersController@index')->name('users.index');
+    Route::get('members/{user}/{offset}/{limit}', 'UsersController@getUserTeamMembers')->name('members.index');
     Route::get('users/{user}', 'UsersController@show')->name('users.show');
 
     Route::post('comments', 'CommentController@store')->name('api.comments.store');
+
+    // Messages
+    Route::get('messages', 'MessagesController@index')->name('messages.index');
+    Route::get('messages/{id}', 'MessagesController@show')->name('messages.show');
+    Route::post('messages', 'MessagesController@store')->name('messages.store');
+    Route::put('messages/{id}', 'MessagesController@update')->name('messages.update');
+    Route::delete('messages', 'MessagesController@destroy')->name('messages.destroy');
 });

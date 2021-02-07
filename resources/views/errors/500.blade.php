@@ -8,7 +8,7 @@
         <div class="subtitle">Error ID: {{ Sentry::getLastEventID() }}</div>
 
         <!-- Sentry JS SDK 2.1.+ required -->
-        
+
 
         <script>
             Raven.showReportDialog({

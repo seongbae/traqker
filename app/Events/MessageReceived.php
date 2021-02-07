@@ -12,39 +12,24 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class TaskAssigned implements ShouldBroadcastNow
+class MessageReceived implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $task;
-    private $users;
-    private $msg;
-
-    public function getTask()
-    {
-        return $this->task;
-    }
-
-    public function getUsers()
-    {
-        return $this->users;
-    }
-
-    public function getMessage()
-    {
-        return $this->msg;
-    }
+    public $sender;
+    public $thread;
+    public $message;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($users, $task, $msg='New task assigned.')
+    public function __construct($sender, $thread, $message)
     {
-        $this->task = $task;
-        $this->users = $users;
-        $this->msg = $msg;
+        $this->sender = $sender;
+        $this->thread = $thread;
+        $this->message = $message;
     }
 
     /**
@@ -56,8 +41,9 @@ class TaskAssigned implements ShouldBroadcastNow
     {
         $channels = [];
 
-        foreach($this->users as $user)
-            $channels[] = new PrivateChannel('App.User.'.$user->id);
+        foreach($this->thread->users as $user)
+            if ($user != $this->sender)
+                $channels[] = new PrivateChannel('App.User.'.$user->id);
 
         return $channels;
     }

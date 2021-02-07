@@ -199,7 +199,8 @@ class Task extends Model implements Searchable
         static::addGlobalScope(new CompletedScope);
 
         static::creating(function ($task) {
-            $task->user_id = Auth::id();
+            if ($task->user_id == null)
+                $task->user_id = Auth::id();
         });
 
         static::created(function ($task) {

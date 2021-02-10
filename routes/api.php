@@ -49,5 +49,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('messages/{id}', 'MessagesController@show')->name('messages.show');
     Route::post('messages', 'MessagesController@store')->name('messages.store');
     Route::put('messages/{id}', 'MessagesController@update')->name('messages.update');
-    Route::delete('messages', 'MessagesController@destroy')->name('messages.destroy');
+    Route::delete('messages/{id}', 'MessagesController@destroy')->name('messages.destroy');
 });

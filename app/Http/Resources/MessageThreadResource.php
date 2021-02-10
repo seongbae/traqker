@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Auth;
 
-class MessageResource extends JsonResource
+class MessageThreadResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,10 +17,8 @@ class MessageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id'=>$this->user_id,
-            'body'=>$this->body,
-            'from_me'=>Auth::id()==$this->user_id ? 'true' : 'false',
-            'created_at'=>$this->created_at
+            'users'=>UserResource::collection($this->users),
+            'messages'=>MessageResource::collection($this->messages()->orderBy('created_at','asc')->take(20)->get())
         ];
     }
 }

@@ -77,44 +77,7 @@
             </div>
         </li>
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-          @if (count($notifications)>0)
-          <i class="fas fa-bell" id="notif-bell-dark"></i>
-          @else
-          <i class="far fa-bell" id="notif-bell-light"></i>
-          @endif
-          <span class="badge badge-danger navbar-badge" id="notif-count-badge" style="display:none;">{{ count($notifications) }}</span>
 
-        </a>
-        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
-          <span class="dropdown-item dropdown-header" id="notif-count-dropdown">{{ count($notifications) }} Notifications</span>
-          @forelse($notifications as $notification)
-            <div class="notification">
-                <div class="dropdown-divider"></div>
-
-                <a href="{{$notification->data['link']}}" class="dropdown-item mark-as-read overflow-auto" data-id="{{ $notification->id }}">
-                  @if (array_key_exists('image', $notification->data))
-                  <img src="{{$notification->data['image']}}" class="img-circle profile-small mr-2">
-                  @endif
-                {!! Helper::limitText($notification->data['notif_msg'], 200) !!}
-                  <span class="float-right text-muted text-xs">{{ $notification->created_at->diffForHumans(null,true) }}</span>
-                </a>
-
-            </div>
-            @empty
-
-            @endforelse
-
-          <div class="dropdown-divider"></div>
-          <div class="dropdown-footer d-flex justify-content-between">
-            <a href="/notifications" class="text-left">See All</a>
-            @if (count($notifications)>0)
-            <a href="#" id="mark-all">
-                Mark all as read
-            </a>
-            @endif
-          </div>
-        </div>
       </li>
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
@@ -309,20 +272,7 @@
 
     $(function() {
 
-        var notificationCount = parseInt({{count($notifications)}});
 
-        if (notificationCount == 0)
-            $('#notif-count-badge').hide();
-        else
-            $('#notif-count-badge').show();
-
-        function setCookie(value) {
-            let name = 'toggleState';
-            let days = 365;
-            let d = new Date;
-            d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
-            document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
-        }
 
         $("body").on("collapsed.lte.pushmenu", function () {
             if ($.AdminLTESidebarTweak.options.EnableRemember) {

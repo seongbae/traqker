@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Events\MessageReceived;
 use App\Http\Resources\MessageResource;
+use App\Http\Resources\MessageThreadResource;
 use App\Http\Resources\TaskResource;
+use App\Http\Resources\ThreadCollection;
+use App\Http\Resources\ThreadResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
@@ -14,6 +17,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class MessagesController extends Controller
 {
@@ -25,16 +29,16 @@ class MessagesController extends Controller
     public function index(Request $request)
     {
         // All threads, ignore deleted/archived participants
-        // $threads = Thread::getAllLatest()->get();
+        //$threads = Thread::getAllLatest()->get();
 
         // All threads that user is participating in
-        // $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
+        $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
 
         // All threads that user is participating in, with new messages
-        $threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
+        // $threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
         if($request->is('api/*') || $request->ajax()) {
-            return MessageResource::collection($threads);
+            return ThreadResource::collection($threads);
         }
         else {
             return view('messenger.index', compact('threads'));
@@ -49,7 +53,7 @@ class MessagesController extends Controller
      * @param $id
      * @return mixed
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
             $thread = Thread::findOrFail($id);
@@ -68,7 +72,12 @@ class MessagesController extends Controller
 
         $thread->markAsRead($userId);
 
-        return view('messenger.show', compact('thread', 'users'));
+        if($request->is('api/*') || $request->ajax()) {
+            return MessageResource::collection($thread->messages);
+        }
+        else {
+            return view('messenger.show', compact('thread', 'users'));
+        }
     }
 
     /**
@@ -182,6 +191,18 @@ class MessagesController extends Controller
         else {
             return redirect()->route('messages.show', $id);
         }
+    }
 
+    public function destroy($id, Request $request)
+    {
+        $thread = Thread::find($id);
+
+        if ($thread)
+            $thread->delete();
+
+        if( $request->is('api/*') || $request->ajax())
+            return response()->json(['success'], 200);
+
+        return redirect()->back();
     }
 }

@@ -176,7 +176,7 @@ class TaskController extends Controller
     {
         $this->authorize('update', $task);
 
-        $projects = Project::where('user_id', Auth::id())->pluck('id','name')->toArray();
+        $projects = Auth::user()->projects()->orderBy('projects.name')->pluck('projects.id','projects.name')->toArray();
 
         $priority = ['high','medium','low'];
 

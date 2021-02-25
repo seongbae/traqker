@@ -173,7 +173,7 @@ class User extends Authenticatable implements Searchable
 
     public function tasks()
     {
-        return $this->belongsToMany(Task::class)->with('project')->with('users');
+        return $this->belongsToMany(Task::class)->with('project')->with('users')->orderBy('tasks.created_at','desc');
     }
 
     public function activeTasks()

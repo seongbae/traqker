@@ -32,7 +32,7 @@ class TaskController extends Controller
 
     public function index($offset=0, $limit=10, Request $request)
     {
-        $query = Auth::user()->tasks()->orderBy('created_at','desc')->get();
+        $query = Auth::user()->tasks;
 
         $datatables = TaskDatatable::make($query);
 

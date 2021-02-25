@@ -13,18 +13,16 @@ class CalendarController extends Controller
 {
     public function indexProject($id)
     {
-        $project = Project::find($id);
+        $project = Project::findOrFail($id);
 
         return CalendarResource::collection($project->tasks);
     }
 
-    public function indexTeam(Project $project)
+    public function indexTeam($id)
     {
-        if (\Illuminate\Support\Facades\Request::ajax()) {
-            return CalendarResource::collection($project->tasks);
-        }
+        $tasks = Task::findOrFail($id);
 
-        return view('projects.calendar');
+        return CalendarResource::collection($tasks);
     }
 
     public function indexUser()

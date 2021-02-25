@@ -47,10 +47,12 @@ Route::group(['middleware' => ['web','auth','notifications','team']], function (
     Route::get('calendar', 'CalendarController@index')->name('calendar.index');
     Route::get('calendar/user', 'CalendarController@indexUser');
     Route::get('calendar/project/{id}', 'CalendarController@indexProject');
+    Route::get('calendar/team/{id}', 'CalendarController@indexTeam');
     Route::post('calendar/{project}/create', 'CalendarController@store');
 
 
     Route::resource('teams', 'TeamController');
+    Route::get('teams/{team}/calendar', 'TeamController@showCalendar');
     Route::get('teams/{team}/availability', 'AvailabilityController@getTeamAvailability')->name('teams.availability');
     Route::get('teams/{team}/settings', 'TeamController@getSettings')->name('teams.settings');
     Route::post('/team/{team}/add', 'TeamController@addMember')->name('teams.addMember');

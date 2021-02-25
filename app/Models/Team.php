@@ -49,6 +49,11 @@ class Team extends Model
         return $this->belongsToMany(Project::class, 'team_projects')->orderBy('name');
     }
 
+    public function tasks()
+    {
+        return $this->hasManyThrough(Task::class, Project::class);
+    }
+
     public function firstAvailableManagerExcept($user=null)
     {
         foreach($this->members as $member)

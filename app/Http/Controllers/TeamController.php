@@ -56,6 +56,13 @@ class TeamController extends Controller
         return view('teams.show', compact('team','page'));
     }
 
+    public function showCalendar(Team $team)
+    {
+        $page = "_calendar";
+
+        return view('teams.calendar', compact('team', 'page'));
+    }
+
     public function getSettings(Team $team)
     {
         $this->authorize('update', $team);

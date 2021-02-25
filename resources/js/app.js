@@ -24,12 +24,18 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
     if (calendarEl !== null ) {
-        var eventListingURL = "/calendar/user";
-        var projectId = "";
+        var eventListingURL;
+        var modelId;
 
         if (calendarEl.getAttribute("data-model") == 'project') {
-            projectId = calendarEl.getAttribute("data-model-id");
-            eventListingURL = "/calendar/project/" + projectId;
+            modelId = calendarEl.getAttribute("data-model-id");
+            eventListingURL = "/calendar/project/" + modelId;
+        } else if (calendarEl.getAttribute("data-model") == 'team') {
+            modelId = calendarEl.getAttribute("data-model-id");
+            eventListingURL = "/calendar/team/" + modelId;
+        } else {
+            eventListingURL = "/calendar/user";
+            modelId = "";
         }
 
         var calendar = new Calendar(calendarEl, {

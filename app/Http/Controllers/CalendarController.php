@@ -7,7 +7,9 @@ use App\Http\Resources\CalendarResource;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\Team;
 use Auth;
+use Log;
 
 class CalendarController extends Controller
 {
@@ -20,7 +22,8 @@ class CalendarController extends Controller
 
     public function indexTeam($id)
     {
-        $tasks = Task::findOrFail($id);
+        $team = Team::findOrFail($id);
+        $tasks = Task::whereIn('project_id', $team->projects->pluck('id')->toArray())->get();
 
         return CalendarResource::collection($tasks);
     }

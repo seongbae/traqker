@@ -58,7 +58,7 @@ Route::group(['middleware' => ['web','auth','notifications','team']], function (
     Route::post('/team/{team}/add', 'TeamController@addMember')->name('teams.addMember');
     Route::delete('/team/{team}/remove/{user}', 'TeamController@removeMember')->name('team.remove');
     Route::delete('/invitations/{invitation}', 'InvitationController@destroy')->name('invitation.remove');
-    Route::get('get_projects/{id}', 'TeamController@getProjectsJson')->name('teams.getprojects');
+    Route::get('get_projects/{id?}', 'TeamController@getProjectsJson')->name('teams.getprojects');
 
     Route::get('/invites/{invite}', 'InvitationController@show')->name('invites.show');
     Route::put('/invites/{invite}', 'InvitationController@update')->name('invites.update');

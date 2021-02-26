@@ -143,7 +143,7 @@ class User extends Authenticatable implements Searchable
 
     public function teamsWithManagerialAccess()
     {
-        return $this->belongsToMany(Team::class)->withPivot('title','access')->whereIn('access',['owner','manager']);
+        return $this->belongsToMany(Team::class)->withPivot('title','access')->whereIn('access',['owner','manager'])->orderBy('name');
     }
 
     public function myTeams()

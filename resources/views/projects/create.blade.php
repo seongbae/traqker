@@ -20,3 +20,34 @@
         </form>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $("#team_id").change(function () {
+                var end = this.value;
+                var teamId = $('#team_id').val();
+
+                $.ajax({
+                    method: 'GET',
+                    url: '/get_projects/'+teamId,
+                    data: {},
+                    success: function( response ){
+                        //console.log( response );
+
+                        var $el = $("#parent_id");
+                        $el.empty(); // remove old options
+                        $el.append($("<option></option>"));
+                        $.each(response, function(key,value) {
+                            $el.append($("<option></option>")
+                                .attr("value", value).text(key));
+                        });
+                    },
+                    error: function( e ) {
+                        console.log(e);
+                    }
+                });
+            });
+        });
+    </script>
+
+@endpush

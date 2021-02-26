@@ -53,9 +53,13 @@ class ProjectController extends Controller
             : view('projects.index', $datatables->html());
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $projects = Project::where('user_id', Auth::id())->pluck('id','name')->toArray();
+        if ($request->input('team'))
+            $projects = Project::where('team_id', $request->input('team'))->pluck('id','name')->toArray();
+        else
+            $projects = Project::where('user_id', Auth::id())->pluck('id','name')->toArray();
+
         $teams = Auth::user()->teamsWithManagerialAccess->pluck('id','name')->toArray();
         $teamIds = Team::where('user_id', Auth::id())->pluck('id')->toArray();
         $users = User::whereHas('teams', function($q) use($teamIds) {

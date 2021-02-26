@@ -11,9 +11,7 @@
     <li class="nav-item">
         <a class="nav-link {{ $page == '_wiki' ? 'active' : '' }}" href="{{ route('wikipages.index', ['type'=>'teams', 'slug'=>$team->slug]) }}">Wiki</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link {{ $page == '_availability' ? 'active' : '' }}" href="{{ route('teams.availability', ['team'=>$team]) }}">Availability</a>
-    </li>@can('update', $team)
+    @can('update', $team)
     <li class="nav-item">
         <a class="nav-link {{ $page == '_settings' ? 'active' : '' }}" href="{{ route('teams.settings', ['team'=>$team]) }}">Settings</a>
     </li>

@@ -161,11 +161,15 @@ class TeamController extends Controller
         return redirect()->back();
     }
 
-    public function getProjectsJson($teamId)
+    public function getProjectsJson($teamId=null)
     {
-        $team = Team::find($teamId);
-
-        $projects = $team->projects->pluck('id','name')->toArray();
+        if ($teamId)
+        {
+            $team = Team::find($teamId);
+            $projects = $team->projects->pluck('id','name')->toArray();
+        }
+        else
+            $projects = Auth::user()->projects->pluck('id','name')->toArray();
 
         return response()->json(
             $projects

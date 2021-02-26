@@ -69,10 +69,6 @@
                             @endforeach
                             </tbody>
                         </table>
-                    @else
-                        @if (count($project->tasks()->withoutGlobalScopes()->get()) == 0)
-                            Click <a href="{{route('tasks.create')}}">here</a> to create your first task!
-                        @endif
                     @endif
                 </div>
                 <div class="card-footer px-3">

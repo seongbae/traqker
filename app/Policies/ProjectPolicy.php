@@ -33,6 +33,9 @@ class ProjectPolicy
         if ($user->id === $project->user_id || $project->contains($user))
             return true;
 
+        if ($project->team_id && $project->team->contains($user))
+            return true;
+
         return false;
     }
 

@@ -303,6 +303,29 @@
         });
     }
 
+    // function setCookie(cname, cvalue, exdays) {
+    //     var d = new Date();
+    //     d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    //     var expires = "expires="+ d.toUTCString();
+    //     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    // }
+    //
+    // function getCookie(cname) {
+    //     var name = cname + "=";
+    //     var decodedCookie = decodeURIComponent(document.cookie);
+    //     var ca = decodedCookie.split(';');
+    //     for(var i = 0; i <ca.length; i++) {
+    //         var c = ca[i];
+    //         while (c.charAt(0) == ' ') {
+    //             c = c.substring(1);
+    //         }
+    //         if (c.indexOf(name) == 0) {
+    //             return c.substring(name.length, c.length);
+    //         }
+    //     }
+    //     return "";
+    // }
+
     $.AdminLTESidebarTweak = {};
 
     $.AdminLTESidebarTweak.options = {
@@ -313,7 +336,13 @@
 
     $(function() {
 
-
+        function setCookie(value) {
+            let name = 'toggleState';
+            let days = 365;
+            let d = new Date;
+            d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
+            document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+        }
 
         $("body").on("collapsed.lte.pushmenu", function () {
             if ($.AdminLTESidebarTweak.options.EnableRemember) {

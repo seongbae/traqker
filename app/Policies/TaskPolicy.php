@@ -36,6 +36,9 @@ class TaskPolicy
         if ($task->project_id && $task->project->contains($user))
             return true;
 
+        if ($task->project_id && $task->project->team_id && $task->project->team->contains($user))
+            return true;
+
         return false;
     }
 
